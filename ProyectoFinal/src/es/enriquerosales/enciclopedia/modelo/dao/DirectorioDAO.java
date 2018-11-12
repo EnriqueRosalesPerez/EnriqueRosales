@@ -19,7 +19,7 @@ public interface DirectorioDAO {
 	 * @return Una {@link List} que contiene todos los objetos {@link Directorio}
 	 *         del sistema.
 	 */
-	List<Directorio> buscar();
+	List<Directorio> buscar() throws DAOException;
 
 	/**
 	 * Busca todos los objetos {@link Directorio} del sistema cuyo nombre contenga
@@ -30,7 +30,7 @@ public interface DirectorioDAO {
 	 * @return Una {@link List} que contiene todos los objetos {@link Directorio}
 	 *         del sistema que contengan el filtro en su nombre.
 	 */
-	List<Directorio> buscar(String filtroNombre);
+	List<Directorio> buscar(String filtroNombre) throws DAOException;
 
 	/**
 	 * Inserta en la base de datos el objeto {@link Directorio} obtenido como
@@ -39,7 +39,7 @@ public interface DirectorioDAO {
 	 * @param directorio
 	 *            El {@link Directorio} a insertar.
 	 */
-	void insertar(Directorio directorio);
+	void insertar(Directorio directorio) throws DAOException;
 
 	/**
 	 * Actualiza en la base de datos el objeto {@link Directorio} obtenido como
@@ -48,7 +48,7 @@ public interface DirectorioDAO {
 	 * @param directorio
 	 *            El {@link Directorio} a actualizar.
 	 */
-	void actualizar(Directorio directorio);
+	void actualizar(Directorio directorio) throws DAOException;
 
 	/**
 	 * Elimina de la base de datos el objeto {@link Directorio} obtenido como
@@ -57,6 +57,6 @@ public interface DirectorioDAO {
 	 * @param directorio
 	 *            El {@link Directorio} a eliminar.
 	 */
-	void eliminar(Directorio directorio);
+	void eliminar(Directorio directorio) throws DAOException;
 
 }

@@ -20,6 +20,6 @@ public interface UsuarioDAO {
 	 * @return {@code true} si el usuario y la contraseña existen y son correctos,
 	 *         {@code false} en otro caso.
 	 */
-	boolean buscarUsuario(String nombreUsuario, String contrasenna);
+	boolean buscarUsuario(String nombreUsuario, String contrasenna) throws DAOException;
 
 }

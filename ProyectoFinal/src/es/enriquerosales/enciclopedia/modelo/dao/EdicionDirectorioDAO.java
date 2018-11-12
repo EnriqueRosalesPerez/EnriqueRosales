@@ -18,6 +18,6 @@ public interface EdicionDirectorioDAO {
 	 * @param edicion
 	 *            El objeto {@link EdicionDirectorio} a insertar.
 	 */
-	void insertar(EdicionDirectorio edicion);
+	void insertar(EdicionDirectorio edicion) throws DAOException;
 
 }

@@ -19,7 +19,7 @@ public interface PersonajeDAO {
 	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
 	 *         sistema.
 	 */
-	List<Personaje> buscar();
+	List<Personaje> buscar() throws DAOException;
 
 	/**
 	 * Busca todos los objetos {@link Personaje} del sistema cuyo nombre contenga el
@@ -30,7 +30,7 @@ public interface PersonajeDAO {
 	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
 	 *         sistema que contengan el filtro en su nombre.
 	 */
-	List<Personaje> buscar(String filtroNombre);
+	List<Personaje> buscar(String filtroNombre) throws DAOException;
 
 	/**
 	 * Inserta en la base de datos el objeto {@link Personaje} obtenido como
@@ -39,7 +39,7 @@ public interface PersonajeDAO {
 	 * @param personaje
 	 *            El {@link Personaje} a insertar.
 	 */
-	void insertar(Personaje personaje);
+	void insertar(Personaje personaje) throws DAOException;
 
 	/**
 	 * Actualiza en la base de datos el objeto {@link Personaje} obtenido como
@@ -48,7 +48,7 @@ public interface PersonajeDAO {
 	 * @param personaje
 	 *            El {@link Personaje} a actualizar.
 	 */
-	void actualizar(Personaje personaje);
+	void actualizar(Personaje personaje) throws DAOException;
 
 	/**
 	 * Elimina de la base de datos el objeto {@link Personaje} obtenido como
@@ -57,6 +57,6 @@ public interface PersonajeDAO {
 	 * @param personaje
 	 *            El {@link Personaje} a eliminar.
 	 */
-	void eliminar(Personaje personaje);
+	void eliminar(Personaje personaje) throws DAOException;
 
 }
