@@ -33,7 +33,7 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 		}
 		try {
 			Usuario usuario = null;
-			String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasenna = ?;";
+			String sql = "SELECT * FROM usuarios WHERE nombreUsuario = ? AND contrasenna = ?;";
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setString(1, nombreUsuario);
