@@ -21,7 +21,7 @@ public interface UsuarioDAO {
 	 *            La contraseña del usuario.
 	 * @return Una instancia de {@link Usuario}, o {@code null} si no existe.
 	 */
-	Usuario buscarUsuario(String nombreUsuario, String contrasenna) throws DAOException;
+	Usuario buscar(String nombreUsuario, String contrasenna) throws DAOException;
 
 	/**
 	 * Busca un {@link Usuario} en el sistema a partir del ID proporcionado.
@@ -30,6 +30,6 @@ public interface UsuarioDAO {
 	 *            El ID del usuario a buscar.
 	 * @return Una instancia de {@link Usuario}, o {@code null} si no existe.
 	 */
-	Usuario buscarUsuario(int id) throws DAOException;
+	Usuario buscar(int id) throws DAOException;
 
 }

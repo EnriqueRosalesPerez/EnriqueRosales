@@ -26,7 +26,7 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario buscarUsuario(String nombreUsuario, String contrasenna)
+	public Usuario buscar(String nombreUsuario, String contrasenna)
 			throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
@@ -61,7 +61,7 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario buscarUsuario(int id) throws DAOException {
+	public Usuario buscar(int id) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
