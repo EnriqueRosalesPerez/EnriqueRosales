@@ -73,7 +73,7 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 			String sql = "INSERT INTO personajes "
 					+ "(nombre, annoNacimiento, annoMuerte, "
 					+ "biografia, idDirectorio, fechaCreacion, idCreador) "
-					+ "VALUES ?, ?, ?, ?, ?, ?, ?;";
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?);";
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setString(1, personaje.getNombre());

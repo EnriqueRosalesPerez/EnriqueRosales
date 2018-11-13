@@ -25,7 +25,7 @@ public class Factory {
 	}
 	
 	public static DirectorioDAO getDirectorioDAO() throws ClassNotFoundException {
-		if (usuarioDAO == null) {
+		if (directorioDAO == null) {
 			DirectorioDAOJDBC bean = new DirectorioDAOJDBC();
 			bean.setDataSource(getJDBCDataSource());
 			directorioDAO = bean;

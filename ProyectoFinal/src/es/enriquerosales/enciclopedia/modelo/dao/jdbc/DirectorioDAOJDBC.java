@@ -100,9 +100,9 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
 		try {
-			String sql = "INSERT INTO directorios " + "(nombre, annoInicio, annoFin, "
+			String sql = "INSERT INTO directorios (nombre, annoInicio, annoFin, "
 					+ "descripcion, fechaCreacion, idCreador) "
-					+ "VALUES ?, ?, ?, ?, ?, ?;";
+					+ "VALUES (?, ?, ?, ?, ?, ?);";
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setString(1, directorio.getNombre());
@@ -142,7 +142,8 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 			st.setString(4, directorio.getDescripcion());
 			st.setDate(5, new java.sql.Date(directorio.getFechaCreacion().getTime()));
 			st.setInt(6, directorio.getCreador().getId());
-
+			st.setInt(7, directorio.getId());
+			
 			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -183,9 +184,10 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	/**
 	 * Mapea la columna actual del ResultSet a un Directorio.
 	 * 
-	 * @param rs El ResultSet a mapear. @return El Directorio en el que se encuentra
-	 * el ResultSet. @throws SQLException Si se produce un error al leer los
-	 * datos. @throws DAOException @throws
+	 * @param rs
+	 *            El ResultSet a mapear. @return El Directorio en el que se
+	 *            encuentra el ResultSet. @throws SQLException Si se produce un
+	 *            error al leer los datos. @throws DAOException @throws
 	 */
 	private Directorio mapear(ResultSet rs) throws SQLException, DAOException {
 		Directorio d = new Directorio();
