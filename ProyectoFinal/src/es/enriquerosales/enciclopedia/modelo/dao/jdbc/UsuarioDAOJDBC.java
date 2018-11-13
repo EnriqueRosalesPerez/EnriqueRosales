@@ -33,11 +33,44 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 		}
 		try {
 			Usuario usuario = null;
-			String sql = "SELECT * FROM personajes WHERE nombre = ? AND contrasenna = ?;";
+			String sql = "SELECT * FROM usuarios WHERE nombre = ? AND contrasenna = ?;";
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setString(1, nombreUsuario);
 			st.setString(2, contrasenna);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				usuario = new Usuario();
+				usuario.setId(rs.getInt("id"));
+				usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+				usuario.setContrasenna(rs.getString("contrasenna"));
+			}
+			rs.close();
+
+			return usuario;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				cerrarConexiones();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
+	public Usuario buscarUsuario(int id) throws DAOException {
+		if (dataSource == null) {
+			throw new DAOException("No se ha establecido un JDBCDataSource.");
+		}
+		try {
+			Usuario usuario = null;
+			String sql = "SELECT * FROM usuarios WHERE id = ?;";
+			conn = dataSource.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
 
 			if (rs.next()) {
