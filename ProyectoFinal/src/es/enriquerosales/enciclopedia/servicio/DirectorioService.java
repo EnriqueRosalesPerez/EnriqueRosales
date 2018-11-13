@@ -18,7 +18,7 @@ public interface DirectorioService {
 	 * @return Una {@link List} con todas las instancias de {@link Directorio} del
 	 *         sistema.
 	 */
-	List<Directorio> listar();
+	List<Directorio> listar() throws ServiceException;
 
 	/**
 	 * Crea una lista las instancias de {@link Directorio} que contengan en su
@@ -29,7 +29,7 @@ public interface DirectorioService {
 	 * @return Una {@link List} con todas las instancias de {@link Directorio} del
 	 *         sistema cuyo nombre contenga el filtro.
 	 */
-	List<Directorio> listar(String filtroNombre);
+	List<Directorio> listar(String filtroNombre) throws ServiceException;
 
 	/**
 	 * Crea un nuevo {@link Directorio} en el sistema.
@@ -37,7 +37,7 @@ public interface DirectorioService {
 	 * @param personaje
 	 *            El {@link Directorio} a crear en el sistema.
 	 */
-	void crear(Directorio directorio);
+	void crear(Directorio directorio) throws ServiceException;
 
 	/**
 	 * Actualiza la información de un {@link Directorio} existente.
@@ -45,7 +45,7 @@ public interface DirectorioService {
 	 * @param directorio
 	 *            El {@link Directorio} cuyos datos se van a actualizar.
 	 */
-	void editar(Directorio directorio);
+	void editar(Directorio directorio) throws ServiceException;
 
 	/**
 	 * Elimina un {@link Directorio} del sistema.
@@ -53,6 +53,6 @@ public interface DirectorioService {
 	 * @param directorio
 	 *            El {@link Directorio} a eliminar.
 	 */
-	void eliminar(Directorio directorio);
+	void eliminar(Directorio directorio) throws ServiceException;
 
 }

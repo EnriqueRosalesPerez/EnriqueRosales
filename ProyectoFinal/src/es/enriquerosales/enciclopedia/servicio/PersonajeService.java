@@ -18,7 +18,7 @@ public interface PersonajeService {
 	 * @return Una {@link List} con todas las instancias de {@link Personaje} del
 	 *         sistema.
 	 */
-	List<Personaje> listar();
+	List<Personaje> listar() throws ServiceException;
 
 	/**
 	 * Crea una lista las instancias de {@link Personaje} que contengan en su nombre
@@ -29,7 +29,7 @@ public interface PersonajeService {
 	 * @return Una {@link List} con todas las instancias de {@link Personaje} del
 	 *         sistema cuyo nombre contenga el filtro.
 	 */
-	List<Personaje> listar(String filtroNombre);
+	List<Personaje> listar(String filtroNombre) throws ServiceException;
 
 	/**
 	 * Crea una nueva entrada de {@link Personaje} en el sistema.
@@ -37,7 +37,7 @@ public interface PersonajeService {
 	 * @param personaje
 	 *            El {@link Personaje} a crear en el sistema.
 	 */
-	void crear(Personaje personaje);
+	void crear(Personaje personaje) throws ServiceException;
 
 	/**
 	 * Actualiza la información de una entrada de {@link Personaje} existente.
@@ -45,7 +45,7 @@ public interface PersonajeService {
 	 * @param personaje
 	 *            El {@link Personaje} cuyos datos se van a actualizar.
 	 */
-	void editar(Personaje personaje);
+	void editar(Personaje personaje) throws ServiceException;
 
 	/**
 	 * Elimina una entrada de {@link Personaje} del sistema.
@@ -53,6 +53,6 @@ public interface PersonajeService {
 	 * @param personaje
 	 *            El {@link Personaje} a eliminar.
 	 */
-	void eliminar(Personaje personaje);
+	void eliminar(Personaje personaje) throws ServiceException;
 
 }

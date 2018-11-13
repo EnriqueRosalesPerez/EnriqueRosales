@@ -21,6 +21,6 @@ public interface UsuarioService {
 	 * @return Una instancia de {@link Usuario} si los datos son correctos,
 	 *         {@code null} en cualquier otro caso.
 	 */
-	Usuario acceder(String nombreUsuario, String contrasenna);
+	Usuario acceder(String nombreUsuario, String contrasenna) throws ServiceException;
 
 }
