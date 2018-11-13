@@ -62,7 +62,7 @@ CREATE TABLE `edicionesdirectorios` (
   PRIMARY KEY (`id`),
   KEY `FK_edicionesdirectorios_directorios_idDirectorio_idx` (`idDirectorio`),
   KEY `FK_edicionesdirectorios_usuarios_idEditor_idx` (`idEditor`),
-  CONSTRAINT `FK_edicionesdirectorios_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`),
+  CONSTRAINT `FK_edicionesdirectorios_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_edicionesdirectorios_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -91,7 +91,7 @@ CREATE TABLE `edicionespersonajes` (
   PRIMARY KEY (`id`),
   KEY `FK_edicionespersonajes_personajes_idPersonaje_idx` (`idPersonaje`),
   KEY `FK_edicionespersonajes_usuarios_idEditor_idx` (`idEditor`),
-  CONSTRAINT `FK_edicionespersonajes_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`),
+  CONSTRAINT `FK_edicionespersonajes_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_edicionespersonajes_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -169,4 +169,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-12 16:58:08
+-- Dump completed on 2018-11-13 17:50:40
