@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.UsuarioDAO;
 
@@ -25,13 +26,13 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 	}
 
 	@Override
-	public boolean buscarUsuario(String nombreUsuario, String contrasenna)
+	public Usuario buscarUsuario(String nombreUsuario, String contrasenna)
 			throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
 		try {
-			boolean encontrado = false;
+			Usuario usuario = null;
 			String sql = "SELECT * FROM personajes WHERE nombre = ? AND contrasenna = ?;";
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
@@ -39,10 +40,15 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 			st.setString(2, contrasenna);
 			ResultSet rs = st.executeQuery();
 
-			encontrado = rs.next();
+			if (rs.next()) {
+				usuario = new Usuario();
+				usuario.setId(rs.getInt("id"));
+				usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+				usuario.setContrasenna(rs.getString("contrasenna"));
+			}
 			rs.close();
 
-			return encontrado;
+			return usuario;
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {

@@ -1,5 +1,7 @@
 package es.enriquerosales.enciclopedia.modelo.dao;
 
+import es.enriquerosales.enciclopedia.modelo.Usuario;
+
 /**
  * Interfaz DAO para actuar como capa intermedia entre el modelo Java y la base
  * de datos para la clase {@link Usuario}.
@@ -17,9 +19,8 @@ public interface UsuarioDAO {
 	 *            El nombre de usuario a buscar.
 	 * @param contrasenna
 	 *            La contraseña del usuario.
-	 * @return {@code true} si el usuario y la contraseña existen y son correctos,
-	 *         {@code false} en otro caso.
+	 * @return Una instancia de {@link Usuario}, o {@code null} si no existe.
 	 */
-	boolean buscarUsuario(String nombreUsuario, String contrasenna) throws DAOException;
+	Usuario buscarUsuario(String nombreUsuario, String contrasenna) throws DAOException;
 
 }

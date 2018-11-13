@@ -22,6 +22,15 @@ public interface DirectorioDAO {
 	List<Directorio> buscar() throws DAOException;
 
 	/**
+	 * Busca todos el objeto {@link Directorio} del sistema que tenga el ID obtenido
+	 * como parámetro.
+	 * 
+	 * @return Una {@link List} que contiene el objeto {@link Directorio} del
+	 *         sistema con el ID proporcionado, si existe.
+	 */
+	List<Directorio> buscar(int id) throws DAOException;
+
+	/**
 	 * Busca todos los objetos {@link Directorio} del sistema cuyo nombre contenga
 	 * el filtro obtenido como parámetro.
 	 * 

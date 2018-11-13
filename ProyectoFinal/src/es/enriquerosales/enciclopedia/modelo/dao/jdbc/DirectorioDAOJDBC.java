@@ -31,6 +31,37 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	public List<Directorio> buscar() throws DAOException {
 		return buscar("");
 	}
+	
+	@Override
+	public List<Directorio> buscar(int id) throws DAOException {
+		if (dataSource == null) {
+			throw new DAOException("No se ha establecido un JDBCDataSource.");
+		}
+		try {
+			List<Directorio> resultado = new LinkedList<Directorio>();
+			String sql = "SELECT * FROM directorios WHERE id = ?;";
+			conn = dataSource.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Directorio d = mapear(rs);
+				resultado.add(d);
+			}
+			rs.close();
+
+			return resultado;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				cerrarConexiones();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
 
 	@Override
 	public List<Directorio> buscar(String filtroNombre) throws DAOException {
