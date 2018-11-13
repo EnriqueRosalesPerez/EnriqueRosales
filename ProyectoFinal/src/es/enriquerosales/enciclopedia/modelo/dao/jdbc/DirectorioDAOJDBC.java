@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import es.enriquerosales.enciclopedia.factory.Factory;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.DirectorioDAO;
@@ -31,14 +32,14 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	public List<Directorio> buscar() throws DAOException {
 		return buscar("");
 	}
-	
+
 	@Override
-	public List<Directorio> buscar(int id) throws DAOException {
+	public Directorio buscar(int id) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
 		try {
-			List<Directorio> resultado = new LinkedList<Directorio>();
+			Directorio resultado = null;
 			String sql = "SELECT * FROM directorios WHERE id = ?;";
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
@@ -46,8 +47,7 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
-				Directorio d = mapear(rs);
-				resultado.add(d);
+				resultado = mapear(rs);
 			}
 			rs.close();
 
@@ -183,13 +183,11 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	/**
 	 * Mapea la columna actual del ResultSet a un Directorio.
 	 * 
-	 * @param rs
-	 *            El ResultSet a mapear.
-	 * @return El Directorio en el que se encuentra el ResultSet.
-	 * @throws SQLException
-	 *             Si se produce un error al leer los datos.
+	 * @param rs El ResultSet a mapear. @return El Directorio en el que se encuentra
+	 * el ResultSet. @throws SQLException Si se produce un error al leer los
+	 * datos. @throws DAOException @throws
 	 */
-	private Directorio mapear(ResultSet rs) throws SQLException {
+	private Directorio mapear(ResultSet rs) throws SQLException, DAOException {
 		Directorio d = new Directorio();
 
 		d.setId(rs.getInt("id"));
@@ -198,7 +196,11 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 		d.setAnnoFin(rs.getString("annoFin"));
 		d.setDescripcion(rs.getString("descripcion"));
 		d.setFechaCreacion(rs.getDate("fechaCreacion"));
-		// TODO Añadir Creador.
+		try {
+			d.setCreador(Factory.getUsuarioDAO().buscar(rs.getInt("idCreador")));
+		} catch (ClassNotFoundException e) {
+			throw new DAOException(e);
+		}
 
 		return d;
 	}

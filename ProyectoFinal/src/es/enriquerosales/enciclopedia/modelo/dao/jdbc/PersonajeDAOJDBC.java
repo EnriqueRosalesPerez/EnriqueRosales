@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import es.enriquerosales.enciclopedia.factory.Factory;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.PersonajeDAO;
@@ -162,8 +163,10 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 	 * @return El Personaje en el que se encuentra el ResultSet.
 	 * @throws SQLException
 	 *             Si se produce un error al leer los datos.
+	 * @throws DAOException 
+	 * @throws  
 	 */
-	private Personaje mapear(ResultSet rs) throws SQLException {
+	private Personaje mapear(ResultSet rs) throws SQLException, DAOException {
 		Personaje p = new Personaje();
 
 		p.setId(rs.getInt("id"));
@@ -172,7 +175,12 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 		p.setAnnoMuerte(rs.getString("annoMuerte"));
 		p.setBiografia(rs.getString("biografia"));
 		p.setFechaCreacion(rs.getDate("fechaCreacion"));
-		// TODO Añadir Directorio y Creador.
+		try {
+			p.setDirectorio(Factory.getDirectorioDAO().buscar(rs.getInt("idDirectorio")));
+			p.setCreador(Factory.getUsuarioDAO().buscar(rs.getInt("idCreador")));
+		} catch (ClassNotFoundException e) {
+			throw new DAOException(e);
+		}
 
 		return p;
 	}

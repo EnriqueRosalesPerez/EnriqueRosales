@@ -22,13 +22,13 @@ public interface DirectorioDAO {
 	List<Directorio> buscar() throws DAOException;
 
 	/**
-	 * Busca el objeto {@link Directorio} del sistema que tenga el ID obtenido
-	 * como parámetro.
+	 * Busca el objeto {@link Directorio} del sistema que tenga el ID obtenido como
+	 * parámetro.
 	 * 
-	 * @return Una {@link List} que contiene el objeto {@link Directorio} del
-	 *         sistema con el ID proporcionado, si existe.
+	 * @return El objeto {@link Directorio} del sistema con el ID proporcionado, si
+	 *         no existe, devuelve {@code null}.
 	 */
-	List<Directorio> buscar(int id) throws DAOException;
+	Directorio buscar(int id) throws DAOException;
 
 	/**
 	 * Busca todos los objetos {@link Directorio} del sistema cuyo nombre contenga
