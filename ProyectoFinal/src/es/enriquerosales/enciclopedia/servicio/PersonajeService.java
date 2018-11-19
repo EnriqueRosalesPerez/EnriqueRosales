@@ -3,6 +3,7 @@ package es.enriquerosales.enciclopedia.servicio;
 import java.util.List;
 
 import es.enriquerosales.enciclopedia.modelo.Personaje;
+import es.enriquerosales.enciclopedia.modelo.Usuario;
 
 /**
  * Interfaz de la capa de servicio para la clase {@link Personaje}.
@@ -17,6 +18,8 @@ public interface PersonajeService {
 	 * 
 	 * @return Una {@link List} con todas las instancias de {@link Personaje} del
 	 *         sistema.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
 	 */
 	List<Personaje> listar() throws ServiceException;
 
@@ -28,6 +31,8 @@ public interface PersonajeService {
 	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
 	 * @return Una {@link List} con todas las instancias de {@link Personaje} del
 	 *         sistema cuyo nombre contenga el filtro.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
 	 */
 	List<Personaje> listar(String filtroNombre) throws ServiceException;
 
@@ -36,22 +41,31 @@ public interface PersonajeService {
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a crear en el sistema.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
 	 */
 	void crear(Personaje personaje) throws ServiceException;
 
 	/**
 	 * Actualiza la información de una entrada de {@link Personaje} existente.
 	 * 
+	 * @param editor
+	 *            El {@link Usuario} que está realizando la edición.
+	 * 
 	 * @param personaje
 	 *            El {@link Personaje} cuyos datos se van a actualizar.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
 	 */
-	void editar(Personaje personaje) throws ServiceException;
+	void editar(Usuario editor, Personaje personaje) throws ServiceException;
 
 	/**
 	 * Elimina una entrada de {@link Personaje} del sistema.
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a eliminar.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
 	 */
 	void eliminar(Personaje personaje) throws ServiceException;
 

@@ -11,6 +11,12 @@ import es.enriquerosales.enciclopedia.modelo.dao.jdbc.EdicionPersonajeDAOJDBC;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.JDBCDataSource;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.PersonajeDAOJDBC;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.UsuarioDAOJDBC;
+import es.enriquerosales.enciclopedia.servicio.DirectorioService;
+import es.enriquerosales.enciclopedia.servicio.PersonajeService;
+import es.enriquerosales.enciclopedia.servicio.UsuarioService;
+import es.enriquerosales.enciclopedia.servicio.impl.DirectorioServiceImpl;
+import es.enriquerosales.enciclopedia.servicio.impl.PersonajeServiceImpl;
+import es.enriquerosales.enciclopedia.servicio.impl.UsuarioServiceImpl;
 
 /**
  * Clase que implementa el patrón Factory para generar instancias de varias
@@ -26,6 +32,9 @@ public class Factory {
 	private static PersonajeDAO personajeDAO;
 	private static EdicionDirectorioDAO edicionDirectorioDAO;
 	private static EdicionPersonajeDAO edicionPersoanajeDAO;
+	private static DirectorioService directorioService;
+	private static PersonajeService personajeService;
+	private static UsuarioService usuarioService;
 	private static JDBCDataSource dataSource;
 
 	/**
@@ -108,6 +117,56 @@ public class Factory {
 			edicionPersoanajeDAO = bean;
 		}
 		return edicionPersoanajeDAO;
+	}
+
+	/**
+	 * Devuelve una instancia de {@link DirectorioService}.
+	 * 
+	 * @return Una instancia de {@link DirectorioService}.
+	 * @throws ClassNotFoundException
+	 *             Si se produce un error al inyectar dependencias.
+	 */
+	public static DirectorioService getDirectorioService() throws ClassNotFoundException {
+		if (directorioService == null) {
+			DirectorioServiceImpl bean = new DirectorioServiceImpl();
+			bean.setDirectorioDAO(getDirectorioDAO());
+			bean.setEdicionDirectorioDAO(getEdicionDirectorioDAO());
+			directorioService = bean;
+		}
+		return directorioService;
+	}
+
+	/**
+	 * Devuelve una instancia de {@link PersonajeService}.
+	 * 
+	 * @return Una instancia de {@link PersonajeService}.
+	 * @throws ClassNotFoundException
+	 *             Si se produce un error al inyectar dependencias.
+	 */
+	public static PersonajeService getPersonajeService() throws ClassNotFoundException {
+		if (personajeService == null) {
+			PersonajeServiceImpl bean = new PersonajeServiceImpl();
+			bean.setPersonajeDAO(getPersonajeDAO());
+			bean.setEdicionPersonajeDAO(getEdicionPersonajeDAO());
+			personajeService = bean;
+		}
+		return personajeService;
+	}
+
+	/**
+	 * Devuelve una instancia de {@link UsuarioService}.
+	 * 
+	 * @return Una instancia de {@link UsuarioService}.
+	 * @throws ClassNotFoundException
+	 *             Si se produce un error al inyectar dependencias.
+	 */
+	public static UsuarioService getUsuarioService() throws ClassNotFoundException {
+		if (usuarioService == null) {
+			UsuarioServiceImpl bean = new UsuarioServiceImpl();
+			bean.setUsuarioDAO(getUsuarioDAO());
+			usuarioService = bean;
+		}
+		return usuarioService;
 	}
 
 	/**

@@ -20,6 +20,8 @@ public interface UsuarioService {
 	 *            La contraseña del usuario que intenta acceder.
 	 * @return Una instancia de {@link Usuario} si los datos son correctos,
 	 *         {@code null} en cualquier otro caso.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
 	 */
 	Usuario acceder(String nombreUsuario, String contrasenna) throws ServiceException;
 
