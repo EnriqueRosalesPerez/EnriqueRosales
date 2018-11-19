@@ -17,6 +17,9 @@ public interface EdicionDirectorioDAO {
 	 * 
 	 * @param edicion
 	 *            El objeto {@link EdicionDirectorio} a insertar.
+	 * 
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void insertar(EdicionDirectorio edicion) throws DAOException;
 

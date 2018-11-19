@@ -18,17 +18,10 @@ public interface DirectorioDAO {
 	 * 
 	 * @return Una {@link List} que contiene todos los objetos {@link Directorio}
 	 *         del sistema.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	List<Directorio> buscar() throws DAOException;
-
-	/**
-	 * Busca el objeto {@link Directorio} del sistema que tenga el ID obtenido como
-	 * parámetro.
-	 * 
-	 * @return El objeto {@link Directorio} del sistema con el ID proporcionado, si
-	 *         no existe, devuelve {@code null}.
-	 */
-	Directorio buscar(int id) throws DAOException;
 
 	/**
 	 * Busca todos los objetos {@link Directorio} del sistema cuyo nombre contenga
@@ -38,6 +31,8 @@ public interface DirectorioDAO {
 	 *            El texto a utilizar como filtro para buscar el {@link Directorio}.
 	 * @return Una {@link List} que contiene todos los objetos {@link Directorio}
 	 *         del sistema que contengan el filtro en su nombre.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	List<Directorio> buscar(String filtroNombre) throws DAOException;
 
@@ -47,6 +42,8 @@ public interface DirectorioDAO {
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} a insertar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void insertar(Directorio directorio) throws DAOException;
 
@@ -56,6 +53,8 @@ public interface DirectorioDAO {
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} a actualizar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void actualizar(Directorio directorio) throws DAOException;
 
@@ -65,6 +64,8 @@ public interface DirectorioDAO {
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} a eliminar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void eliminar(Directorio directorio) throws DAOException;
 

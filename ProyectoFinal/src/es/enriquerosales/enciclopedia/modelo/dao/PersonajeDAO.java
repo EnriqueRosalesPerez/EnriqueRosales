@@ -18,6 +18,8 @@ public interface PersonajeDAO {
 	 * 
 	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
 	 *         sistema.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	List<Personaje> buscar() throws DAOException;
 
@@ -29,6 +31,8 @@ public interface PersonajeDAO {
 	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
 	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
 	 *         sistema que contengan el filtro en su nombre.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	List<Personaje> buscar(String filtroNombre) throws DAOException;
 
@@ -38,6 +42,8 @@ public interface PersonajeDAO {
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a insertar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void insertar(Personaje personaje) throws DAOException;
 
@@ -47,6 +53,8 @@ public interface PersonajeDAO {
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a actualizar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void actualizar(Personaje personaje) throws DAOException;
 
@@ -56,6 +64,8 @@ public interface PersonajeDAO {
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a eliminar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	void eliminar(Personaje personaje) throws DAOException;
 

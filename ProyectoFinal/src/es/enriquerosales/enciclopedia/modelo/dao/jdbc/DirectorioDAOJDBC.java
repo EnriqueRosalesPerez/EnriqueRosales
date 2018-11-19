@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import es.enriquerosales.enciclopedia.factory.Factory;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
+import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.DirectorioDAO;
 
@@ -34,43 +34,15 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	}
 
 	@Override
-	public Directorio buscar(int id) throws DAOException {
-		if (dataSource == null) {
-			throw new DAOException("No se ha establecido un JDBCDataSource.");
-		}
-		try {
-			Directorio resultado = null;
-			String sql = "SELECT * FROM directorios WHERE id = ?;";
-			conn = dataSource.getConnection();
-			st = conn.prepareStatement(sql);
-			st.setInt(1, id);
-			ResultSet rs = st.executeQuery();
-
-			while (rs.next()) {
-				resultado = mapear(rs);
-			}
-			rs.close();
-
-			return resultado;
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		} finally {
-			try {
-				cerrarConexiones();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-		}
-	}
-
-	@Override
 	public List<Directorio> buscar(String filtroNombre) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
 		try {
 			List<Directorio> resultado = new LinkedList<Directorio>();
-			String sql = "SELECT * FROM directorios WHERE nombre LIKE ?;";
+			String sql = "SELECT * FROM directorios d "
+					+ "INNER JOIN usuarios u ON d.idCreador = u.id WHERE d.nombre LIKE ?;";
+
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setString(1, "%" + filtroNombre + "%");
@@ -143,7 +115,7 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 			st.setDate(5, new java.sql.Date(directorio.getFechaCreacion().getTime()));
 			st.setInt(6, directorio.getCreador().getId());
 			st.setInt(7, directorio.getId());
-			
+
 			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
@@ -188,23 +160,25 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	 *            El ResultSet a mapear. @return El Directorio en el que se
 	 *            encuentra el ResultSet. @throws SQLException Si se produce un
 	 *            error al leer los datos. @throws DAOException @throws
+	 * @throws SQLException
+	 *             Si se produce un error al procesar el resultado.
 	 */
-	private Directorio mapear(ResultSet rs) throws SQLException, DAOException {
-		Directorio d = new Directorio();
+	private Directorio mapear(ResultSet rs) throws SQLException {
+		Directorio directorio = new Directorio();
+		Usuario usuario = new Usuario();
 
-		d.setId(rs.getInt("id"));
-		d.setNombre(rs.getString("nombre"));
-		d.setAnnoInicio(rs.getString("annoInicio"));
-		d.setAnnoFin(rs.getString("annoFin"));
-		d.setDescripcion(rs.getString("descripcion"));
-		d.setFechaCreacion(rs.getDate("fechaCreacion"));
-		try {
-			d.setCreador(Factory.getUsuarioDAO().buscar(rs.getInt("idCreador")));
-		} catch (ClassNotFoundException e) {
-			throw new DAOException(e);
-		}
+		directorio.setId(rs.getInt("id"));
+		directorio.setNombre(rs.getString("nombre"));
+		directorio.setAnnoInicio(rs.getString("annoInicio"));
+		directorio.setAnnoFin(rs.getString("annoFin"));
+		directorio.setDescripcion(rs.getString("descripcion"));
+		directorio.setFechaCreacion(rs.getDate("fechaCreacion"));
 
-		return d;
+		usuario.setId(rs.getInt("idCreador"));
+		usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+		usuario.setContrasenna("contrasenna");
+
+		return directorio;
 	}
 
 	/**

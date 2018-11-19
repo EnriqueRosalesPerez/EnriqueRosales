@@ -1,9 +1,13 @@
 package es.enriquerosales.enciclopedia.factory;
 
 import es.enriquerosales.enciclopedia.modelo.dao.DirectorioDAO;
+import es.enriquerosales.enciclopedia.modelo.dao.EdicionDirectorioDAO;
+import es.enriquerosales.enciclopedia.modelo.dao.EdicionPersonajeDAO;
 import es.enriquerosales.enciclopedia.modelo.dao.PersonajeDAO;
 import es.enriquerosales.enciclopedia.modelo.dao.UsuarioDAO;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.DirectorioDAOJDBC;
+import es.enriquerosales.enciclopedia.modelo.dao.jdbc.EdicionDirectorioDAOJDBC;
+import es.enriquerosales.enciclopedia.modelo.dao.jdbc.EdicionPersonajeDAOJDBC;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.JDBCDataSource;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.PersonajeDAOJDBC;
 import es.enriquerosales.enciclopedia.modelo.dao.jdbc.UsuarioDAOJDBC;
@@ -20,6 +24,8 @@ public class Factory {
 	private static UsuarioDAO usuarioDAO;
 	private static DirectorioDAO directorioDAO;
 	private static PersonajeDAO personajeDAO;
+	private static EdicionDirectorioDAO edicionDirectorioDAO;
+	private static EdicionPersonajeDAO edicionPersoanajeDAO;
 	private static JDBCDataSource dataSource;
 
 	/**
@@ -68,6 +74,40 @@ public class Factory {
 			personajeDAO = bean;
 		}
 		return personajeDAO;
+	}
+
+	/**
+	 * Devuelve una instancia de {@link EdicionDirectorioDAO}.
+	 * 
+	 * @return Una instancia de {@link EdicionDirectorioDAO}.
+	 * @throws ClassNotFoundException
+	 *             Si se produce un error al inyectar dependencias.
+	 */
+	public static EdicionDirectorioDAO getEdicionDirectorioDAO()
+			throws ClassNotFoundException {
+		if (edicionDirectorioDAO == null) {
+			EdicionDirectorioDAOJDBC bean = new EdicionDirectorioDAOJDBC();
+			bean.setDataSource(getJDBCDataSource());
+			edicionDirectorioDAO = bean;
+		}
+		return edicionDirectorioDAO;
+	}
+
+	/**
+	 * Devuelve una instancia de {@link EdicionPersonajeDAO}.
+	 * 
+	 * @return Una instancia de {@link EdicionPersonajeDAO}.
+	 * @throws ClassNotFoundException
+	 *             Si se produce un error al inyectar dependencias.
+	 */
+	public static EdicionPersonajeDAO getEdicionPersonajeDAO()
+			throws ClassNotFoundException {
+		if (edicionPersoanajeDAO == null) {
+			EdicionPersonajeDAOJDBC bean = new EdicionPersonajeDAOJDBC();
+			bean.setDataSource(getJDBCDataSource());
+			edicionPersoanajeDAO = bean;
+		}
+		return edicionPersoanajeDAO;
 	}
 
 	/**

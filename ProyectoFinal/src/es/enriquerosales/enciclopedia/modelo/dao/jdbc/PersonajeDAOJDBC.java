@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import es.enriquerosales.enciclopedia.factory.Factory;
+import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
+import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.PersonajeDAO;
 
@@ -40,7 +41,11 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 		}
 		try {
 			List<Personaje> resultado = new LinkedList<Personaje>();
-			String sql = "SELECT * FROM personajes WHERE nombre LIKE ?;";
+			String sql = "SELECT * FROM personajes p "
+					+ "INNER JOIN directorios d ON p.idDirectorio = d.id "
+					+ "INNER JOIN usuarios u ON p.idCreador = u.id "
+					+ "WHERE p.nombre LIKE ?;";
+
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
 			st.setString(1, "%" + filtroNombre + "%");
@@ -162,27 +167,31 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 	 *            El ResultSet a mapear.
 	 * @return El Personaje en el que se encuentra el ResultSet.
 	 * @throws SQLException
-	 *             Si se produce un error al leer los datos.
-	 * @throws DAOException 
-	 * @throws  
+	 *             Si se produce un error al procesar el resultado.
 	 */
-	private Personaje mapear(ResultSet rs) throws SQLException, DAOException {
-		Personaje p = new Personaje();
+	private Personaje mapear(ResultSet rs) throws SQLException {
+		Personaje personaje = new Personaje();
+		Directorio directorio = new Directorio();
+		Usuario usuario = new Usuario();
 
-		p.setId(rs.getInt("id"));
-		p.setNombre(rs.getString("nombre"));
-		p.setAnnoNacimiento(rs.getString("annoNacimiento"));
-		p.setAnnoMuerte(rs.getString("annoMuerte"));
-		p.setBiografia(rs.getString("biografia"));
-		p.setFechaCreacion(rs.getDate("fechaCreacion"));
-		try {
-			p.setDirectorio(Factory.getDirectorioDAO().buscar(rs.getInt("idDirectorio")));
-			p.setCreador(Factory.getUsuarioDAO().buscar(rs.getInt("idCreador")));
-		} catch (ClassNotFoundException e) {
-			throw new DAOException(e);
-		}
+		personaje.setId(rs.getInt("id"));
+		personaje.setNombre(rs.getString("nombre"));
+		personaje.setAnnoNacimiento(rs.getString("annoNacimiento"));
+		personaje.setAnnoMuerte(rs.getString("annoMuerte"));
+		personaje.setBiografia(rs.getString("biografia"));
+		personaje.setFechaCreacion(rs.getDate("fechaCreacion"));
 
-		return p;
+		directorio.setId(rs.getInt("idDirectorio"));
+		directorio.setAnnoInicio(rs.getString("annoInicio"));
+		directorio.setAnnoFin(rs.getString("annoFin"));
+		personaje.setDirectorio(directorio);
+
+		usuario.setId(rs.getInt("idCreador"));
+		usuario.setNombreUsuario(rs.getString("nombreUsuario"));
+		usuario.setContrasenna(rs.getString("contrasenna"));
+		personaje.setCreador(usuario);
+
+		return personaje;
 	}
 
 	/**

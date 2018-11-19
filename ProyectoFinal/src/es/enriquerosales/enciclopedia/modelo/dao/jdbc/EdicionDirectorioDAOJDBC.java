@@ -2,20 +2,19 @@ package es.enriquerosales.enciclopedia.modelo.dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import es.enriquerosales.enciclopedia.modelo.Usuario;
+import es.enriquerosales.enciclopedia.modelo.EdicionDirectorio;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
-import es.enriquerosales.enciclopedia.modelo.dao.UsuarioDAO;
+import es.enriquerosales.enciclopedia.modelo.dao.EdicionDirectorioDAO;
 
 /**
- * Implementación con JDBC de {@link UsuarioDAO}.
+ * Implementación con JDBC de {@link EdicionDirectorioDAO}.
  * 
  * @author Enrique Rosales
  *
  */
-public class UsuarioDAOJDBC implements UsuarioDAO {
+public class EdicionDirectorioDAOJDBC implements EdicionDirectorioDAO {
 
 	private JDBCDataSource dataSource;
 	private Connection conn;
@@ -26,28 +25,21 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario buscar(String nombreUsuario, String contrasenna) throws DAOException {
+	public void insertar(EdicionDirectorio edicion) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
 		try {
-			Usuario usuario = null;
-			String sql = "SELECT * FROM usuarios WHERE nombreUsuario = ? AND contrasenna = ?;";
+			String sql = "INSERT INTO edicionesdirectorios (idDirectorio, idEditor, fechaEdicion) "
+					+ "VALUES (?, ?, ?);";
+
 			conn = dataSource.getConnection();
 			st = conn.prepareStatement(sql);
-			st.setString(1, nombreUsuario);
-			st.setString(2, contrasenna);
-			ResultSet rs = st.executeQuery();
+			st.setInt(1, edicion.getDirectorio().getId());
+			st.setInt(2, edicion.getEditor().getId());
+			st.setDate(3, new java.sql.Date(edicion.getFechaEdicion().getTime()));
 
-			if (rs.next()) {
-				usuario = new Usuario();
-				usuario.setId(rs.getInt("id"));
-				usuario.setNombreUsuario(rs.getString("nombreUsuario"));
-				usuario.setContrasenna(rs.getString("contrasenna"));
-			}
-			rs.close();
-
-			return usuario;
+			st.executeUpdate();
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
@@ -57,6 +49,7 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 				throw new DAOException(e);
 			}
 		}
+
 	}
 
 	/**
