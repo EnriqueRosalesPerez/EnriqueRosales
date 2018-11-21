@@ -5,10 +5,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><c:out value="${dir.nombre}"/></title>
+<title><c:out value="${dir.nombre}" /></title>
 </head>
 <body>
-	<h1><c:out value="${dir.nombre}"/></h1>
+	<h1>
+		<c:out value="${dir.nombre}" />
+	</h1>
 	<br>
+	<i><c:out value="${dir.annoInicio}" /> - <c:out
+			value="${dir.annoFin}" /></i>
+	<br>
+	<br>
+	<c:out value="${dir.descripcion}" />
 </body>
 </html>
