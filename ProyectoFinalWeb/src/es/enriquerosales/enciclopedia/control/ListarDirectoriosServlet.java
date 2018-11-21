@@ -12,7 +12,7 @@ import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 import es.enriquerosales.enciclopedia.servicio.ServiceException;
 
 /**
- * Implementación de Servlet para la página listadodirectorios.jsp.
+ * Implementación de Servlet para guardar Directorios.
  */
 @WebServlet("/directorios")
 public class ListarDirectoriosServlet extends HttpServlet {

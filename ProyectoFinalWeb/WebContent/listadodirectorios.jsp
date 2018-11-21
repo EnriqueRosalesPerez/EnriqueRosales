@@ -20,6 +20,9 @@
 				</td>
 			</tr>
 		</c:forEach>
+		<tr>
+			<td><a href="directorios/crear">Crear nuevo directorio</a></td>
+		</tr>
 	</table>
 </body>
 </html>
