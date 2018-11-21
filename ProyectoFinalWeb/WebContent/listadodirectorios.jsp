@@ -20,9 +20,21 @@
 				</td>
 			</tr>
 		</c:forEach>
-		<tr>
-			<td><a href="directorios/crear">Crear nuevo directorio</a></td>
-		</tr>
+		<c:if test="${not empty user}">
+			<tr>
+				<td><a href="directorios/crear">Crear nuevo directorio</a></td>
+			</tr>
+		</c:if>
 	</table>
+	<br>
+	<br>
+	<c:choose>
+		<c:when test="${empty user}">
+			<a href="login">Acceder</a>
+		</c:when>
+		<c:otherwise>
+			<a href="logout">Desconectarse</a>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

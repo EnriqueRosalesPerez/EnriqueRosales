@@ -8,6 +8,6 @@
 <title></title>
 </head>
 <body>
-	<c:redirect url="directorios"/>
+	<c:redirect url="/directorios"/>
 </body>
 </html>

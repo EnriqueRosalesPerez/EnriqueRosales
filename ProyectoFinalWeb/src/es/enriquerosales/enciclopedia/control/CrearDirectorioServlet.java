@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Implementación de Servlet para la página formdirectorio.jsp.
+ * 
+ * @author Enrique Rosales
  */
 @WebServlet("/directorios/crear")
 public class CrearDirectorioServlet extends HttpServlet {
@@ -23,7 +25,7 @@ public class CrearDirectorioServlet extends HttpServlet {
 			request.getRequestDispatcher("formdirectorio.jsp").forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 

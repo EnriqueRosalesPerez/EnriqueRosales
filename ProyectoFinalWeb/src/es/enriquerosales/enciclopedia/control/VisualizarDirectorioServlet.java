@@ -14,6 +14,8 @@ import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 
 /**
  * Implementación de Servlet para la página directorio.jsp.
+ * 
+ * @author Enrique Rosales
  */
 @WebServlet("/directorios/dir")
 public class VisualizarDirectorioServlet extends HttpServlet {
@@ -43,7 +45,7 @@ public class VisualizarDirectorioServlet extends HttpServlet {
 			request.getRequestDispatcher("directorio.jsp").forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher("/error.jsp").forward(request, response);
 		}
 	}
 
