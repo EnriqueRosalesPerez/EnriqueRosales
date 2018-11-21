@@ -22,6 +22,9 @@ public class ListarDirectoriosServlet extends HttpServlet {
 	private static final long serialVersionUID = -6059431042383505267L;
 	private static DirectorioService dirService;
 
+	private static final String SUCCESS = "listadodirectorios.jsp";
+	private static final String ERROR = "error.jsp";
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -38,11 +41,11 @@ public class ListarDirectoriosServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			request.setAttribute("directorios", dirService.listar());
-			request.getRequestDispatcher("listadodirectorios.jsp").forward(request,
+			request.getRequestDispatcher(SUCCESS).forward(request,
 					response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 

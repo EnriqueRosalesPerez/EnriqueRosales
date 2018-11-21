@@ -25,6 +25,9 @@ public class GuardarDirectorioServlet extends HttpServlet {
 	private static final long serialVersionUID = 8345267569308625868L;
 	private static DirectorioService dirService;
 
+	private static final String SUCCESS = "/index.jsp";
+	private static final String ERROR = "/error.jsp";
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -72,10 +75,10 @@ public class GuardarDirectorioServlet extends HttpServlet {
 				dirService.editar(editor, dir);
 			}
 
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 

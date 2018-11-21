@@ -20,16 +20,19 @@ public class LogoutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4451245134666718446L;
 
+	private static final String SUCCESS = "index.jsp";
+	private static final String ERROR = "error.jsp";
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
 			session.removeAttribute("user");
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 

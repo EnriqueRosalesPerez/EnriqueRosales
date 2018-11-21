@@ -23,6 +23,9 @@ public class AccesoServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 4623656588654005327L;
 	private static UsuarioService userService;
+	
+	private static final String SUCCESS = "index.jsp";
+	private static final String ERROR = "error.jsp";
 
 	@Override
 	public void init() throws ServletException {
@@ -50,10 +53,10 @@ public class AccesoServlet extends HttpServlet {
 
 			HttpSession session = request.getSession();
 			session.setAttribute("user", usuario);
-			request.getRequestDispatcher("index.jsp").forward(request, response);
+			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 

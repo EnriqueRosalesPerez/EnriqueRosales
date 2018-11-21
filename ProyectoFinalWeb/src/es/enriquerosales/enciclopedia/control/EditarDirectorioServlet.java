@@ -24,6 +24,9 @@ public class EditarDirectorioServlet extends HttpServlet {
 	private static final long serialVersionUID = 5233543272872467666L;
 	private static DirectorioService dirService;
 
+	private static final String SUCCESS = "formdirectorio.jsp";
+	private static final String ERROR = "/error.jsp";
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -39,13 +42,14 @@ public class EditarDirectorioServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			// TODO Juntar con CrearDirectorioServlet?
 			int dirId = Integer.parseInt(request.getParameter("id"));
 			Directorio dir = dirService.encontrar(dirId);
 			request.setAttribute("dir", dir);
-			request.getRequestDispatcher("formdirectorio.jsp").forward(request, response);
+			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 

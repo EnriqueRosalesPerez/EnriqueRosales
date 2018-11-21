@@ -19,14 +19,17 @@ public class CrearDirectorioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3142188989826771228L;
 
+	private static final String SUCCESS = "formdirectorio.jsp";
+	private static final String ERROR = "/error.jsp";
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			request.getRequestDispatcher("formdirectorio.jsp").forward(request, response);
+			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 

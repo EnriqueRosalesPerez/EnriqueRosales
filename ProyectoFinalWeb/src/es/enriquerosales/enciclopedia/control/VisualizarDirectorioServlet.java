@@ -21,8 +21,10 @@ import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 public class VisualizarDirectorioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5510286495403127210L;
-
 	private static DirectorioService dirService;
+
+	private static final String SUCCESS = "directorio.jsp";
+	private static final String ERROR = "/error.jsp";
 
 	@Override
 	public void init() throws ServletException {
@@ -42,10 +44,10 @@ public class VisualizarDirectorioServlet extends HttpServlet {
 			int dirId = Integer.parseInt(request.getParameter("id"));
 			Directorio dir = dirService.encontrar(dirId);
 			request.setAttribute("dir", dir);
-			request.getRequestDispatcher("directorio.jsp").forward(request, response);
+			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
+			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
 	}
 
