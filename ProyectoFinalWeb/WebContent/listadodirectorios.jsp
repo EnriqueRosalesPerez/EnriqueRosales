@@ -13,7 +13,11 @@
 	<table>
 		<c:forEach items="${directorios}" var="directorio">
 			<tr>
-				<td><c:out value="${directorio.nombre}" /></td>
+				<td>
+					<a href="directorios/dir?id=${directorio.id}"> 
+						<c:out value="${directorio.nombre}" />
+					</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
