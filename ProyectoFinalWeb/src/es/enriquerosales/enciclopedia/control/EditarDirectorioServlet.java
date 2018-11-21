@@ -48,6 +48,7 @@ public class EditarDirectorioServlet extends HttpServlet {
 			request.setAttribute("dir", dir);
 			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {
+			//TODO tratar excepciones concretas
 			request.setAttribute("error", e);
 			request.getRequestDispatcher(ERROR).forward(request, response);
 		}
