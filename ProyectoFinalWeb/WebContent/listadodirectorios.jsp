@@ -8,26 +8,6 @@
 <title>Directorios</title>
 </head>
 <body>
-	<h3>Directorios</h3>
-	<br>
-	<table>
-		<c:forEach items="${directorios}" var="directorio">
-			<tr>
-				<td>
-					<a href="directorios/dir?id=${directorio.id}"> 
-						<c:out value="${directorio.nombre}" />
-					</a>
-				</td>
-			</tr>
-		</c:forEach>
-		<c:if test="${not empty user}">
-			<tr>
-				<td><a href="directorios/crear">Crear nuevo directorio</a></td>
-			</tr>
-		</c:if>
-	</table>
-	<br>
-	<br>
 	<c:choose>
 		<c:when test="${empty user}">
 			<a href="login">Acceder</a>
@@ -36,5 +16,22 @@
 			<a href="logout">Desconectarse</a>
 		</c:otherwise>
 	</c:choose>
+	<br>
+	<h3>Directorios</h3>
+	<br>
+	<table>
+		<c:if test="${not empty user}">
+			<tr>
+				<td><a href="directorios/crear">Crear nuevo directorio</a></td>
+			</tr>
+		</c:if>
+		<c:forEach items="${directorios}" var="directorio">
+			<tr>
+				<td><a href="directorios/dir?id=${directorio.id}"> <c:out
+							value="${directorio.nombre}" />
+				</a></td>
+			</tr>
+		</c:forEach>
+	</table>
 </body>
 </html>

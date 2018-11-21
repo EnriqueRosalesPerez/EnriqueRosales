@@ -8,6 +8,17 @@
 <title><c:out value="${dir.nombre}" /></title>
 </head>
 <body>
+	<a href="../directorios">Volver al índice</a>
+	<c:if test="${not empty user}">
+		<br>
+		<a href="editar?id=${dir.id}">Editar esta página</a>
+		<br>
+		<a href="eliminar?id=${dir.id}">Eliminar esta página</a>
+	</c:if>
+	<br>
+	<br>
+	<i>Página creada por ${dir.creador.nombreUsuario} el
+		${dir.fechaCreacion} </i>
 	<h1>
 		<c:out value="${dir.nombre}" />
 	</h1>
@@ -18,14 +29,5 @@
 	<br>
 	<br>
 	<c:out value="${dir.descripcion}" />
-	<br>
-	<br>
-	<a href="../directorios">Volver al índice</a>
-	<c:if test="${not empty user}">
-		<br>
-		<a href="editar?id=${dir.id}">Editar esta página</a>
-		<br>
-		<a href="eliminar?id=${dir.id}">Eliminar esta página</a>
-	</c:if>
 </body>
 </html>

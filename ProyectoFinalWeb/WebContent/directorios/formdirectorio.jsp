@@ -26,11 +26,11 @@
 			</tr>
 			<tr>
 				<td>Año de inicio</td>
-				<td><input name="inicio" required type="text" value="${dir.annoInicio}" /></td>
+				<td><input name="inicio" type="text" value="${dir.annoInicio}" /></td>
 			</tr>
 			<tr>
 				<td>Año de fin</td>
-				<td><input name="fin" required type="text" value="${dir.annoFin}" /></td>
+				<td><input name="fin" type="text" value="${dir.annoFin}" /></td>
 			</tr>
 		</table>
 		Descripción
