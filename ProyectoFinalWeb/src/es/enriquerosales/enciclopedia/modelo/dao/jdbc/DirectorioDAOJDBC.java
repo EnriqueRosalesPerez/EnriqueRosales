@@ -67,6 +67,38 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	}
 
 	@Override
+	public Directorio findById(int id) throws DAOException {
+		if (dataSource == null) {
+			throw new DAOException("No se ha establecido un JDBCDataSource.");
+		}
+		try {
+			Directorio resultado = null;
+			String sql = "SELECT * FROM directorios d "
+					+ "INNER JOIN usuarios u ON d.idCreador = u.id WHERE d.id = ?;";
+
+			conn = dataSource.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				resultado = mapear(rs);
+			}
+			rs.close();
+
+			return resultado;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				cerrarConexiones();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
+
+	@Override
 	public void insert(Directorio directorio) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");

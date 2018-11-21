@@ -37,6 +37,19 @@ public interface DirectorioDAO {
 	List<Directorio> findByNombre(String filtroNombre) throws DAOException;
 
 	/**
+	 * Busca el objeto {@link Directorio} del sistema que tenga el ID obtenida como
+	 * parámetro.
+	 * 
+	 * @param id
+	 *            El ID del {@link Directorio} a buscar.
+	 * @return La instancia de {@link Directorio} con el ID buscado, o {@code null}
+	 *         si no existe.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
+	 */
+	Directorio findById(int id) throws DAOException;
+
+	/**
 	 * Inserta en la base de datos el objeto {@link Directorio} obtenido como
 	 * parámetro.
 	 * 

@@ -37,6 +37,19 @@ public interface PersonajeDAO {
 	List<Personaje> findByNombre(String filtroNombre) throws DAOException;
 
 	/**
+	 * Busca el objeto {@link Personaje} del sistema que tenga el ID obtenida como
+	 * parámetro.
+	 * 
+	 * @param id
+	 *            El ID del {@link Personaje} a buscar.
+	 * @return La instancia de {@link Personaje} con el ID buscado, o {@code null}
+	 *         si no existe.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
+	 */
+	Personaje findById(int id) throws DAOException;
+
+	/**
 	 * Inserta en la base de datos el objeto {@link Personaje} obtenido como
 	 * parámetro.
 	 * 

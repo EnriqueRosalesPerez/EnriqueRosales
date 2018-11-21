@@ -46,6 +46,15 @@ public class DirectorioServiceImpl implements DirectorioService {
 	}
 
 	@Override
+	public Directorio encontrar(int id) throws ServiceException {
+		try {
+			return directorioDAO.findById(id);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
 	public void crear(Directorio directorio) throws ServiceException {
 		try {
 			directorioDAO.insert(directorio);

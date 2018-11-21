@@ -37,6 +37,18 @@ public interface DirectorioService {
 	List<Directorio> listar(String filtroNombre) throws ServiceException;
 
 	/**
+	 * Devuelve el {@link Directorio} que tenga el ID obtenido como parámetro.
+	 * 
+	 * @param id
+	 *            El ID del {@link Directorio} a buscar.
+	 * @return La instancia de {@link Directorio} con el ID buscado, o {@code null}
+	 *         si no existe.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
+	 */
+	Directorio encontrar(int id) throws ServiceException;
+
+	/**
 	 * Crea un nuevo {@link Directorio} en el sistema.
 	 * 
 	 * @param personaje

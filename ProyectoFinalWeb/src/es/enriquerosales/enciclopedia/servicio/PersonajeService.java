@@ -37,6 +37,18 @@ public interface PersonajeService {
 	List<Personaje> listar(String filtroNombre) throws ServiceException;
 
 	/**
+	 * Devuelve el {@link Personaje} que tenga el ID obtenido como parámetro.
+	 * 
+	 * @param id
+	 *            El ID del {@link Personaje} a buscar.
+	 * @return La instancia de {@link Personaje} con el ID buscado, o {@code null}
+	 *         si no existe.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
+	 */
+	Personaje encontrar(int id) throws ServiceException;
+
+	/**
 	 * Crea una nueva entrada de {@link Personaje} en el sistema.
 	 * 
 	 * @param personaje

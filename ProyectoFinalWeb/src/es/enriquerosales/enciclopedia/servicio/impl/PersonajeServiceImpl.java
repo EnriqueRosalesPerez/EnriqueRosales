@@ -46,6 +46,15 @@ public class PersonajeServiceImpl implements PersonajeService {
 	}
 
 	@Override
+	public Personaje encontrar(int id) throws ServiceException {
+		try {
+			return personajeDAO.findById(id);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
 	public void crear(Personaje personaje) throws ServiceException {
 		try {
 			personajeDAO.insert(personaje);
