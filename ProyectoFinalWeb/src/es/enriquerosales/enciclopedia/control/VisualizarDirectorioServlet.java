@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import es.enriquerosales.enciclopedia.factory.Factory;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
-import es.enriquerosales.enciclopedia.servicio.ServiceException;
 
 /**
- * Implementación de Servlet para la página listadodirectorios.jsp.
+ * Implementación de Servlet para la página directorio.jsp.
  */
-@WebServlet("/directorios")
-public class ListarDirectoriosServlet extends HttpServlet {
+@WebServlet("/directorios/dir")
+public class VisualizarDirectorioServlet extends HttpServlet {
 
-	private static final long serialVersionUID = -6059431042383505267L;
+	private static final long serialVersionUID = 5510286495403127210L;
 	
 	private static DirectorioService dirService;
 	
@@ -36,9 +35,8 @@ public class ListarDirectoriosServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			request.setAttribute("directorios", dirService.listar());
-			request.getRequestDispatcher("listadodirectorios.jsp").forward(request, response);
-		} catch (ServiceException e) {
+		int dirId = Integer.parseInt(request.getParameter("id"));
+		} catch (Exception e) {
 			request.setAttribute("error", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
