@@ -11,11 +11,15 @@
 	<h1>
 		<c:out value="${dir.nombre}" />
 	</h1>
-	<br>
 	<i><c:out value="${dir.annoInicio}" /> - <c:out
 			value="${dir.annoFin}" /></i>
 	<br>
 	<br>
+	<br>
+	<br>
 	<c:out value="${dir.descripcion}" />
+	<br>
+	<br>
+	<a href="../directorios">Volver al índice</a>
 </body>
 </html>
