@@ -23,6 +23,6 @@ public interface UsuarioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	Usuario buscar(String nombreUsuario, String contrasenna) throws DAOException;
+	Usuario findByNombreAndPass(String nombreUsuario, String contrasenna) throws DAOException;
 
 }

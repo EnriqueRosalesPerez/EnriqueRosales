@@ -24,7 +24,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario acceder(String nombreUsuario, String contrasenna)
 			throws ServiceException {
 		try {
-			return usuarioDAO.buscar(nombreUsuario, contrasenna);
+			return usuarioDAO.findByNombreAndPass(nombreUsuario, contrasenna);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}

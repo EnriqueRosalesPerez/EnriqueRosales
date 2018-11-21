@@ -21,7 +21,7 @@ public interface PersonajeDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	List<Personaje> buscar() throws DAOException;
+	List<Personaje> findAll() throws DAOException;
 
 	/**
 	 * Busca todos los objetos {@link Personaje} del sistema cuyo nombre contenga el
@@ -34,7 +34,7 @@ public interface PersonajeDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	List<Personaje> buscar(String filtroNombre) throws DAOException;
+	List<Personaje> findByNombre(String filtroNombre) throws DAOException;
 
 	/**
 	 * Inserta en la base de datos el objeto {@link Personaje} obtenido como
@@ -45,7 +45,7 @@ public interface PersonajeDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void insertar(Personaje personaje) throws DAOException;
+	void insert(Personaje personaje) throws DAOException;
 
 	/**
 	 * Actualiza en la base de datos el objeto {@link Personaje} obtenido como
@@ -56,7 +56,7 @@ public interface PersonajeDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void actualizar(Personaje personaje) throws DAOException;
+	void update(Personaje personaje) throws DAOException;
 
 	/**
 	 * Elimina de la base de datos el objeto {@link Personaje} obtenido como
@@ -67,6 +67,6 @@ public interface PersonajeDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void eliminar(Personaje personaje) throws DAOException;
+	void delete(Personaje personaje) throws DAOException;
 
 }

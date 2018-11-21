@@ -25,7 +25,7 @@ public class EdicionPersonajeDAOJDBC implements EdicionPersonajeDAO {
 	}
 
 	@Override
-	public void insertar(EdicionPersonaje edicion) throws DAOException {
+	public void insert(EdicionPersonaje edicion) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}

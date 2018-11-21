@@ -21,7 +21,7 @@ public interface DirectorioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	List<Directorio> buscar() throws DAOException;
+	List<Directorio> findAll() throws DAOException;
 
 	/**
 	 * Busca todos los objetos {@link Directorio} del sistema cuyo nombre contenga
@@ -34,7 +34,7 @@ public interface DirectorioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	List<Directorio> buscar(String filtroNombre) throws DAOException;
+	List<Directorio> findByNombre(String filtroNombre) throws DAOException;
 
 	/**
 	 * Inserta en la base de datos el objeto {@link Directorio} obtenido como
@@ -45,7 +45,7 @@ public interface DirectorioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void insertar(Directorio directorio) throws DAOException;
+	void insert(Directorio directorio) throws DAOException;
 
 	/**
 	 * Actualiza en la base de datos el objeto {@link Directorio} obtenido como
@@ -56,7 +56,7 @@ public interface DirectorioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void actualizar(Directorio directorio) throws DAOException;
+	void update(Directorio directorio) throws DAOException;
 
 	/**
 	 * Elimina de la base de datos el objeto {@link Directorio} obtenido como
@@ -67,6 +67,6 @@ public interface DirectorioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void eliminar(Directorio directorio) throws DAOException;
+	void delete(Directorio directorio) throws DAOException;
 
 }

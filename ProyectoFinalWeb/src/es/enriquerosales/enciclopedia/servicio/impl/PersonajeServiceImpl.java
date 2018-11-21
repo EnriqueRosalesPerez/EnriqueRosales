@@ -39,7 +39,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	@Override
 	public List<Personaje> listar(String filtroNombre) throws ServiceException {
 		try {
-			return personajeDAO.buscar(filtroNombre);
+			return personajeDAO.findByNombre(filtroNombre);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -48,7 +48,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	@Override
 	public void crear(Personaje personaje) throws ServiceException {
 		try {
-			personajeDAO.insertar(personaje);
+			personajeDAO.insert(personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -57,7 +57,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	@Override
 	public void editar(Usuario editor, Personaje personaje) throws ServiceException {
 		try {
-			personajeDAO.actualizar(personaje);
+			personajeDAO.update(personaje);
 			guardarEdicion(editor, personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -67,7 +67,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	@Override
 	public void eliminar(Personaje personaje) throws ServiceException {
 		try {
-			personajeDAO.eliminar(personaje);
+			personajeDAO.delete(personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -89,7 +89,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 		edicion.setPersonaje(personaje);
 		edicion.setEditor(editor);
 		edicion.setFechaEdicion(new Date());
-		edicionPersonajeDAO.insertar(edicion);
+		edicionPersonajeDAO.insert(edicion);
 	}
 
 }

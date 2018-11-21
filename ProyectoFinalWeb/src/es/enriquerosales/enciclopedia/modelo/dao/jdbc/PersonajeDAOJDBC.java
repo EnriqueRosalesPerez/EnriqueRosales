@@ -30,12 +30,12 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 	}
 
 	@Override
-	public List<Personaje> buscar() throws DAOException {
-		return buscar("");
+	public List<Personaje> findAll() throws DAOException {
+		return findByNombre("");
 	}
 
 	@Override
-	public List<Personaje> buscar(String filtroNombre) throws DAOException {
+	public List<Personaje> findByNombre(String filtroNombre) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -70,7 +70,7 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 	}
 
 	@Override
-	public void insertar(Personaje personaje) throws DAOException {
+	public void insert(Personaje personaje) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -103,7 +103,7 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 	}
 
 	@Override
-	public void actualizar(Personaje personaje) throws DAOException {
+	public void update(Personaje personaje) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -137,7 +137,7 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 	}
 
 	@Override
-	public void eliminar(Personaje personaje) throws DAOException {
+	public void delete(Personaje personaje) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}

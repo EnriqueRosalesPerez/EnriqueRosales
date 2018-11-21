@@ -25,7 +25,7 @@ public class EdicionDirectorioDAOJDBC implements EdicionDirectorioDAO {
 	}
 
 	@Override
-	public void insertar(EdicionDirectorio edicion) throws DAOException {
+	public void insert(EdicionDirectorio edicion) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}

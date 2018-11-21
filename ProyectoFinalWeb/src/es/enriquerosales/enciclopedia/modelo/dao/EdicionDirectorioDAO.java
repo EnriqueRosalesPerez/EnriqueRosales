@@ -21,6 +21,6 @@ public interface EdicionDirectorioDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void insertar(EdicionDirectorio edicion) throws DAOException;
+	void insert(EdicionDirectorio edicion) throws DAOException;
 
 }

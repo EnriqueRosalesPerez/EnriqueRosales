@@ -39,7 +39,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 	@Override
 	public List<Directorio> listar(String filtroNombre) throws ServiceException {
 		try {
-			return directorioDAO.buscar(filtroNombre);
+			return directorioDAO.findByNombre(filtroNombre);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -48,7 +48,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 	@Override
 	public void crear(Directorio directorio) throws ServiceException {
 		try {
-			directorioDAO.insertar(directorio);
+			directorioDAO.insert(directorio);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -57,7 +57,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 	@Override
 	public void editar(Usuario editor, Directorio directorio) throws ServiceException {
 		try {
-			directorioDAO.actualizar(directorio);
+			directorioDAO.update(directorio);
 			guardarEdicion(editor, directorio);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -67,7 +67,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 	@Override
 	public void eliminar(Directorio directorio) throws ServiceException {
 		try {
-			directorioDAO.eliminar(directorio);
+			directorioDAO.delete(directorio);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -90,7 +90,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 		edicion.setDirectorio(directorio);
 		edicion.setEditor(editor);
 		edicion.setFechaEdicion(new Date());
-		edicionDirectorioDAO.insertar(edicion);
+		edicionDirectorioDAO.insert(edicion);
 	}
 
 }

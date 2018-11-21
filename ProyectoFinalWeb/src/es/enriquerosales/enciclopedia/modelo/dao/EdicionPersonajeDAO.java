@@ -21,6 +21,6 @@ public interface EdicionPersonajeDAO {
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	void insertar(EdicionPersonaje edicion) throws DAOException;
+	void insert(EdicionPersonaje edicion) throws DAOException;
 
 }

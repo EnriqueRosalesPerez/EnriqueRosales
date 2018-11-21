@@ -29,12 +29,12 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	}
 
 	@Override
-	public List<Directorio> buscar() throws DAOException {
-		return buscar("");
+	public List<Directorio> findAll() throws DAOException {
+		return findByNombre("");
 	}
 
 	@Override
-	public List<Directorio> buscar(String filtroNombre) throws DAOException {
+	public List<Directorio> findByNombre(String filtroNombre) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -67,7 +67,7 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	}
 
 	@Override
-	public void insertar(Directorio directorio) throws DAOException {
+	public void insert(Directorio directorio) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -98,7 +98,7 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	}
 
 	@Override
-	public void actualizar(Directorio directorio) throws DAOException {
+	public void update(Directorio directorio) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -130,7 +130,7 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 	}
 
 	@Override
-	public void eliminar(Directorio directorio) throws DAOException {
+	public void delete(Directorio directorio) throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
