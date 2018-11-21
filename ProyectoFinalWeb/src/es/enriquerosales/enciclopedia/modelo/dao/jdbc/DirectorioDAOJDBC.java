@@ -209,6 +209,7 @@ public class DirectorioDAOJDBC implements DirectorioDAO {
 		usuario.setId(rs.getInt("idCreador"));
 		usuario.setNombreUsuario(rs.getString("nombreUsuario"));
 		usuario.setContrasenna("contrasenna");
+		directorio.setCreador(usuario);
 
 		return directorio;
 	}

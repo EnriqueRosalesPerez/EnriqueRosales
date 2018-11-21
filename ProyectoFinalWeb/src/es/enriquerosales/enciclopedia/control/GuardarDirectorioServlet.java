@@ -46,19 +46,32 @@ public class GuardarDirectorioServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+
 			Directorio dir = new Directorio();
+			String idStr = request.getParameter("id");
+			if (idStr == null || idStr.equals("")) {
+				// Se está creando un nuevo directorio
+				Usuario creador = (Usuario) request.getSession().getAttribute("user");
+				dir.setCreador(creador);
+				dir.setFechaCreacion(new Date());
+			} else {
+				// Se está editando un directorio existente
+				dir.setId(Integer.parseInt(idStr));
+				dir = dirService.encontrar(dir.getId());
+			}
+
 			dir.setNombre(request.getParameter("nombre"));
 			dir.setAnnoInicio(request.getParameter("inicio"));
 			dir.setAnnoFin(request.getParameter("fin"));
 			dir.setDescripcion(request.getParameter("desc"));
-			dir.setFechaCreacion(new Date());
 
-			// FIXME Creador de prueba
-			Usuario u = new Usuario();
-			u.setId(1);
+			if (idStr == null || idStr.equals("")) {
+				dirService.crear(dir);
+			} else {
+				Usuario editor = (Usuario) request.getSession().getAttribute("user");
+				dirService.editar(editor, dir);
+			}
 
-			dir.setCreador(u);
-			dirService.crear(dir);
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);

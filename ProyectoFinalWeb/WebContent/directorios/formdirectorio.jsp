@@ -16,6 +16,9 @@
 </head>
 <body>
 	<form action="guardar" method="POST">
+		<c:if test="${not empty dir}">
+			<input name="id" type="hidden" value="${dir.id}"/>
+		</c:if>
 		<table>
 			<tr>
 				<td>Nombre</td>

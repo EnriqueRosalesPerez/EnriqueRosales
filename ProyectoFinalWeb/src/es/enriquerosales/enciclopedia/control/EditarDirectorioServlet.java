@@ -8,21 +8,40 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import es.enriquerosales.enciclopedia.factory.Factory;
+import es.enriquerosales.enciclopedia.modelo.Directorio;
+import es.enriquerosales.enciclopedia.servicio.DirectorioService;
+
 /**
- * Implementación de Servlet para la página formdirectorio.jsp al crear un
- * Directorio nuevo.
+ * Implementación de Servlet para la página formdirectorio.jsp al editar un
+ * Directorio existente.
  * 
  * @author Enrique Rosales
  */
-@WebServlet("/directorios/crear")
-public class CrearDirectorioServlet extends HttpServlet {
+@WebServlet("/directorios/editar")
+public class EditarDirectorioServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 3142188989826771228L;
+	private static final long serialVersionUID = 5233543272872467666L;
+	private static DirectorioService dirService;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		try {
+			dirService = Factory.getDirectorioService();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			int dirId = Integer.parseInt(request.getParameter("id"));
+			Directorio dir = dirService.encontrar(dirId);
+			request.setAttribute("dir", dir);
 			request.getRequestDispatcher("formdirectorio.jsp").forward(request, response);
 		} catch (Exception e) {
 			request.setAttribute("error", e);

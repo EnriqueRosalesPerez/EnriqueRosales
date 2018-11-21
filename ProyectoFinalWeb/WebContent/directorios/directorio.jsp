@@ -21,5 +21,9 @@
 	<br>
 	<br>
 	<a href="../directorios">Volver al índice</a>
+	<c:if test="${not empty user}">
+		<br>
+		<a href="editar?id=${dir.id}">Editar esta página</a>
+	</c:if>
 </body>
 </html>
