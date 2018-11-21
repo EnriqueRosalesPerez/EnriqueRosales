@@ -24,6 +24,8 @@
 	<c:if test="${not empty user}">
 		<br>
 		<a href="editar?id=${dir.id}">Editar esta página</a>
+		<br>
+		<a href="eliminar?id=${dir.id}">Eliminar esta página</a>
 	</c:if>
 </body>
 </html>
