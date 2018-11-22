@@ -10,19 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import es.enriquerosales.enciclopedia.factory.Factory;
-import es.enriquerosales.enciclopedia.modelo.Directorio;
+import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
+import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 
 /**
- * Implementación de Servlet para guardar un nuevo directorio.
+ * Implementación de Servlet para guardar un nuevo personaje.
  * 
  * @author Enrique Rosales
  */
-@WebServlet("/directorios/guardar")
-public class GuardarDirectorioServlet extends HttpServlet {
+@WebServlet("/directorios/dir/personaje/guardar")
+public class GuardarPersonajeServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 8345267569308625868L;
+	private static final long serialVersionUID = -4298608906381231995L;
+	private static PersonajeService personajeService;
 	private static DirectorioService dirService;
 
 	private static final String SUCCESS = "/index.jsp";
@@ -32,6 +34,7 @@ public class GuardarDirectorioServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		try {
+			personajeService = Factory.getPersonajeService();
 			dirService = Factory.getDirectorioService();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -49,29 +52,30 @@ public class GuardarDirectorioServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			Directorio dir = null;
+			Personaje personaje = null;
 			String idStr = request.getParameter("id");
 			if (idStr == null || idStr.equals("")) {
-				// Se está creando un nuevo directorio
-				dir = new Directorio();
+				// Se está creando un nuevo personaje
+				personaje = new Personaje();
 				Usuario creador = (Usuario) request.getSession().getAttribute("user");
-				dir.setCreador(creador);
-				dir.setFechaCreacion(new Date());
+				personaje.setCreador(creador);
+				personaje.setFechaCreacion(new Date());
+				int idDir = Integer.parseInt(request.getParameter("dir"));
+				personaje.setDirectorio(dirService.buscar(idDir));
 			} else {
-				// Se está editando un directorio existente
-				dir = dirService.buscar(Integer.parseInt(idStr));
+				// Se está editando un personaje existente
+				personaje = personajeService.buscar(Integer.parseInt(idStr));
 			}
-
-			dir.setNombre(request.getParameter("nombre"));
-			dir.setAnnoInicio(request.getParameter("inicio"));
-			dir.setAnnoFin(request.getParameter("fin"));
-			dir.setDescripcion(request.getParameter("desc"));
+			personaje.setNombre(request.getParameter("nombre"));
+			personaje.setAnnoNacimiento(request.getParameter("nacimiento"));
+			personaje.setAnnoMuerte(request.getParameter("muerte"));
+			personaje.setBiografia(request.getParameter("bio"));
 
 			if (idStr == null || idStr.equals("")) {
-				dirService.crear(dir);
+				personajeService.crear(personaje);
 			} else {
 				Usuario editor = (Usuario) request.getSession().getAttribute("user");
-				dirService.editar(editor, dir);
+				personajeService.editar(editor, personaje);
 			}
 
 			request.getRequestDispatcher(SUCCESS).forward(request, response);

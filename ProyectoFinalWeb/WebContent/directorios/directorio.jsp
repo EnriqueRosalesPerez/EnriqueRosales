@@ -52,7 +52,7 @@
 		</c:otherwise>
 	</c:choose>
 	<c:if test="${not empty user}">
-		Crear nuevo personaje
+		<a href="dir/personaje/crear?dir=${dir.id}">Crear nuevo personaje</a>
 	</c:if>
 </body>
 </html>
