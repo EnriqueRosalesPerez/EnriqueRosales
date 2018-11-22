@@ -3,6 +3,7 @@ package es.enriquerosales.enciclopedia.servicio.impl;
 import java.util.Date;
 import java.util.List;
 
+import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.EdicionPersonaje;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
@@ -46,7 +47,16 @@ public class PersonajeServiceImpl implements PersonajeService {
 	}
 
 	@Override
-	public Personaje encontrar(int id) throws ServiceException {
+	public List<Personaje> listar(Directorio directorio) throws ServiceException {
+		try {
+			return personajeDAO.findByDirectorio(directorio);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public Personaje buscar(int id) throws ServiceException {
 		try {
 			return personajeDAO.findById(id);
 		} catch (DAOException e) {

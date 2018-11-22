@@ -60,7 +60,7 @@ public class GuardarDirectorioServlet extends HttpServlet {
 			} else {
 				// Se está editando un directorio existente
 				dir.setId(Integer.parseInt(idStr));
-				dir = dirService.encontrar(dir.getId());
+				dir = dirService.buscar(dir.getId());
 			}
 
 			dir.setNombre(request.getParameter("nombre"));

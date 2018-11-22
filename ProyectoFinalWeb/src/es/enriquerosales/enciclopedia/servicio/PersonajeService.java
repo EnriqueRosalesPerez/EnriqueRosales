@@ -2,6 +2,7 @@ package es.enriquerosales.enciclopedia.servicio;
 
 import java.util.List;
 
+import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 
@@ -37,6 +38,19 @@ public interface PersonajeService {
 	List<Personaje> listar(String filtroNombre) throws ServiceException;
 
 	/**
+	 * Crea una lista las instancias de {@link Personaje} que pertenezcan al
+	 * {@link Directorio} indicado como parámetro.
+	 * 
+	 * @param directorio
+	 *            El {@link Directorio} del que obtener los Personajes.
+	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
+	 *         sistema que pertenecen al Directorio dado.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
+	 */
+	List<Personaje> listar(Directorio directorio) throws ServiceException;
+
+	/**
 	 * Devuelve el {@link Personaje} que tenga el ID obtenido como parámetro.
 	 * 
 	 * @param id
@@ -46,7 +60,7 @@ public interface PersonajeService {
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
 	 */
-	Personaje encontrar(int id) throws ServiceException;
+	Personaje buscar(int id) throws ServiceException;
 
 	/**
 	 * Crea una nueva entrada de {@link Personaje} en el sistema.

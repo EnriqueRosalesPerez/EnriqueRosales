@@ -101,6 +101,41 @@ public class PersonajeDAOJDBC implements PersonajeDAO {
 			}
 		}
 	}
+	
+	@Override
+	public List<Personaje> findByDirectorio(Directorio directorio) throws DAOException {
+		if (dataSource == null) {
+			throw new DAOException("No se ha establecido un JDBCDataSource.");
+		}
+		try {
+			List<Personaje> resultado = new LinkedList<Personaje>();
+			String sql = "SELECT * FROM personajes p "
+					+ "INNER JOIN directorios d ON p.idDirectorio = d.id "
+					+ "INNER JOIN usuarios u ON p.idCreador = u.id "
+					+ "WHERE p.idDirectorio = ?;";
+
+			conn = dataSource.getConnection();
+			st = conn.prepareStatement(sql);
+			st.setInt(1, directorio.getId());
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				Personaje p = mapear(rs);
+				resultado.add(p);
+			}
+			rs.close();
+
+			return resultado;
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		} finally {
+			try {
+				cerrarConexiones();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+		}
+	}
 
 	@Override
 	public void insert(Personaje personaje) throws DAOException {

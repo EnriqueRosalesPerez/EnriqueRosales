@@ -46,7 +46,7 @@ public interface DirectorioService {
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
 	 */
-	Directorio encontrar(int id) throws ServiceException;
+	Directorio buscar(int id) throws ServiceException;
 
 	/**
 	 * Crea un nuevo {@link Directorio} en el sistema.

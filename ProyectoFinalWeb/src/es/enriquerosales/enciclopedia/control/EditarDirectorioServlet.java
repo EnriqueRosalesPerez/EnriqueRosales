@@ -44,7 +44,7 @@ public class EditarDirectorioServlet extends HttpServlet {
 		try {
 			// TODO Juntar con CrearDirectorioServlet?
 			int dirId = Integer.parseInt(request.getParameter("id"));
-			Directorio dir = dirService.encontrar(dirId);
+			Directorio dir = dirService.buscar(dirId);
 			request.setAttribute("dir", dir);
 			request.getRequestDispatcher(SUCCESS).forward(request, response);
 		} catch (Exception e) {

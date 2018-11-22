@@ -46,7 +46,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 	}
 
 	@Override
-	public Directorio encontrar(int id) throws ServiceException {
+	public Directorio buscar(int id) throws ServiceException {
 		try {
 			return directorioDAO.findById(id);
 		} catch (DAOException e) {
