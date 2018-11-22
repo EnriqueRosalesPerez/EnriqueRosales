@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <c:choose>
-	<c:when test="${empty personaje}}">
+	<c:when test="${empty personaje}">
 		<title>Creando personaje</title>
 	</c:when>
 	<c:otherwise>

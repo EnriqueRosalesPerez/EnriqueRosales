@@ -51,6 +51,24 @@ public interface PersonajeService {
 	List<Personaje> listar(Directorio directorio) throws ServiceException;
 
 	/**
+	 * Crea una lista las instancias de {@link Personaje} que pertenezcan al
+	 * {@link Directorio} indicado como parámetro y contengan en su nombre el filtro
+	 * obtenido como parámetro.
+	 * 
+	 * @param directorio
+	 *            El {@link Directorio} del que obtener los Personajes.
+	 * @param filtroNombre
+	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
+	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
+	 *         sistema que pertenecen al Directorio dado y cuyo nombre contenga el
+	 *         filtro.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
+	 */
+	List<Personaje> listar(Directorio directorio, String filtroNombre)
+			throws ServiceException;
+
+	/**
 	 * Devuelve el {@link Personaje} que tenga el ID obtenido como parámetro.
 	 * 
 	 * @param id

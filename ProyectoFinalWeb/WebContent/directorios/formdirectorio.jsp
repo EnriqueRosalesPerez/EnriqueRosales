@@ -6,8 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <c:choose>
-	<c:when test="${empty dir}}">
+	<c:when test="${empty dir}">
 		<title>Creando directorio</title>
+		<title>Editando ${dir.nombre}</title>
 	</c:when>
 	<c:otherwise>
 		<title>Editando ${dir.nombre}</title>
@@ -17,12 +18,13 @@
 <body>
 	<form action="guardar" method="POST">
 		<c:if test="${not empty dir}">
-			<input name="id" type="hidden" value="${dir.id}"/>
+			<input name="id" type="hidden" value="${dir.id}" />
 		</c:if>
 		<table>
 			<tr>
 				<td>Nombre</td>
-				<td><input name="nombre" required type="text" value="${dir.nombre}" /></td>
+				<td><input name="nombre" required type="text"
+					value="${dir.nombre}" /></td>
 			</tr>
 			<tr>
 				<td>Año de inicio</td>
@@ -33,13 +35,10 @@
 				<td><input name="fin" type="text" value="${dir.annoFin}" /></td>
 			</tr>
 		</table>
-		Descripción
-		<br>
-		<textarea name="desc" rows="4" cols="50"><c:out value="${dir.descripcion}"/></textarea>
-		<br>
-		<input type="submit" value="Guardar"/>
-		<br>
-		<br>
+		Descripción <br>
+		<textarea name="desc" rows="4" cols="50"><c:out
+				value="${dir.descripcion}" /></textarea>
+		<br> <input type="submit" value="Guardar" /> <br> <br>
 		<a href="../directorios">Atrás</a>
 	</form>
 </body>

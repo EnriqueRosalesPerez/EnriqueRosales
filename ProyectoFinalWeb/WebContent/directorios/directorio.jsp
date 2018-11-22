@@ -29,9 +29,14 @@
 	<br>
 	<div style="white-space: pre-wrap;"><c:out value="${dir.descripcion}" /></div>
 	<br>
+	<form action="buscar" method="GET">
+		<input type="hidden" name="dir" value="${dir.id }" /> Buscar <input
+			type="text" name="s" value="${busqueda}" /> <input type="submit"
+			value="Buscar" /> <a href="dir?id=${dir.id }">Limpiar busqueda</a>
+	</form>
 	<c:choose>
 		<c:when test="${empty personajes }">
-			<h3>No hay personajes en este directorio</h3>
+			<h3>No se han encontrado personajes</h3>
 			<c:if test="${not empty user}">
 				<a href="dir/personaje/crear?dir=${dir.id}">Crear nuevo
 					personaje</a>
@@ -42,8 +47,8 @@
 			<c:if test="${not empty user}">
 				<a href="dir/personaje/crear?dir=${dir.id}">Crear nuevo
 					personaje</a>
-					<br>
-					<br>
+				<br>
+				<br>
 			</c:if>
 			<table>
 				<tr>
