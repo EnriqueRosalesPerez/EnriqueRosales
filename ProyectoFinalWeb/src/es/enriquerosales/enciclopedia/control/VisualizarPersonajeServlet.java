@@ -13,11 +13,14 @@ import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 
 /**
- * Servlet implementation class VisualizarPersonajeServlet
+ * Implementación de Servlet para la página personaje.jsp.
+ * 
+ * @author Enrique Rosales
  */
 @WebServlet("/directorios/dir/personaje")
 public class VisualizarPersonajeServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 9021204434011234078L;
 	private static PersonajeService personajeService;
 
 	private static final String SUCCESS = "personaje.jsp";
@@ -34,13 +37,11 @@ public class VisualizarPersonajeServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			// TODO si el ID no existe o es incorrecto mandar a página de no encontrado.
 			int id = Integer.parseInt(request.getParameter("id"));
 			Personaje personaje = personajeService.buscar(id);
 			request.setAttribute("personaje", personaje);
@@ -52,10 +53,7 @@ public class VisualizarPersonajeServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
