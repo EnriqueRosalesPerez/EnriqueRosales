@@ -31,10 +31,20 @@
 	<br>
 	<c:choose>
 		<c:when test="${empty personajes }">
-		<h3>No hay personajes en este directorio</h3>
-	</c:when>
+			<h3>No hay personajes en este directorio</h3>
+			<c:if test="${not empty user}">
+				<a href="dir/personaje/crear?dir=${dir.id}">Crear nuevo
+					personaje</a>
+			</c:if>
+		</c:when>
 		<c:otherwise>
 			<h3>Personajes</h3>
+			<c:if test="${not empty user}">
+				<a href="dir/personaje/crear?dir=${dir.id}">Crear nuevo
+					personaje</a>
+					<br>
+					<br>
+			</c:if>
 			<table>
 				<tr>
 					<th>Nombre</th>
@@ -51,8 +61,5 @@
 			</table>
 		</c:otherwise>
 	</c:choose>
-	<c:if test="${not empty user}">
-		<a href="dir/personaje/crear?dir=${dir.id}">Crear nuevo personaje</a>
-	</c:if>
 </body>
 </html>

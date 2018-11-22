@@ -12,9 +12,9 @@
 	<a href="../dir?id=${dir}">Atrás</a>
 	<c:if test="${not empty user}">
 		<br>
-		<a href="editar?id=${personaje.id}">Editar esta página</a>
+		<a href="personaje/editar?id=${personaje.id}&dir=${dir}">Editar esta página</a>
 		<br>
-		<a href="eliminar?id=${personaje.id}">Eliminar esta página</a>
+		<a href="personaje/eliminar?id=${personaje.id}">Eliminar esta página</a>
 	</c:if>
 	<br>
 	<br>
@@ -24,6 +24,6 @@
 	<i>${personaje.annoNacimiento } - ${personaje.annoMuerte }</i>
 	<br>
 	<br>
-	${personaje.biografia}
+	<div style="white-space: pre-wrap;"><c:out value="${personaje.biografia}" /></div>
 </body>
 </html>
