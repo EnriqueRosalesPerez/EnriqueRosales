@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Directorios</title>
 </head>
 <body>
@@ -13,6 +13,8 @@
 			<a href="login">Acceder</a>
 		</c:when>
 		<c:otherwise>
+			Conectado como ${user.nombreUsuario}
+			<br>
 			<a href="logout">Desconectarse</a>
 		</c:otherwise>
 	</c:choose>
@@ -20,7 +22,7 @@
 	<h3>Directorios</h3>
 	<br>
 	<form action="buscar" method="GET">
-		Buscar <input type="text" name="s" value="${busqueda}" /> <input
+		<input type="text" name="s" value="${busqueda}" /> <input
 			type="submit" value="Buscar" /> <a href="directorios">Limpiar
 			busqueda</a>
 	</form>

@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><c:out value="${dir.nombre}" /></title>
 </head>
 <body>
@@ -30,7 +30,7 @@
 	<div style="white-space: pre-wrap;"><c:out value="${dir.descripcion}" /></div>
 	<br>
 	<form action="buscar" method="GET">
-		<input type="hidden" name="dir" value="${dir.id }" /> Buscar <input
+		<input type="hidden" name="dir" value="${dir.id }" /> <input
 			type="text" name="s" value="${busqueda}" /> <input type="submit"
 			value="Buscar" /> <a href="dir?id=${dir.id }">Limpiar busqueda</a>
 	</form>
