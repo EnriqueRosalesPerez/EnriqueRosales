@@ -30,8 +30,14 @@ public class PersonajeController {
 	@Autowired
 	private DirectorioService dirService;
 
+	private static final String ATT_PERSONAJE = "personaje";
+	private static final String ATT_DIR = "dir";
+	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
+	private static final String SUCCESS_VER = "personaje";
+	private static final String SUCCESS_FORM = "formpersonaje";
+	private static final String SUCCESS_INDEX = "index";
 	private static final String ERROR = "error";
 
 	/**
@@ -41,8 +47,8 @@ public class PersonajeController {
 	public String mostrarPersonaje(@RequestParam int id, Model model) {
 		try {
 			Personaje personaje = personajeService.buscar(id);
-			model.addAttribute("personaje", personaje);
-			return "personaje";
+			model.addAttribute(ATT_PERSONAJE, personaje);
+			return SUCCESS_VER;
 		} catch (Exception e) {
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
@@ -58,10 +64,10 @@ public class PersonajeController {
 		try {
 			if (personaje.getId() != null) {
 				personaje = personajeService.buscar(personaje.getId());
-				model.addAttribute("personaje", personaje);
+				model.addAttribute(ATT_PERSONAJE, personaje);
 			}
-			model.addAttribute("dir", dir);
-			return "formpersonaje";
+			model.addAttribute(ATT_DIR, dir);
+			return SUCCESS_FORM;
 		} catch (Exception e) {
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
@@ -69,19 +75,19 @@ public class PersonajeController {
 	}
 
 	/**
-	 * Guarda un Directorio en el sistema, teniendo en cuenta que puede ser nuevo o
+	 * Guarda un Personaje en el sistema, teniendo en cuenta que puede ser nuevo o
 	 * editado.
 	 */
 	@PostMapping(value = "/guardarPersonaje")
 	public String guardarPersonaje(@ModelAttribute Personaje personaje,
 			@RequestParam int dir, Model model, HttpSession session) {
 		try {
-			Usuario usuario = (Usuario) session.getAttribute("user");
+			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);
 			personaje.setDirectorio(dirService.buscar(dir));
 			if (personaje.getId() == null) {
 				// Creando nuevo personaje
 				personajeService.crear(usuario, personaje);
-				return "index";
+				return SUCCESS_INDEX;
 			} else {
 				// Editando personaje existente, asignando creador y fecha de creación
 				// original.
@@ -105,7 +111,7 @@ public class PersonajeController {
 	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model) {
 		try {
 			personajeService.eliminar(personaje);
-			return "index";
+			return SUCCESS_INDEX;
 		} catch (Exception e) {
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;

@@ -33,6 +33,7 @@ public class DirectorioController {
 	private static final String ATT_DIR = "directorio";
 	private static final String ATT_DIRS = "directorios";
 	private static final String ATT_PERSONAJES = "personajes";
+	private static final String ATT_BUSQUEDA = "busqueda";
 	private static final String ATT_ERROR = "error";
 
 	private static final String SUCCESS_DIR = "directorio";
@@ -56,11 +57,14 @@ public class DirectorioController {
 		}
 	}
 
+	/**
+	 * Muestra el listado de directorios filtrado según un criterio de búsqueda.
+	 */
 	@GetMapping("/buscarDir")
 	public String buscarDirectorios(@RequestParam String s, Model model) {
 		try {
-			model.addAttribute("directorios", dirService.listar(s));
-			model.addAttribute("busqueda", s);
+			model.addAttribute(ATT_DIRS, dirService.listar(s));
+			model.addAttribute(ATT_BUSQUEDA, s);
 			return SUCCESS_LIST;
 		} catch (Exception e) {
 			model.addAttribute(ATT_ERROR, e);
@@ -84,6 +88,10 @@ public class DirectorioController {
 		}
 	}
 
+	/**
+	 * Muestra el listado Personajes dentro de un directorio filtrado según un
+	 * criterio de búsqueda.
+	 */
 	@GetMapping(value = "/buscarPersonajes")
 	public String buscarPersonajes(@RequestParam int dir, @RequestParam String s,
 			Model model) {
@@ -91,7 +99,7 @@ public class DirectorioController {
 			Directorio directorio = dirService.buscar(dir);
 			model.addAttribute(ATT_DIR, directorio);
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(directorio, s));
-			model.addAttribute("busqueda", s);
+			model.addAttribute(ATT_BUSQUEDA, s);
 			return SUCCESS_DIR;
 		} catch (Exception e) {
 			model.addAttribute(ATT_ERROR, e);

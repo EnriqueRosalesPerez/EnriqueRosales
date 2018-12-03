@@ -69,7 +69,7 @@ public class LoginController {
 	}
 
 	/**
-	 * Desconecta al usuario que está logeado.
+	 * Desconecta al usuario que está conectado.
 	 */
 	@RequestMapping(value = "/logout")
 	public String desconectar(Model model, HttpSession session) {
