@@ -51,12 +51,14 @@ public interface DirectorioService {
 	/**
 	 * Crea un nuevo {@link Directorio} en el sistema.
 	 * 
+	 * @param creador
+	 *            El {@link Usuario} que está creando el {@link Directorio}.
 	 * @param personaje
 	 *            El {@link Directorio} a crear en el sistema.
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
 	 */
-	void crear(Directorio directorio) throws ServiceException;
+	void crear(Usuario creador, Directorio directorio) throws ServiceException;
 
 	/**
 	 * Actualiza la información de un {@link Directorio} existente.

@@ -76,8 +76,10 @@ public class PersonajeServiceImpl implements PersonajeService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	public void crear(Personaje personaje) throws ServiceException {
+	public void crear(Usuario creador, Personaje personaje) throws ServiceException {
 		try {
+			personaje.setCreador(creador);
+			personaje.setFechaCreacion(new Date());
 			personajeDAO.insert(personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -99,6 +101,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void eliminar(Personaje personaje) throws ServiceException {
 		try {
+			personaje = personajeDAO.findById(personaje.getId());
 			personajeDAO.delete(personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);

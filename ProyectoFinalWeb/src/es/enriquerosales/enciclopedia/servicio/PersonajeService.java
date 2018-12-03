@@ -83,12 +83,14 @@ public interface PersonajeService {
 	/**
 	 * Crea una nueva entrada de {@link Personaje} en el sistema.
 	 * 
+	 * @param creador
+	 *            El {@link Usuario} que está creando el {@link Personaje}.
 	 * @param personaje
 	 *            El {@link Personaje} a crear en el sistema.
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
 	 */
-	void crear(Personaje personaje) throws ServiceException;
+	void crear(Usuario creador, Personaje personaje) throws ServiceException;
 
 	/**
 	 * Actualiza la información de una entrada de {@link Personaje} existente.

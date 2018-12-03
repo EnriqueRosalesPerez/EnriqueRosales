@@ -10,7 +10,7 @@
 	   	http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="es.hubiqus.inventario.controller" />
+	<context:component-scan base-package="es.enriquerosales.enciclopedia.control" />
 	<mvc:annotation-driven />
 
 	<bean

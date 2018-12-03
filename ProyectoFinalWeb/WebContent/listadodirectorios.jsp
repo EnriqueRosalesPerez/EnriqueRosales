@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Directorios</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
 	<br>
 	<h3>Directorios</h3>
 	<br>
-	<form action="buscar" method="GET">
+	<form action="buscarDir" method="GET">
 		<input type="text" name="s" value="${busqueda}" /> <input
 			type="submit" value="Buscar" /> <a href="directorios">Limpiar
 			busqueda</a>
@@ -30,7 +30,7 @@
 	<table>
 		<c:if test="${not empty user}">
 			<tr>
-				<td><a href="directorios/crear">Crear nuevo directorio</a></td>
+				<td><a href="editarDir">Crear nuevo directorio</a></td>
 			</tr>
 		</c:if>
 		<c:choose>
@@ -40,7 +40,7 @@
 			<c:otherwise>
 				<c:forEach items="${directorios}" var="directorio">
 					<tr>
-						<td><a href="directorios/dir?id=${directorio.id}"> <c:out
+						<td><a href="verDir?id=${directorio.id}"> <c:out
 									value="${directorio.nombre}" />
 						</a></td>
 					</tr>

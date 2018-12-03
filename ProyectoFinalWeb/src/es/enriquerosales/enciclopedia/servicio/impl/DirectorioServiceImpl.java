@@ -56,8 +56,10 @@ public class DirectorioServiceImpl implements DirectorioService {
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
-	public void crear(Directorio directorio) throws ServiceException {
+	public void crear(Usuario creador, Directorio directorio) throws ServiceException {
 		try {
+			directorio.setCreador(creador);
+			directorio.setFechaCreacion(new Date());
 			directorioDAO.insert(directorio);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -79,6 +81,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 	@Override
 	public void eliminar(Directorio directorio) throws ServiceException {
 		try {
+			directorio = directorioDAO.findById(directorio.getId());
 			directorioDAO.delete(directorio);
 		} catch (DAOException e) {
 			throw new ServiceException(e);

@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 @Table(name = "personajes")
 public class Personaje {
 
-	private int id;
+	private Integer id;
 	private String nombre;
 	private String annoNacimiento;
 	private String annoMuerte;
@@ -34,11 +34,11 @@ public class Personaje {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
 @Table(name = "directorios")
 public class Directorio {
 
-	private int id;
+	private Integer id;
 	private String nombre;
 	private String annoInicio;
 	private String annoFin;
@@ -34,11 +34,11 @@ public class Directorio {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
