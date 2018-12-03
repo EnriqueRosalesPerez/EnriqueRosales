@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
@@ -27,19 +27,19 @@
 					value="${dir.nombre}" /></td>
 			</tr>
 			<tr>
-				<td>Año de inicio</td>
+				<td>AÃ±o de inicio</td>
 				<td><input name="inicio" type="text" value="${dir.annoInicio}" /></td>
 			</tr>
 			<tr>
-				<td>Año de fin</td>
+				<td>AÃ±o de fin</td>
 				<td><input name="fin" type="text" value="${dir.annoFin}" /></td>
 			</tr>
 		</table>
-		Descripción <br>
+		DescripciÃ³n <br>
 		<textarea name="desc" rows="4" cols="50"><c:out
 				value="${dir.descripcion}" /></textarea>
 		<br> <input type="submit" value="Guardar" /> <br> <br>
-		<a href="../directorios">Atrás</a>
+		<a href="../directorios">AtrÃ¡s</a>
 	</form>
 </body>
 </html>

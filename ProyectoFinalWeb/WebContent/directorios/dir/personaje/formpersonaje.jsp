@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
@@ -27,21 +27,21 @@
 					value="${personaje.nombre}" /></td>
 			</tr>
 			<tr>
-				<td>AÒo de nacimiento</td>
+				<td>A√±o de nacimiento</td>
 				<td><input name="nacimiento" type="text"
 					value="${personaje.annoNacimiento}" /></td>
 			</tr>
 			<tr>
-				<td>AÒo de muerte</td>
+				<td>A√±o de muerte</td>
 				<td><input name="muerte" type="text"
 					value="${personaje.annoMuerte}" /></td>
 			</tr>
 		</table>
-		BiografÌa <br>
+		Biograf√≠a <br>
 		<textarea name="bio" rows="4" cols="50"><c:out
 				value="${personaje.biografia}" /></textarea>
 		<br> <input type="submit" value="Guardar" /> <br> <br>
-		<a href="..?id=${dir}">Atr·s</a>
+		<a href="..?id=${dir}">Atr√°s</a>
 	</form>
 </body>
 </html>

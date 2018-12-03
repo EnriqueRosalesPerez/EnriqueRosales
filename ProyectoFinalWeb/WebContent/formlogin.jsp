@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +10,10 @@
 	<form action="acceso" method="POST">
 	<p>Nombre</p>
 	<p><input type="text" name="username"/></p>
-	<p>Contraseña</p>
+	<p>ContraseÃ±a</p>
 	<p><input type="password" name="pass"/></p>
 	<p><input type="submit" value="Acceder"/></p>
 	</form>
-	<a href=".">Atrás</a>
+	<a href=".">AtrÃ¡s</a>
 </body>
 </html>
