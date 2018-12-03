@@ -2,12 +2,25 @@ package es.enriquerosales.enciclopedia.modelo;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 /**
  * Clase POJO que representa un personaje histórico del sistema.
  * 
  * @author Enrique Rosales
  *
  */
+@Entity
+@Table(name = "personajes")
 public class Personaje {
 
 	private int id;
@@ -19,6 +32,8 @@ public class Personaje {
 	private Date fechaCreacion;
 	private Usuario creador;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -27,6 +42,7 @@ public class Personaje {
 		this.id = id;
 	}
 
+	@Column(name = "nombre", nullable = false)
 	public String getNombre() {
 		return nombre;
 	}
@@ -35,6 +51,7 @@ public class Personaje {
 		this.nombre = nombre;
 	}
 
+	@Column(name = "annoNacimiento")
 	public String getAnnoNacimiento() {
 		return annoNacimiento;
 	}
@@ -43,6 +60,7 @@ public class Personaje {
 		this.annoNacimiento = annoNacimiento;
 	}
 
+	@Column(name = "annoMuerte")
 	public String getAnnoMuerte() {
 		return annoMuerte;
 	}
@@ -51,6 +69,7 @@ public class Personaje {
 		this.annoMuerte = annoMuerte;
 	}
 
+	@Column(name = "biografia")
 	public String getBiografia() {
 		return biografia;
 	}
@@ -59,6 +78,8 @@ public class Personaje {
 		this.biografia = biografia;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "idDirectorio", nullable = false)
 	public Directorio getDirectorio() {
 		return directorio;
 	}
@@ -67,6 +88,8 @@ public class Personaje {
 		this.directorio = directorio;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "fechaCreacion", nullable = false)
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
@@ -75,6 +98,8 @@ public class Personaje {
 		this.fechaCreacion = fechaCreacion;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "idCreador", nullable = false)
 	public Usuario getCreador() {
 		return creador;
 	}

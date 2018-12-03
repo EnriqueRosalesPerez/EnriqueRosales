@@ -3,6 +3,10 @@ package es.enriquerosales.enciclopedia.servicio.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.EdicionDirectorio;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
@@ -18,18 +22,14 @@ import es.enriquerosales.enciclopedia.servicio.ServiceException;
  * @author Enrique Rosales
  *
  */
+@Transactional
 public class DirectorioServiceImpl implements DirectorioService {
 
+	@Autowired
 	private DirectorioDAO directorioDAO;
+
+	@Autowired
 	private EdicionDirectorioDAO edicionDirectorioDAO;
-
-	public void setDirectorioDAO(DirectorioDAO directorioDAO) {
-		this.directorioDAO = directorioDAO;
-	}
-
-	public void setEdicionDirectorioDAO(EdicionDirectorioDAO edicionDirectorioDAO) {
-		this.edicionDirectorioDAO = edicionDirectorioDAO;
-	}
 
 	@Override
 	public List<Directorio> listar() throws ServiceException {
@@ -54,6 +54,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void crear(Directorio directorio) throws ServiceException {
 		try {
@@ -63,6 +64,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void editar(Usuario editor, Directorio directorio) throws ServiceException {
 		try {
@@ -73,6 +75,7 @@ public class DirectorioServiceImpl implements DirectorioService {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void eliminar(Directorio directorio) throws ServiceException {
 		try {

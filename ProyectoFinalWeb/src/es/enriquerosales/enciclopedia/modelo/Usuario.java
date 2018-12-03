@@ -1,17 +1,28 @@
 package es.enriquerosales.enciclopedia.modelo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Representa un usuario del sistema.
  * 
  * @author Enrique Rosales
  *
  */
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
 
 	private int id;
 	private String nombreUsuario;
 	private String contrasenna;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -20,6 +31,7 @@ public class Usuario {
 		this.id = id;
 	}
 
+	@Column(name = "nombreUsuario", nullable = false)
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -28,6 +40,7 @@ public class Usuario {
 		this.nombreUsuario = nombreUsuario;
 	}
 
+	@Column(name = "contrasenna", nullable = false)
 	public String getContrasenna() {
 		return contrasenna;
 	}

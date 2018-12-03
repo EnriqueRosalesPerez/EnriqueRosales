@@ -3,6 +3,10 @@ package es.enriquerosales.enciclopedia.servicio.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.EdicionPersonaje;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
@@ -19,18 +23,14 @@ import es.enriquerosales.enciclopedia.servicio.ServiceException;
  * @author Enrique Rosales
  *
  */
+@Transactional
 public class PersonajeServiceImpl implements PersonajeService {
 
+	@Autowired
 	private PersonajeDAO personajeDAO;
+
+	@Autowired
 	private EdicionPersonajeDAO edicionPersonajeDAO;
-
-	public void setPersonajeDAO(PersonajeDAO personajeDAO) {
-		this.personajeDAO = personajeDAO;
-	}
-
-	public void setEdicionPersonajeDAO(EdicionPersonajeDAO edicionPersonajeDAO) {
-		this.edicionPersonajeDAO = edicionPersonajeDAO;
-	}
 
 	@Override
 	public List<Personaje> listar() throws ServiceException {
@@ -75,6 +75,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void crear(Personaje personaje) throws ServiceException {
 		try {
 			personajeDAO.insert(personaje);
@@ -84,6 +85,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void editar(Usuario editor, Personaje personaje) throws ServiceException {
 		try {
 			personajeDAO.update(personaje);
@@ -94,6 +96,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void eliminar(Personaje personaje) throws ServiceException {
 		try {
 			personajeDAO.delete(personaje);

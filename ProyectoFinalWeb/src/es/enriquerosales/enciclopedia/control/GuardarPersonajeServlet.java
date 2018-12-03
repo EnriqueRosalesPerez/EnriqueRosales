@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import es.enriquerosales.enciclopedia.factory.Factory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
@@ -30,16 +32,22 @@ public class GuardarPersonajeServlet extends HttpServlet {
 	private static final String SUCCESS = "/index.jsp";
 	private static final String ERROR = "/error.jsp";
 
+	public void setPersonajeService(PersonajeService personajeService) {
+		GuardarPersonajeServlet.personajeService = personajeService;
+	}
+
+	public void setDirService(DirectorioService dirService) {
+		GuardarPersonajeServlet.dirService = dirService;
+	}
+
 	@Override
 	public void init() throws ServletException {
-		super.init();
-		try {
-			personajeService = Factory.getPersonajeService();
-			dirService = Factory.getDirectorioService();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		WebApplicationContext context = WebApplicationContextUtils
+				.getWebApplicationContext(getServletContext());
+
+		// Spring no permite la IoD en Servlets, se obtiene desde el contexto
+		this.setDirService(context.getBean(DirectorioService.class));
+		this.setPersonajeService(context.getBean(PersonajeService.class));
 	}
 
 	@Override
