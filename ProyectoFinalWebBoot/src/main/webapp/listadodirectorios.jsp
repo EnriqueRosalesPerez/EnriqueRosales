@@ -13,6 +13,8 @@
 	<c:choose>
 		<c:when test="${empty user}">
 			<a href="login"><spring:message code="login.acceder" /></a>
+			<br>
+			<a href="registro"><spring:message code="registro.registrar" /></a>
 		</c:when>
 		<c:otherwise>
 			<spring:message code="login.conectado"
@@ -35,10 +37,12 @@
 	<br>
 	<table>
 		<c:if test="${not empty user}">
-			<tr>
-				<td><a href="editarDir"><spring:message
-							code="directorios.lista.crear" /></a></td>
-			</tr>
+			<c:if test="${user.tipo.id == 1 }">
+				<tr>
+					<td><a href="editarDir"><spring:message
+								code="directorios.lista.crear" /></a></td>
+				</tr>
+			</c:if>
 		</c:if>
 		<c:choose>
 			<c:when test="${empty directorios}">

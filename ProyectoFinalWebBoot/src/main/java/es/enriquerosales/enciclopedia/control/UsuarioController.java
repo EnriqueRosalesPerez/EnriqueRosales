@@ -17,13 +17,14 @@ import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.UsuarioService;
 
 /**
- * Clase controlador para realizar tareas relacionadas con el login.
+ * Clase controlador para realizar tareas relacionadas con Usuarios (login y
+ * registro).
  * 
  * @author Enrique Rosales
  *
  */
 @Controller
-public class LoginController {
+public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -38,6 +39,8 @@ public class LoginController {
 	private static final String ERROR = "error";
 	private static final String SUCCESS_POST = "redirect:/directorios";
 	private static final String ERROR_LOGIN = "formlogin";
+	private static final String SUCCESS_GET_REGISTRO = "formregistro";
+	private static final String ERROR_REGISTRO = "formregistro";
 
 	/**
 	 * Muestra el formulario de login.
@@ -47,10 +50,11 @@ public class LoginController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/login")
-	public String mostrarForm(Model model) {
+	public String mostrarLoginForm(Model model) {
 		try {
 			return SUCCESS_GET;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -84,8 +88,61 @@ public class LoginController {
 			session.setAttribute(ATT_USER, usuario);
 			return SUCCESS_POST;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
+		}
+	}
+
+	/**
+	 * Muestra el formulario de registro de usuario.
+	 * 
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la página de destino.
+	 */
+	@GetMapping(value = "/registro")
+	public String mostrarRegistroForm(Model model) {
+		try {
+			return SUCCESS_GET_REGISTRO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ATT_ERROR, e);
+			return ERROR;
+		}
+	}
+
+	/**
+	 * Intenta realizar el registro de un nuevo usuario.
+	 * 
+	 * @param username
+	 *            El nombre de usuario.
+	 * @param pass
+	 *            La contraseña.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @param session
+	 *            La sesión HTTP en ejecución.
+	 * @return Una cadena que representa la página de destino.
+	 */
+	@PostMapping(value = "/registro")
+	public String registrarUsuario(@RequestParam String username,
+			@RequestParam String pass, Model model, Locale locale, HttpSession session) {
+		try {
+			Usuario usuario = new Usuario();
+			usuario.setNombreUsuario(username);
+			usuario.setContrasenna(pass);
+			usuarioService.registrar(usuario);
+			// Una vez realizado el registro, se hace login con el usuario.
+			session.setAttribute(ATT_USER, usuario);
+			return SUCCESS_POST;
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ATT_ERROR,
+					messages.getMessage("registro.error", null, locale));
+			return ERROR_REGISTRO;
 		}
 	}
 
@@ -104,6 +161,7 @@ public class LoginController {
 			session.removeAttribute(ATT_USER);
 			return SUCCESS_POST;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}

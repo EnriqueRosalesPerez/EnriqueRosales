@@ -12,17 +12,29 @@ public interface UsuarioService {
 
 	/**
 	 * Intenta realizar un acceso en el sistema con el nombre de usuario y la
-	 * contraseña proporcionados.
+	 * contraseï¿½a proporcionados.
 	 * 
 	 * @param nombreUsuario
 	 *            El nombre de usuario del usuario que intenta acceder.
 	 * @param contrasenna
-	 *            La contraseña del usuario que intenta acceder.
+	 *            La contraseï¿½a del usuario que intenta acceder.
 	 * @return Una instancia de {@link Usuario} si los datos son correctos,
 	 *         {@code null} en cualquier otro caso.
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
 	 */
 	Usuario acceder(String nombreUsuario, String contrasenna) throws ServiceException;
+
+	/**
+	 * Registra un nuevo {@link Usuario} en el sistema. El tipo de este
+	 * {@link Usuario} serÃ¡ de usuario estÃ¡ndar (sin permisos para crear, eliminar o
+	 * modificar pÃ¡ginas).
+	 * 
+	 * @param usuario
+	 *            El {@link Usuario} a registrar.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
+	 */
+	void registrar(Usuario usuario) throws ServiceException;
 
 }

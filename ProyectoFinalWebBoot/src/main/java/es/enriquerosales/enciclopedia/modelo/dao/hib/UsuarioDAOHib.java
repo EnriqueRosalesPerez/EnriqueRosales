@@ -33,4 +33,14 @@ public class UsuarioDAOHib implements UsuarioDAO {
 		}
 	}
 
+	@Override
+	public void save(Usuario usuario) throws DAOException {
+		try {
+			sessionFactory.getCurrentSession().save(usuario);
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
+
+	}
+
 }

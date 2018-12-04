@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.enriquerosales.enciclopedia.modelo.TipoUsuario;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.UsuarioDAO;
@@ -31,6 +32,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
+	}
+
+	@Override
+	public void registrar(Usuario usuario) throws ServiceException {
+		try {
+			TipoUsuario tipoUsuario = new TipoUsuario();
+			// ID 2 - Usuario estándar
+			tipoUsuario.setId(2);
+			usuario.setTipo(tipoUsuario);
+			usuarioDAO.save(usuario);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+
 	}
 
 }

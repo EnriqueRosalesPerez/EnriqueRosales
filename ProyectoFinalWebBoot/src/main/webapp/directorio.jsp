@@ -13,12 +13,14 @@
 <body>
 	<a href="directorios"><spring:message code="directorio.salir" /></a>
 	<c:if test="${not empty user}">
-		<br>
-		<a href="editarDir?id=${directorio.id}"><spring:message
-				code="directorio.editar" /></a>
-		<br>
-		<a href="eliminarDir?id=${directorio.id}"><spring:message
-				code="directorio.eliminar" /></a>
+		<c:if test="${user.tipo.id == 1 }">
+			<br>
+			<a href="editarDir?id=${directorio.id}"><spring:message
+					code="directorio.editar" /></a>
+			<br>
+			<a href="eliminarDir?id=${directorio.id}"><spring:message
+					code="directorio.eliminar" /></a>
+		</c:if>
 	</c:if>
 	<br>
 	<br>
@@ -36,7 +38,9 @@
 			value="${directorio.annoFin}" /></i>
 	<br>
 	<br>
-	<div style="white-space: pre-wrap;"><c:out value="${directorio.descripcion}" /></div>
+	<div style="white-space: pre-wrap;">
+		<c:out value="${directorio.descripcion}" />
+	</div>
 	<br>
 	<form action="buscarPersonajes" method="GET">
 		<input type="hidden" name="dir" value="${directorio.id }" /> <input
@@ -51,8 +55,10 @@
 				<spring:message code="directorio.personajes.vacio" />
 			</h3>
 			<c:if test="${not empty user}">
-				<a href="editarPersonaje?dir=${directorio.id}"><spring:message
-						code="directorio.personajes.nuevo" /></a>
+				<c:if test="${user.tipo.id == 1}">
+					<a href="editarPersonaje?dir=${directorio.id}"><spring:message
+							code="directorio.personajes.nuevo" /></a>
+				</c:if>
 			</c:if>
 		</c:when>
 		<c:otherwise>
@@ -60,10 +66,12 @@
 				<spring:message code="directorio.personajes.titulo" />
 			</h3>
 			<c:if test="${not empty user}">
-				<a href="editarPersonaje?dir=${directorio.id}"><spring:message
-						code="directorio.personajes.nuevo" /></a>
-				<br>
-				<br>
+				<c:if test="${user.tipo.id == 1}">
+					<a href="editarPersonaje?dir=${directorio.id}"><spring:message
+							code="directorio.personajes.nuevo" /></a>
+					<br>
+					<br>
+				</c:if>
 			</c:if>
 			<table>
 				<tr>

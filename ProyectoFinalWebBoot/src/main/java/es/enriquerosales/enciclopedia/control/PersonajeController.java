@@ -73,6 +73,7 @@ public class PersonajeController {
 			model.addAttribute(ATT_PERSONAJE, personaje);
 			return SUCCESS_VER;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -115,6 +116,7 @@ public class PersonajeController {
 			model.addAttribute(ATT_DIR, dir);
 			return SUCCESS_FORM;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -160,6 +162,7 @@ public class PersonajeController {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -180,6 +183,7 @@ public class PersonajeController {
 			personajeService.eliminar(personaje);
 			return SUCCESS_INDEX;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}

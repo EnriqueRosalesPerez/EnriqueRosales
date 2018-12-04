@@ -64,6 +64,7 @@ public class DirectorioController {
 			model.addAttribute(ATT_DIRS, dirService.listar());
 			return SUCCESS_LIST;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -85,6 +86,7 @@ public class DirectorioController {
 			model.addAttribute(ATT_BUSQUEDA, s);
 			return SUCCESS_LIST;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -115,6 +117,7 @@ public class DirectorioController {
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(dir));
 			return SUCCESS_DIR;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -150,6 +153,7 @@ public class DirectorioController {
 			model.addAttribute(ATT_BUSQUEDA, s);
 			return SUCCESS_DIR;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -177,6 +181,7 @@ public class DirectorioController {
 			}
 			return SUCCESS_FORM;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -219,6 +224,7 @@ public class DirectorioController {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
@@ -239,6 +245,7 @@ public class DirectorioController {
 			dirService.eliminar(directorio);
 			return SUCCESS_INDEX;
 		} catch (Exception e) {
+			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}

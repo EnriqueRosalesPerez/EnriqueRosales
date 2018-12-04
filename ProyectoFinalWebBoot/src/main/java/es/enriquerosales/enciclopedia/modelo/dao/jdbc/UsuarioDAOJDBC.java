@@ -10,7 +10,7 @@ import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.UsuarioDAO;
 
 /**
- * Implementación con JDBC de {@link UsuarioDAO}.
+ * Implementaciï¿½n con JDBC de {@link UsuarioDAO}.
  * 
  * @author Enrique Rosales
  *
@@ -26,7 +26,8 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 	}
 
 	@Override
-	public Usuario findByNombreAndPass(String nombreUsuario, String contrasenna) throws DAOException {
+	public Usuario findByNombreAndPass(String nombreUsuario, String contrasenna)
+			throws DAOException {
 		if (dataSource == null) {
 			throw new DAOException("No se ha establecido un JDBCDataSource.");
 		}
@@ -57,6 +58,12 @@ public class UsuarioDAOJDBC implements UsuarioDAO {
 				throw new DAOException(e);
 			}
 		}
+	}
+
+	@Override
+	public void save(Usuario usuario) throws DAOException {
+		// TODO Auto-generated method stub
+
 	}
 
 	/**

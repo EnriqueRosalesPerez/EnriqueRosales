@@ -13,16 +13,27 @@ public interface UsuarioDAO {
 
 	/**
 	 * Busca un {@link Usuario} en el sistema a partir del nombre de usuario y la
-	 * contraseña proporcionados.
+	 * contraseï¿½a proporcionados.
 	 * 
 	 * @param nombreUsuario
 	 *            El nombre de usuario a buscar.
 	 * @param contrasenna
-	 *            La contraseña del usuario.
+	 *            La contraseï¿½a del usuario.
 	 * @return Una instancia de {@link Usuario}, o {@code null} si no existe.
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
-	Usuario findByNombreAndPass(String nombreUsuario, String contrasenna) throws DAOException;
+	Usuario findByNombreAndPass(String nombreUsuario, String contrasenna)
+			throws DAOException;
+
+	/**
+	 * AÃ±ade un nuevo {@link Usuario} al sistema.
+	 * 
+	 * @param usuario
+	 *            El {@link Usuario} a guardar.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
+	 */
+	void save(Usuario usuario) throws DAOException;
 
 }
