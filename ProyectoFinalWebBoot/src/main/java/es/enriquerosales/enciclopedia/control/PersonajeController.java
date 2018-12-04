@@ -50,7 +50,7 @@ public class PersonajeController {
 	private static final String ERROR = "error";
 
 	/**
-	 * Muestra la página de visualización de un Personaje.
+	 * Muestra la pï¿½gina de visualizaciï¿½n de un Personaje.
 	 */
 	@GetMapping(value = "/verPersonaje")
 	public String mostrarPersonaje(@RequestParam int id, Model model, Locale locale) {
@@ -78,6 +78,7 @@ public class PersonajeController {
 			@RequestParam Integer dir, Model model, Locale locale) {
 		try {
 			if (personaje.getId() != null) {
+				// Editando personaje existente
 				personaje = personajeService.buscar(personaje.getId());
 				if (personaje == null) {
 					// Personaje no encontrado
@@ -86,6 +87,8 @@ public class PersonajeController {
 					return ERROR;
 				}
 			} else {
+				// Creando nuevo personaje, se asigna el directorio al que va a
+				// pertenecer.
 				Directorio directorio = new Directorio();
 				directorio.setId(dir);
 				personaje.setDirectorio(directorio);
@@ -117,7 +120,7 @@ public class PersonajeController {
 				personajeService.crear(usuario, personaje);
 				return SUCCESS_INDEX;
 			} else {
-				// Editando personaje existente, asignando creador y fecha de creación
+				// Editando personaje existente, asignando creador y fecha de creaciï¿½n
 				// original.
 				Personaje antiguo = personajeService.buscar(personaje.getId());
 				personaje.setCreador(antiguo.getCreador());

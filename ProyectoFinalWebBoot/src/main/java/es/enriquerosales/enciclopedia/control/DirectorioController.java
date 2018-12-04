@@ -52,7 +52,11 @@ public class DirectorioController {
 	private static final String ERROR = "error";
 
 	/**
-	 * Muestra la página con el listado de todos los directorios.
+	 * Muestra la pï¿½gina con el listado de todos los directorios.
+	 * 
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la pÃ¡gina de destino.
 	 */
 	@GetMapping("/directorios")
 	public String mostrarListado(Model model) {
@@ -66,7 +70,11 @@ public class DirectorioController {
 	}
 
 	/**
-	 * Muestra el listado de directorios filtrado según un criterio de búsqueda.
+	 * Muestra el listado de directorios filtrado segï¿½n un criterio de bï¿½squeda.
+	 * 
+	 * @param s
+	 * @param model
+	 * @return
 	 */
 	@GetMapping("/buscarDir")
 	public String buscarDirectorios(@RequestParam String s, Model model) {
@@ -81,7 +89,7 @@ public class DirectorioController {
 	}
 
 	/**
-	 * Muestra la página de visualización de un Directorio.
+	 * Muestra la pï¿½gina de visualizaciï¿½n de un Directorio.
 	 */
 	@GetMapping(value = "/verDir")
 	public String mostrarDirectorio(@RequestParam int id, Model model, Locale locale) {
@@ -103,8 +111,8 @@ public class DirectorioController {
 	}
 
 	/**
-	 * Muestra el listado Personajes dentro de un directorio filtrado según un
-	 * criterio de búsqueda.
+	 * Muestra el listado Personajes dentro de un directorio filtrado segï¿½n un
+	 * criterio de bï¿½squeda.
 	 */
 	@GetMapping(value = "/buscarPersonajes")
 	public String buscarPersonajes(@RequestParam int dir, @RequestParam String s,
@@ -165,7 +173,7 @@ public class DirectorioController {
 				dirService.crear(usuario, directorio);
 				return SUCCESS_INDEX;
 			} else {
-				// Editando directorio existente, asignando creador y fecha de creación
+				// Editando directorio existente, asignando creador y fecha de creaciï¿½n
 				// original.
 				Directorio antiguo = dirService.buscar(directorio.getId());
 				directorio.setCreador(antiguo.getCreador());
