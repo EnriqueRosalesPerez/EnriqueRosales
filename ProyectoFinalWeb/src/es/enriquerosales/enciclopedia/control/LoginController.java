@@ -1,8 +1,11 @@
 package es.enriquerosales.enciclopedia.control;
 
+import java.util.Locale;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,9 @@ public class LoginController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private MessageSource messages;
 
 	private static final String ATT_ERROR = "error";
 	private static final String ATT_USER = "user";
@@ -51,13 +57,12 @@ public class LoginController {
 	 */
 	@PostMapping(value = "/login")
 	public String realizarLogin(@RequestParam String username, @RequestParam String pass,
-			Model model, HttpSession session) {
+			Model model, HttpSession session, Locale locale) {
 		try {
 			Usuario usuario = usuarioService.acceder(username, pass);
 			if (usuario == null) {
-				// TODO Usar Message en lugar de cadena literal
 				model.addAttribute(ATT_ERROR,
-						"Los datos introducidos no son correctos. Por favor, inténtelo de nuevo.");
+						messages.getMessage("login.error", null, locale));
 				return ERROR_LOGIN;
 			}
 			session.setAttribute(ATT_USER, usuario);

@@ -1,18 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login</title>
+<title><spring:message code="app.titulo.login" /></title>
 </head>
 <body>
 	<form action="login" method="POST">
-		<p>Nombre</p>
+		<p>
+			<spring:message code="login.nombre" />
+		</p>
 		<p>
 			<input type="text" name="username" />
 		</p>
-		<p>Contraseña</p>
+		<p>
+			<spring:message code="login.pass" />
+		</p>
 		<p>
 			<input type="password" name="pass" />
 		</p>
@@ -22,6 +27,6 @@
 	</form>
 	${error }
 	<br>
-	<a href=".">Atrás</a>
+	<a href="."><spring:message code="login.salir" /></a>
 </body>
 </html>

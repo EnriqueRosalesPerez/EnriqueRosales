@@ -1,46 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <c:choose>
-	<c:when test="${empty dir}">
-		<title>Creando directorio</title>
-		<title>Editando ${dir.nombre}</title>
+	<c:when test="${empty directorio.nombre}">
+		<title><spring:message code="directorio.form.titulo.nuevo" /></title>
 	</c:when>
 	<c:otherwise>
-		<title>Editando ${dir.nombre}</title>
+		<title><spring:message code="directorio.form.titulo.editar"
+				arguments="${directorio.nombre }" /></title>
 	</c:otherwise>
 </c:choose>
 </head>
 <body>
-	<form:form modelAttribute="directorio" method="POST" action="guardarDir">
-		<form:hidden path="id"/>
+	<form:form modelAttribute="directorio" method="POST"
+		action="guardarDir">
+		<form:hidden path="id" />
 		<table>
 			<tr>
-				<td>Nombre</td>
+				<td><spring:message code="directorio.form.nombre" /></td>
 				<td><form:input path="nombre" required="required" /></td>
 			</tr>
 			<tr>
-				<td>Año de inicio</td>
+				<td><spring:message code="directorio.form.inicio" /></td>
 				<td><form:input path="annoInicio" /></td>
 			</tr>
 			<tr>
-				<td>Año de fin</td>
+				<td><spring:message code="directorio.form.fin" /></td>
 				<td><form:input path="annoFin" /></td>
 			</tr>
 		</table>
-		Descripción <br>
+		<spring:message code="directorio.form.descripcion" />
+		<br>
 		<form:textarea path="descripcion" rows="4" cols="50"
 			value="${dir.descripcion}" />
 		<br>
-		<input type="submit" value="Guardar" />
+		<input type="submit"
+			value=<spring:message code="directorio.form.guardar" /> />
 		<br>
 		<br>
-		<a href="directorios">Atrás</a>
+		<a href="directorios"><spring:message code="directorio.form.salir" /></a>
 	</form:form>
 </body>
 </html>
