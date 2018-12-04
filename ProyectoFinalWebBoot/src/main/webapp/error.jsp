@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page errorPage="error.jsp"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title></title>
+<title><spring:message code="error.titulo" /></title>
 </head>
 <body>
-	<c:redirect url="/directorios" />
+	<spring:message code="error.generico" />
+	<br> ${error}
 </body>
 </html>
