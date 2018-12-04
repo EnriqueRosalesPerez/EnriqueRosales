@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +22,7 @@ public class Usuario {
 	private Integer id;
 	private String nombreUsuario;
 	private String contrasenna;
+	private TipoUsuario tipo;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +50,16 @@ public class Usuario {
 
 	public void setContrasenna(String contrasenna) {
 		this.contrasenna = contrasenna;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "tipoUsuarioId", nullable = false)
+	public TipoUsuario getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoUsuario tipo) {
+		this.tipo = tipo;
 	}
 
 }
