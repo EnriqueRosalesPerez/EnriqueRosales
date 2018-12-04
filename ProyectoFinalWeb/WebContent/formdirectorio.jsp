@@ -24,7 +24,8 @@
 		<table>
 			<tr>
 				<td><spring:message code="directorio.form.nombre" /></td>
-				<td><form:input path="nombre" required="required" /></td>
+				<td><form:input path="nombre" />
+					<form:errors path="nombre" cssClass="error" /></td>
 			</tr>
 			<tr>
 				<td><spring:message code="directorio.form.inicio" /></td>

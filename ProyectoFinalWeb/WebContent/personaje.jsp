@@ -14,8 +14,7 @@
 			code="personaje.salir" /></a>
 	<c:if test="${not empty user}">
 		<br>
-		<a
-			href="editarPersonaje?id=${personaje.id}&dir=${personaje.directorio.id}"><spring:message
+		<a href="editarPersonaje?id=${personaje.id}&dir=${personaje.directorio.id}"><spring:message
 				code="personaje.editar" /></a>
 		<br>
 		<a href="eliminarPersonaje?id=${personaje.id}"><spring:message
@@ -34,6 +33,8 @@
 	<i>${personaje.annoNacimiento } - ${personaje.annoMuerte }</i>
 	<br>
 	<br>
-	<div style="white-space: pre-wrap;"><c:out value="${personaje.biografia}" /></div>
+	<div style="white-space: pre-wrap;">
+		<c:out value="${personaje.biografia}" />
+	</div>
 </body>
 </html>

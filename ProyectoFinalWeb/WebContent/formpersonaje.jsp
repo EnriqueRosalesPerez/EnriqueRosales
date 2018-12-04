@@ -20,13 +20,13 @@
 <body>
 	<form:form modelAttribute="personaje" method="POST"
 		action="guardarPersonaje">
-		<input type="hidden" name="dir" id="dir" value="${dir}" />
+		<input type="hidden" name="dir" id="dir" value="${personaje.directorio.id}" />
 		<form:hidden path="id" />
-		<!-- TODO Directorio como campo oculto -->
 		<table>
 			<tr>
 				<td><spring:message code="personaje.form.nombre" /></td>
-				<td><form:input path="nombre" required="required" /></td>
+				<td><form:input path="nombre" />
+					<form:errors path="nombre" cssClass="error" /></td>
 			</tr>
 			<tr>
 				<td><spring:message code="personaje.form.nacimiento" /></td>

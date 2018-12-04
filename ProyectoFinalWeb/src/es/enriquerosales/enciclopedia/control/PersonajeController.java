@@ -1,15 +1,18 @@
 package es.enriquerosales.enciclopedia.control;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
@@ -47,6 +50,10 @@ public class PersonajeController {
 	public String mostrarPersonaje(@RequestParam int id, Model model) {
 		try {
 			Personaje personaje = personajeService.buscar(id);
+			if (personaje == null) {
+				// Personaje no encontrado
+				return ERROR;
+			}
 			model.addAttribute(ATT_PERSONAJE, personaje);
 			return SUCCESS_VER;
 		} catch (Exception e) {
@@ -60,12 +67,20 @@ public class PersonajeController {
 	 */
 	@GetMapping(value = "/editarPersonaje")
 	public String mostrarFormulario(@ModelAttribute Personaje personaje,
-			@RequestParam int dir, Model model) {
+			@RequestParam Integer dir, Model model) {
 		try {
 			if (personaje.getId() != null) {
 				personaje = personajeService.buscar(personaje.getId());
-				model.addAttribute(ATT_PERSONAJE, personaje);
+				if (personaje == null) {
+					// Personaje no encontrado
+					return ERROR;
+				}
+			} else {
+				Directorio directorio = new Directorio();
+				directorio.setId(dir);
+				personaje.setDirectorio(directorio);
 			}
+			model.addAttribute(ATT_PERSONAJE, personaje);
 			model.addAttribute(ATT_DIR, dir);
 			return SUCCESS_FORM;
 		} catch (Exception e) {
@@ -79,9 +94,12 @@ public class PersonajeController {
 	 * editado.
 	 */
 	@PostMapping(value = "/guardarPersonaje")
-	public String guardarPersonaje(@ModelAttribute Personaje personaje,
-			@RequestParam int dir, Model model, HttpSession session) {
+	public String guardarPersonaje(@Valid Personaje personaje, BindingResult result,
+			@RequestParam Integer dir, Model model, HttpSession session) {
 		try {
+			if (result.hasErrors()) {
+				return SUCCESS_FORM;
+			}
 			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);
 			personaje.setDirectorio(dirService.buscar(dir));
 			if (personaje.getId() == null) {

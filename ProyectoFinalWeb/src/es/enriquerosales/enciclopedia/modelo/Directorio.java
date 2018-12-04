@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Clase POJO que representa un directorio del sistema. Un directorio refiere a
@@ -42,6 +43,7 @@ public class Directorio {
 		this.id = id;
 	}
 
+	@NotEmpty
 	@Column(name = "nombre", nullable = false)
 	public String getNombre() {
 		return nombre;

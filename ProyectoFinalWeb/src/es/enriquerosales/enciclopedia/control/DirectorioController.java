@@ -1,10 +1,12 @@
 package es.enriquerosales.enciclopedia.control;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,6 +81,10 @@ public class DirectorioController {
 	public String mostrarDirectorio(@RequestParam int id, Model model) {
 		try {
 			Directorio dir = dirService.buscar(id);
+			if (dir == null) {
+				// Directorio no encontrado
+				return ERROR;
+			}
 			model.addAttribute(ATT_DIR, dir);
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(dir));
 			return SUCCESS_DIR;
@@ -97,6 +103,10 @@ public class DirectorioController {
 			Model model) {
 		try {
 			Directorio directorio = dirService.buscar(dir);
+			if (directorio == null) {
+				// Directorio no encontrado
+				return ERROR;
+			}
 			model.addAttribute(ATT_DIR, directorio);
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(directorio, s));
 			model.addAttribute(ATT_BUSQUEDA, s);
@@ -115,6 +125,10 @@ public class DirectorioController {
 		try {
 			if (directorio.getId() != null) {
 				directorio = dirService.buscar(directorio.getId());
+				if (directorio == null) {
+					// Directorio no encontrado
+					return ERROR;
+				}
 				model.addAttribute(ATT_DIR, directorio);
 			}
 			return SUCCESS_FORM;
@@ -129,9 +143,12 @@ public class DirectorioController {
 	 * editado.
 	 */
 	@PostMapping(value = "/guardarDir")
-	public String guardarDirectorio(@ModelAttribute Directorio directorio, Model model,
-			HttpSession session) {
+	public String guardarDirectorio(@Valid Directorio directorio, BindingResult result,
+			Model model, HttpSession session) {
 		try {
+			if (result.hasErrors()) {
+				return SUCCESS_FORM;
+			}
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			if (directorio.getId() == null) {
 				// Creando nuevo directorio
