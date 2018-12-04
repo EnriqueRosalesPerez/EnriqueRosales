@@ -4,17 +4,19 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.DirectorioDAO;
 
 /**
- * Implementación con Hibernate de {@link DirectorioDAO}.
+ * Implementaciï¿½n con Hibernate de {@link DirectorioDAO}.
  * 
  * @author Enrique Rosales
  *
  */
+@Repository
 public class DirectorioDAOHib implements DirectorioDAO {
 
 	@Autowired
@@ -37,7 +39,7 @@ public class DirectorioDAOHib implements DirectorioDAO {
 		try {
 			String hql = "FROM Directorio WHERE nombre LIKE :nombre";
 			return sessionFactory.getCurrentSession().createQuery(hql)
-					.setString("nombre", "%" + filtroNombre + "%").list();
+					.setParameter("nombre", "%" + filtroNombre + "%").list();
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}

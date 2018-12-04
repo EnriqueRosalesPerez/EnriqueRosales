@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +19,12 @@ import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 import es.enriquerosales.enciclopedia.servicio.ServiceException;
 
 /**
- * Implementación de {@link PersonajeService}.
+ * Implementaciï¿½n de {@link PersonajeService}.
  * 
  * @author Enrique Rosales
  *
  */
+@Service
 @Transactional
 public class PersonajeServiceImpl implements PersonajeService {
 
@@ -110,10 +112,10 @@ public class PersonajeServiceImpl implements PersonajeService {
 
 	/**
 	 * Crea y guarda una instancia de {@link EdicionPersonaje} a partir de los
-	 * parámetros obtenidos con la fecha actual.
+	 * parï¿½metros obtenidos con la fecha actual.
 	 * 
 	 * @param editor
-	 *            El {@link Usuario} que está realizando la edición.
+	 *            El {@link Usuario} que estï¿½ realizando la ediciï¿½n.
 	 * @param directorio
 	 *            El {@link Personaje} que ha sido editado.
 	 * @throws DAOException

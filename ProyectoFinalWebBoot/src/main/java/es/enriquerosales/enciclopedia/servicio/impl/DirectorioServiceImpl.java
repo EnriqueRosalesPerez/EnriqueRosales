@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,12 @@ import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 import es.enriquerosales.enciclopedia.servicio.ServiceException;
 
 /**
- * Implementación de {@link DirectorioService}.
+ * Implementaciï¿½n de {@link DirectorioService}.
  * 
  * @author Enrique Rosales
  *
  */
+@Service
 @Transactional
 public class DirectorioServiceImpl implements DirectorioService {
 
@@ -90,10 +92,10 @@ public class DirectorioServiceImpl implements DirectorioService {
 
 	/**
 	 * Crea y guarda una instancia de {@link EdicionDirectorio} a partir de los
-	 * parámetros obtenidos con la fecha actual.
+	 * parï¿½metros obtenidos con la fecha actual.
 	 * 
 	 * @param editor
-	 *            El {@link Usuario} que está realizando la edición.
+	 *            El {@link Usuario} que estï¿½ realizando la ediciï¿½n.
 	 * @param directorio
 	 *            El {@link Directorio} que ha sido editado.
 	 * @throws DAOException

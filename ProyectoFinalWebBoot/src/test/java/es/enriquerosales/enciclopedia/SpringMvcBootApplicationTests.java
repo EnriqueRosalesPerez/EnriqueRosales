@@ -1,4 +1,4 @@
-package es.hubiqus.inventario;
+package es.enriquerosales.enciclopedia;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

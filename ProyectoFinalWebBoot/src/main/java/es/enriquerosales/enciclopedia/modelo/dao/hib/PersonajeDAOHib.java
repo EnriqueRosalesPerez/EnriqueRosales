@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
@@ -11,11 +12,12 @@ import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.PersonajeDAO;
 
 /**
- * Implementación con Hibernate de {@link PersonajeDAO}.
+ * Implementaciï¿½n con Hibernate de {@link PersonajeDAO}.
  * 
  * @author Enrique Rosales
  *
  */
+@Repository
 public class PersonajeDAOHib implements PersonajeDAO {
 
 	@Autowired
@@ -38,7 +40,7 @@ public class PersonajeDAOHib implements PersonajeDAO {
 		try {
 			String hql = "FROM Personaje WHERE nombre LIKE :nombre";
 			return sessionFactory.getCurrentSession().createQuery(hql)
-					.setString("nombre", "%" + filtroNombre + "%").list();
+					.setParameter("nombre", "%" + filtroNombre + "%").list();
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}
@@ -50,7 +52,7 @@ public class PersonajeDAOHib implements PersonajeDAO {
 		try {
 			String hql = "FROM Personaje WHERE directorio.id = :dir";
 			return sessionFactory.getCurrentSession().createQuery(hql)
-					.setInteger("dir", directorio.getId()).list();
+					.setParameter("dir", directorio.getId()).list();
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}
@@ -63,8 +65,8 @@ public class PersonajeDAOHib implements PersonajeDAO {
 		try {
 			String hql = "FROM Personaje WHERE directorio.id = :dir AND nombre LIKE :nombre";
 			return sessionFactory.getCurrentSession().createQuery(hql)
-					.setInteger("dir", directorio.getId())
-					.setString("nombre", "%" + filtroNombre + "%").list();
+					.setParameter("dir", directorio.getId())
+					.setParameter("nombre", "%" + filtroNombre + "%").list();
 		} catch (Exception e) {
 			throw new DAOException(e);
 		}

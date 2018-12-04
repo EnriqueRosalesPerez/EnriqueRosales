@@ -1,6 +1,7 @@
 package es.enriquerosales.enciclopedia.servicio.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.enriquerosales.enciclopedia.modelo.Usuario;
@@ -10,11 +11,12 @@ import es.enriquerosales.enciclopedia.servicio.ServiceException;
 import es.enriquerosales.enciclopedia.servicio.UsuarioService;
 
 /**
- * Implementación de {@link UsuarioService}.
+ * Implementaciï¿½n de {@link UsuarioService}.
  * 
  * @author Enrique Rosales
  *
  */
+@Service
 @Transactional
 public class UsuarioServiceImpl implements UsuarioService {
 
