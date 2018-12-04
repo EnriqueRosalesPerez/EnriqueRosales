@@ -41,6 +41,10 @@ public class LoginController {
 
 	/**
 	 * Muestra el formulario de login.
+	 * 
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/login")
 	public String mostrarForm(Model model) {
@@ -54,6 +58,18 @@ public class LoginController {
 
 	/**
 	 * Intenta realizar el login del usuario.
+	 * 
+	 * @param username
+	 *            El nombre de usuario.
+	 * @param pass
+	 *            La contraseña.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param session
+	 *            La sesión HTTP en ejecución.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/login")
 	public String realizarLogin(@RequestParam String username, @RequestParam String pass,
@@ -74,7 +90,13 @@ public class LoginController {
 	}
 
 	/**
-	 * Desconecta al usuario que est� conectado.
+	 * Desconecta al usuario que est� conectado.
+	 * 
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param session
+	 *            La sesión HTTP en ejecución.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@RequestMapping(value = "/logout")
 	public String desconectar(Model model, HttpSession session) {

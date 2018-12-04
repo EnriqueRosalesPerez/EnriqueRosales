@@ -51,6 +51,14 @@ public class PersonajeController {
 
 	/**
 	 * Muestra la p�gina de visualizaci�n de un Personaje.
+	 * 
+	 * @param id
+	 *            El ID del Personaje a visualizar.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/verPersonaje")
 	public String mostrarPersonaje(@RequestParam int id, Model model, Locale locale) {
@@ -72,6 +80,16 @@ public class PersonajeController {
 
 	/**
 	 * Muestra el formulario para crear o editar un Personaje.
+	 * 
+	 * @param personaje
+	 *            El Personaje que se va a editar, puede ser nuevo o existente.
+	 * @param dir
+	 *            El ID del Directorio al que pertenece el Personaje.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/editarPersonaje")
 	public String mostrarFormulario(@ModelAttribute Personaje personaje,
@@ -105,6 +123,18 @@ public class PersonajeController {
 	/**
 	 * Guarda un Personaje en el sistema, teniendo en cuenta que puede ser nuevo o
 	 * editado.
+	 * 
+	 * @param personaje
+	 *            El Personaje que se va a guardar, puede ser nuevo o existente.
+	 * @param result
+	 *            Interfaz que representa el resultado del formulario.
+	 * @param dir
+	 *            El ID del Directorio al que pertenece el Personaje.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param session
+	 *            La sesión HTTP en ejecución.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/guardarPersonaje")
 	public String guardarPersonaje(@Valid Personaje personaje, BindingResult result,
@@ -137,6 +167,12 @@ public class PersonajeController {
 
 	/**
 	 * Elimina un Personaje del sistema.
+	 * 
+	 * @param personaje
+	 *            El Personaje a eliminar.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/eliminarPersonaje")
 	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model) {

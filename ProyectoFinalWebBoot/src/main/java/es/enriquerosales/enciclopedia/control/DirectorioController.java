@@ -73,8 +73,10 @@ public class DirectorioController {
 	 * Muestra el listado de directorios filtrado seg�n un criterio de b�squeda.
 	 * 
 	 * @param s
+	 *            El parámetro de búsqueda.
 	 * @param model
-	 * @return
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping("/buscarDir")
 	public String buscarDirectorios(@RequestParam String s, Model model) {
@@ -90,6 +92,14 @@ public class DirectorioController {
 
 	/**
 	 * Muestra la p�gina de visualizaci�n de un Directorio.
+	 * 
+	 * @param id
+	 *            El ID del Directorio a visualizar.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/verDir")
 	public String mostrarDirectorio(@RequestParam int id, Model model, Locale locale) {
@@ -113,6 +123,16 @@ public class DirectorioController {
 	/**
 	 * Muestra el listado Personajes dentro de un directorio filtrado seg�n un
 	 * criterio de b�squeda.
+	 * 
+	 * @param dir
+	 *            El ID del Directorio donde se realiza la búsqueda.
+	 * @param s
+	 *            El parámetro de búsqueda.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/buscarPersonajes")
 	public String buscarPersonajes(@RequestParam int dir, @RequestParam String s,
@@ -137,6 +157,12 @@ public class DirectorioController {
 
 	/**
 	 * Muestra el formulario para crear o editar un Directorio.
+	 * 
+	 * @param directorio
+	 *            El Directorio que se esté editando, puede ser nuevo o existente.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/editarDir")
 	public String mostrarFormulario(@ModelAttribute Directorio directorio, Model model) {
@@ -159,6 +185,16 @@ public class DirectorioController {
 	/**
 	 * Guarda un Directorio en el sistema, teniendo en cuenta que puede ser nuevo o
 	 * editado.
+	 * 
+	 * @param directorio
+	 *            El Directorio que se esté guardando, puede ser nuevo o existente.
+	 * @param result
+	 *            Interfaz que representa el resultado del formulario.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param session
+	 *            La sesión HTTP en ejecución.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/guardarDir")
 	public String guardarDirectorio(@Valid Directorio directorio, BindingResult result,
@@ -190,6 +226,12 @@ public class DirectorioController {
 
 	/**
 	 * Elimina un Directorio del sistema.
+	 * 
+	 * @param directorio
+	 *            El Directorio que se esté eliminando.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/eliminarDir")
 	public String eliminarDirectorio(@ModelAttribute Directorio directorio, Model model) {
