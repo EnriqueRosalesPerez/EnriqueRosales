@@ -40,5 +40,49 @@
 	<div style="white-space: pre-wrap;">
 		<c:out value="${personaje.biografia}" />
 	</div>
+	<br>
+	<br>
+	<h3>
+		<spring:message code="personaje.comentarios.titulo" />
+	</h3>
+	<c:if test="${not empty user }">
+		<form action="publicar" method="POST">
+			<spring:message code="personaje.comentarios.publicar" />
+			<br> <input type="hidden" name="personajeid" id="personajeid"
+				value="${personaje.id }" />
+			<textarea name="comentario" id="comentario" rows="4" cols="50"></textarea>
+			<br> <input type="submit"
+				value=<spring:message code="personaje.comentarios.guardar" /> />
+		</form>
+		<br>
+	</c:if>
+	<c:choose>
+		<c:when test="${empty personaje.comentarios }">
+			<i><spring:message code="personaje.comentarios.vacio" /></i>
+		</c:when>
+		<c:otherwise>
+			<c:forEach items="${personaje.comentarios }" var="comentario">
+				<c:if test="${not empty user }">
+					<c:if test="${user.tipo.id == 1 }">
+						<a
+							href="eliminarComentario?id=${comentario.id}&personaje=${personaje.id}"><spring:message
+								code="personaje.comentarios.eliminar" /></a>
+					</c:if>
+				</c:if>
+				<br>
+				<fmt:formatDate type="BOTH" pattern="dd/MM/yyyy HH:mm"
+					value="${comentario.fechaPublicacion}" />
+				<br>
+				<spring:message code="personaje.comentarios.usuario"
+					arguments="${comentario.usuario.nombreUsuario }" />
+				<br>
+				<br>
+			${comentario.comentario }
+			<br>
+				<hr>
+				<br>
+			</c:forEach>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

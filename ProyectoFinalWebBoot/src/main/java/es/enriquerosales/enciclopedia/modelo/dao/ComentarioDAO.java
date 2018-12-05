@@ -31,4 +31,16 @@ public interface ComentarioDAO {
 	 */
 	void delete(Comentario comentario) throws DAOException;
 
+	/**
+	 * Devuelve un {@link Comentario} dado su ID.
+	 * 
+	 * @param id
+	 *            El ID del {@link Comentario} a buscar.
+	 * @return El {@link Comentario} con el ID proporcionado, o {@code null} si no
+	 *         se encuentra.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
+	 */
+	Comentario findById(int id) throws DAOException;
+
 }
