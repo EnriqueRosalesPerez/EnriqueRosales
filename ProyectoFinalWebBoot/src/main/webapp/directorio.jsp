@@ -9,13 +9,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><c:out value="${directorio.nombre}" /></title>
-<script>
-	function confirmarBorrado() {
-		if (confirm("")) {
-
-		}
-	}
-</script>
 </head>
 <body>
 	<a href="directorios"><spring:message code="directorio.salir" /></a>
