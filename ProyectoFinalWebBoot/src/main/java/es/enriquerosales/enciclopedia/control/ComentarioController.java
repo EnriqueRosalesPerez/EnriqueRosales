@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -44,6 +45,7 @@ public class ComentarioController {
 			personaje.setId(personajeid);
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			comentarioService.publicar(usuario, personaje, comentario);
+			// Volver a la página donde se estaba
 			return "redirect:/verPersonaje?id=" + personajeid;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,12 +53,21 @@ public class ComentarioController {
 		}
 	}
 
+	/**
+	 * Elimina un {@link Comentario}.
+	 * 
+	 * @param comentario
+	 *            El {@link Comentario} a eliminar.
+	 * @param personaje
+	 *            El ID del {@link Personaje} en el que se está.
+	 * @return Una cadena que representa la página de destino.
+	 */
 	@GetMapping("/eliminarComentario")
-	public String eliminar(@RequestParam Integer id, @RequestParam Integer personaje) {
+	public String eliminar(@ModelAttribute Comentario comentario,
+			@RequestParam Integer personaje) {
 		try {
-			Comentario comentario = new Comentario();
-			comentario.setId(id);
 			comentarioService.eliminar(comentario);
+			// Volver a la página donde se estaba
 			return "redirect:/verPersonaje?id=" + personaje;
 		} catch (Exception e) {
 			e.printStackTrace();
