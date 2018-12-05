@@ -9,6 +9,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><c:out value="${directorio.nombre}" /></title>
+<script>
+	function confirmarBorrado() {
+		if (confirm("")) {
+
+		}
+	}
+</script>
 </head>
 <body>
 	<a href="directorios"><spring:message code="directorio.salir" /></a>
@@ -18,8 +25,11 @@
 			<a href="editarDir?id=${directorio.id}"><spring:message
 					code="directorio.editar" /></a>
 			<br>
-			<a href="eliminarDir?id=${directorio.id}"><spring:message
-					code="directorio.eliminar" /></a>
+			<a href="eliminarDir?id=${directorio.id}"
+				onclick="return window.confirm(
+				'<spring:message code="directorio.eliminar.confirmar"/>'
+				)">
+				<spring:message	code="directorio.eliminar" /></a>
 		</c:if>
 	</c:if>
 	${error }
@@ -39,9 +49,7 @@
 			value="${directorio.annoFin}" /></i>
 	<br>
 	<br>
-	<div style="white-space: pre-wrap;">
-		<c:out value="${directorio.descripcion}" />
-	</div>
+	<div style="white-space: pre-wrap;"><c:out value="${directorio.descripcion}" /></div>
 	<br>
 	<form action="buscarPersonajes" method="GET">
 		<input type="hidden" name="dir" value="${directorio.id }" /> <input

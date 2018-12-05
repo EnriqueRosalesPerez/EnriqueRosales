@@ -20,7 +20,10 @@
 				href="editarPersonaje?id=${personaje.id}&dir=${personaje.directorio.id}"><spring:message
 					code="personaje.editar" /></a>
 			<br>
-			<a href="eliminarPersonaje?id=${personaje.id}"><spring:message
+			<a href="eliminarPersonaje?id=${personaje.id}"
+				onclick="return window.confirm(
+				'<spring:message code="personaje.eliminar.confirmar"/>'
+				)"><spring:message
 					code="personaje.eliminar" /></a>
 		</c:if>
 	</c:if>
@@ -37,9 +40,7 @@
 	<i>${personaje.annoNacimiento } - ${personaje.annoMuerte }</i>
 	<br>
 	<br>
-	<div style="white-space: pre-wrap;">
-		<c:out value="${personaje.biografia}" />
-	</div>
+	<div style="white-space: pre-wrap;"><c:out value="${personaje.biografia}" /></div>
 	<br>
 	<br>
 	<h3>
