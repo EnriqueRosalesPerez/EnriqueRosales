@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.AssertionFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -140,9 +141,16 @@ public class UsuarioController {
 			return SUCCESS_POST;
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute(ATT_ERROR,
-					messages.getMessage("registro.error", null, locale));
-			return ERROR_REGISTRO;
+			if (e instanceof AssertionFailure) {
+				// Nombre de usuario introducido ya existente
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("registro.error.usuarioexistente", null, locale));
+				return ERROR_REGISTRO;
+			} else {
+				model.addAttribute(ATT_ERROR,
+						messages.getMessage("registro.error", null, locale));
+				return ERROR;
+			}
 		}
 	}
 

@@ -22,6 +22,7 @@
 					code="directorio.eliminar" /></a>
 		</c:if>
 	</c:if>
+	${error }
 	<br>
 	<br>
 	<i><spring:message code="directorio.creado">

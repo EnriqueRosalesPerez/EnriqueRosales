@@ -34,7 +34,7 @@ public class Usuario {
 		this.id = id;
 	}
 
-	@Column(name = "nombreUsuario", nullable = false)
+	@Column(name = "nombreUsuario", nullable = false, unique = true)
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}

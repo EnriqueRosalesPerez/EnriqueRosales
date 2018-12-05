@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -240,12 +241,19 @@ public class DirectorioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/eliminarDir")
-	public String eliminarDirectorio(@ModelAttribute Directorio directorio, Model model) {
+	public String eliminarDirectorio(@ModelAttribute Directorio directorio, Model model,
+			Locale locale) {
 		try {
 			dirService.eliminar(directorio);
 			return SUCCESS_INDEX;
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (e instanceof DataIntegrityViolationException) {
+				// Se está intentando eliminar un Directorio que tiene personajes dentro.
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.directorio.eliminar.novacio", null, locale));
+				return "forward:/verDir?id=" + directorio.getId();
+			}
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
