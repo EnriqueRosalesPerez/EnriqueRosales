@@ -66,7 +66,7 @@
 				<c:if test="${not empty user }">
 					<c:if test="${user.tipo.id == 1 }">
 						<a
-							href="eliminarComentario?id=${comentario.id}&personaje=${personaje.id}"><spring:message
+							href="eliminarComentario?id=${comentario.id}&personajeid=${personaje.id}"><spring:message
 								code="personaje.comentarios.eliminar" /></a>
 					</c:if>
 				</c:if>

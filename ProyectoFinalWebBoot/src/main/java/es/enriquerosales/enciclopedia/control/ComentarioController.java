@@ -64,11 +64,11 @@ public class ComentarioController {
 	 */
 	@GetMapping("/eliminarComentario")
 	public String eliminar(@ModelAttribute Comentario comentario,
-			@RequestParam Integer personaje) {
+			@RequestParam Integer personajeid) {
 		try {
 			comentarioService.eliminar(comentario);
 			// Volver a la página donde se estaba
-			return "redirect:/verPersonaje?id=" + personaje;
+			return "redirect:/verPersonaje?id=" + personajeid;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
