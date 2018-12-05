@@ -180,6 +180,7 @@ public class PersonajeController {
 	@GetMapping(value = "/eliminarPersonaje")
 	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model) {
 		try {
+			// TODO Regresar a la página de Directorio, en vez de al inicio.
 			personajeService.eliminar(personaje);
 			return SUCCESS_INDEX;
 		} catch (Exception e) {
