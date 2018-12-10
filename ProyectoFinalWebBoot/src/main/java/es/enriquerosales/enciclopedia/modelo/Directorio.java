@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * Clase POJO que representa un directorio del sistema. Un directorio refiere a
- * un período histórico bajo el que se sitúan los objetos {@link Personaje}.
+ * un perï¿½odo histï¿½rico bajo el que se sitï¿½an los objetos {@link Personaje}.
  * 
  * @author Enrique Rosales
  *
