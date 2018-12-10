@@ -39,6 +39,13 @@
 	<h1>${personaje.nombre}</h1>
 	<i>${personaje.annoNacimiento } - ${personaje.annoMuerte }</i>
 	<br>
+	<h3>Afiliaciones</h3>
+	<ul>
+		<c:forEach items="${personaje.afiliaciones }" var="afiliacion">
+			<li>${afiliacion.nombre }</li>
+		</c:forEach>
+	</ul>
+	<br>
 	<br>
 	<div style="white-space: pre-wrap;"><c:out value="${personaje.biografia}" /></div>
 	<br>
