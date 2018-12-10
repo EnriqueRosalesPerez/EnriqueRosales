@@ -21,8 +21,7 @@
 <body>
 	<form:form modelAttribute="personaje" method="POST"
 		action="guardarPersonaje">
-		<input type="hidden" name="dir" id="dir"
-			value="${personaje.directorio.id}" />
+		<form:hidden path="directorio.id"/>
 		<form:hidden path="id" />
 		<table>
 			<tr>
@@ -47,7 +46,7 @@
 		<input type="submit" value="Guardar" />
 		<br>
 		<br>
-		<a href="verDir?id=${dir }"><spring:message
+		<a href="verDir?id=${personaje.directorio.id }"><spring:message
 				code="personaje.form.salir" /></a>
 	</form:form>
 </body>

@@ -40,7 +40,7 @@
 		<spring:message code="directorio.form.descripcion" />
 		<br>
 		<form:textarea path="descripcion" rows="4" cols="50"
-			value="${dir.descripcion}" />
+			value="${directorio.descripcion}" />
 		<br>
 		<input type="submit"
 			value=<spring:message code="directorio.form.guardar" /> />

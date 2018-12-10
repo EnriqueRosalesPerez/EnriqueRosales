@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
-import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 
 /**
@@ -32,9 +31,6 @@ public class PersonajeController {
 
 	@Autowired
 	private PersonajeService personajeService;
-
-	@Autowired
-	private DirectorioService dirService;
 
 	@Autowired
 	private MessageSource messages;
@@ -140,17 +136,15 @@ public class PersonajeController {
 	 */
 	@PostMapping(value = "/guardarPersonaje")
 	public String guardarPersonaje(@Valid Personaje personaje, BindingResult result,
-			@RequestParam Integer dir, Model model, HttpSession session) {
+			Model model, HttpSession session) {
 		try {
 			if (result.hasErrors()) {
 				return SUCCESS_FORM;
 			}
 			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);
-			personaje.setDirectorio(dirService.buscar(dir));
 			if (personaje.getId() == null) {
 				// Creando nuevo personaje
 				personajeService.crear(usuario, personaje);
-				return SUCCESS_INDEX;
 			} else {
 				// Editando personaje existente, asignando creador y fecha de creaci�n
 				// original.
@@ -158,8 +152,10 @@ public class PersonajeController {
 				personaje.setCreador(antiguo.getCreador());
 				personaje.setFechaCreacion(antiguo.getFechaCreacion());
 				personajeService.editar(usuario, personaje);
-				return "redirect:/verPersonaje?id=" + personaje.getId() + "&dir=" + dir;
+
 			}
+			return "redirect:/verPersonaje?id=" + personaje.getId() + "&dir="
+					+ personaje.getDirectorio().getId();
 
 		} catch (Exception e) {
 			e.printStackTrace();
