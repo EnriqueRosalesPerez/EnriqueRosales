@@ -18,6 +18,47 @@ USE `proyectoenciclopedia`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `afiliaciones`
+--
+
+DROP TABLE IF EXISTS `afiliaciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `afiliaciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` text,
+  `idDirectorio` int(11) NOT NULL,
+  `idCreador` int(11) NOT NULL,
+  `fechaCreacion` timestamp NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_afiliaciones_directorios_idDirectorio_idx` (`idDirectorio`),
+  KEY `FK_afiliaciones_usuarios_idCreador_idx` (`idCreador`),
+  CONSTRAINT `FK_afiliaciones_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`),
+  CONSTRAINT `FK_afiliaciones_usuarios_idCreador` FOREIGN KEY (`idCreador`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `afiliaciones_personajes`
+--
+
+DROP TABLE IF EXISTS `afiliaciones_personajes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `afiliaciones_personajes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAfiliacion` int(11) NOT NULL,
+  `idPersonaje` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_afiliaciones_personajes_afiliaciones_idAfiliacion_idx` (`idAfiliacion`),
+  KEY `FK_afiliaciones_personajes_personajes_idPersonaje_idx` (`idPersonaje`),
+  CONSTRAINT `FK_afiliaciones_personajes_afiliaciones_idAfiliacion` FOREIGN KEY (`idAfiliacion`) REFERENCES `afiliaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_afiliaciones_personajes_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `comentarios`
 --
 
@@ -35,7 +76,7 @@ CREATE TABLE `comentarios` (
   KEY `FK_comentarios_personajes_idPersonaje_idx` (`idPersonaje`),
   CONSTRAINT `FK_comentarios_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_comentarios_usuarios_idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +97,27 @@ CREATE TABLE `directorios` (
   PRIMARY KEY (`id`),
   KEY `FK_directorios_usuarios_idCreador_idx` (`idCreador`),
   CONSTRAINT `FK_directorios_usuarios_idCreador` FOREIGN KEY (`idCreador`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `edicionesafiliaciones`
+--
+
+DROP TABLE IF EXISTS `edicionesafiliaciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `edicionesafiliaciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAfiliacion` int(11) NOT NULL,
+  `idEditor` int(11) NOT NULL,
+  `fechaEdicion` timestamp NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_edicionesafiliaciones_afiliaciones_idAfiliacion_idx` (`idAfiliacion`),
+  KEY `FK_edicionesafiliaciones_usuarios_idEditor_idx` (`idEditor`),
+  CONSTRAINT `FK_edicionesafiliaciones_afiliaciones_idAfiliacion` FOREIGN KEY (`idAfiliacion`) REFERENCES `afiliaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_edicionesafiliaciones_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +137,7 @@ CREATE TABLE `edicionesdirectorios` (
   KEY `FK_edicionesdirectorios_usuarios_idEditor_idx` (`idEditor`),
   CONSTRAINT `FK_edicionesdirectorios_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_edicionesdirectorios_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +157,7 @@ CREATE TABLE `edicionespersonajes` (
   KEY `FK_edicionespersonajes_usuarios_idEditor_idx` (`idEditor`),
   CONSTRAINT `FK_edicionespersonajes_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_edicionespersonajes_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,7 +181,7 @@ CREATE TABLE `personajes` (
   KEY `FK_personajes_directorios_idDirectorio_idx` (`idDirectorio`),
   CONSTRAINT `FK_personajes_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`),
   CONSTRAINT `FK_personajes_usuarios_idCreador` FOREIGN KEY (`idCreador`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,4 +226,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-05 19:16:50
+-- Dump completed on 2018-12-10 19:54:43
