@@ -51,7 +51,8 @@
 			<spring:message code="personaje.comentarios.publicar" />
 			<br> <input type="hidden" name="personajeid" id="personajeid"
 				value="${personaje.id }" />
-			<textarea name="comentario" id="comentario" rows="4" cols="50"></textarea>
+			<textarea required="required" name="comentario" id="comentario"
+				rows="4" cols="50"></textarea>
 			<br> <input type="submit"
 				value=<spring:message code="personaje.comentarios.guardar" /> />
 		</form>
