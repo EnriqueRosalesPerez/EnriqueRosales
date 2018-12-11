@@ -12,12 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
+import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 
 /**
@@ -27,23 +30,26 @@ import es.enriquerosales.enciclopedia.servicio.PersonajeService;
  *
  */
 @Controller
+@RequestMapping("/personaje")
 public class PersonajeController {
 
 	@Autowired
 	private PersonajeService personajeService;
 
 	@Autowired
+	private DirectorioService dirService;
+
+	@Autowired
 	private MessageSource messages;
 
 	private static final String ATT_PERSONAJE = "personaje";
-	private static final String ATT_DIR = "dir";
 	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
-	private static final String SUCCESS_VER = "personaje";
-	private static final String SUCCESS_FORM = "formpersonaje";
-	private static final String SUCCESS_INDEX = "index";
-	private static final String ERROR = "error";
+	private static final String VIEW = "/personaje/view";
+	private static final String FORM = "/personaje/form";
+	private static final String DIR = "forward:/directorio/";
+	private static final String ERROR = "/error";
 
 	/**
 	 * Muestra la p�gina de visualizaci�n de un Personaje.
@@ -56,8 +62,8 @@ public class PersonajeController {
 	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/verPersonaje")
-	public String mostrarPersonaje(@RequestParam int id, Model model, Locale locale) {
+	@GetMapping(value = "/{id}")
+	public String mostrarPersonaje(@PathVariable int id, Model model, Locale locale) {
 		try {
 			Personaje personaje = personajeService.buscar(id);
 			if (personaje == null) {
@@ -67,7 +73,7 @@ public class PersonajeController {
 				return ERROR;
 			}
 			model.addAttribute(ATT_PERSONAJE, personaje);
-			return SUCCESS_VER;
+			return VIEW;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -76,41 +82,64 @@ public class PersonajeController {
 	}
 
 	/**
-	 * Muestra el formulario para crear o editar un Personaje.
+	 * Muestra el formulario para editar un Personaje.
 	 * 
 	 * @param personaje
-	 *            El Personaje que se va a editar, puede ser nuevo o existente.
-	 * @param dir
-	 *            El ID del Directorio al que pertenece el Personaje.
+	 *            El Personaje que se va a editar.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @param locale
 	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/editarPersonaje")
-	public String mostrarFormulario(@ModelAttribute Personaje personaje,
+	@GetMapping(value = "/{id}/editar")
+	public String mostrarFormularioEdicion(@ModelAttribute Personaje personaje,
+			Model model, Locale locale) {
+		try {
+			personaje = personajeService.buscar(personaje.getId());
+			if (personaje == null) {
+				// Personaje no encontrado
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.personaje.noencontrado", null, locale));
+				return ERROR;
+			}
+
+			model.addAttribute(ATT_PERSONAJE, personaje);
+			return FORM;
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ATT_ERROR, e);
+			return ERROR;
+		}
+	}
+
+	/**
+	 * Muestra el formulario para crear un Personaje.
+	 * 
+	 * @param personaje
+	 *            El Personaje que se va a crear.
+	 * @param dir
+	 *            El Directorio donde se crea el Personaje.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
+	 */
+	@GetMapping(value = "/crear")
+	public String mostrarFormularioCreacion(@ModelAttribute Personaje personaje,
 			@RequestParam Integer dir, Model model, Locale locale) {
 		try {
-			if (personaje.getId() != null) {
-				// Editando personaje existente
-				personaje = personajeService.buscar(personaje.getId());
-				if (personaje == null) {
-					// Personaje no encontrado
-					model.addAttribute(ATT_ERROR, messages
-							.getMessage("error.personaje.noencontrado", null, locale));
-					return ERROR;
-				}
-			} else {
-				// Creando nuevo personaje, se asigna el directorio al que va a
-				// pertenecer.
-				Directorio directorio = new Directorio();
-				directorio.setId(dir);
-				personaje.setDirectorio(directorio);
+			// Asignar directorio donde se crea el personaje.
+			Directorio directorio = dirService.buscar(dir);
+			if (directorio == null) {
+				// Directorio no encontrado
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.directorio.noencontrado", null, locale));
+				return ERROR;
 			}
-			model.addAttribute(ATT_PERSONAJE, personaje);
-			model.addAttribute(ATT_DIR, dir);
-			return SUCCESS_FORM;
+			personaje.setDirectorio(directorio);
+			return FORM;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -132,14 +161,16 @@ public class PersonajeController {
 	 *            Interfaz donde se almacenan atributos.
 	 * @param session
 	 *            La sesión HTTP en ejecución.
+	 * @param locale
+	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@PostMapping(value = "/guardarPersonaje")
+	@PostMapping(value = "/guardar")
 	public String guardarPersonaje(@Valid Personaje personaje, BindingResult result,
-			Model model, HttpSession session) {
+			Model model, HttpSession session, Locale locale) {
 		try {
 			if (result.hasErrors()) {
-				return SUCCESS_FORM;
+				return FORM;
 			}
 			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);
 			if (personaje.getId() == null) {
@@ -154,8 +185,7 @@ public class PersonajeController {
 				personajeService.editar(usuario, personaje);
 
 			}
-			return "redirect:/verPersonaje?id=" + personaje.getId() + "&dir="
-					+ personaje.getDirectorio().getId();
+			return mostrarPersonaje(personaje.getId(), model, locale);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -171,14 +201,24 @@ public class PersonajeController {
 	 *            El Personaje a eliminar.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/eliminarPersonaje")
-	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model) {
+	@GetMapping(value = "/{id}/eliminar")
+	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model,
+			Locale locale) {
 		try {
-			// TODO Regresar a la página de Directorio, en vez de al inicio.
+			personaje = personajeService.buscar(personaje.getId());
+			if (personaje == null) {
+				// Personaje no encontrado
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.personaje.noencontrado", null, locale));
+				return ERROR;
+			}
+			int dir = personaje.getDirectorio().getId();
 			personajeService.eliminar(personaje);
-			return SUCCESS_INDEX;
+			return DIR + dir;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);

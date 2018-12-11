@@ -11,18 +11,22 @@
 <title><c:out value="${directorio.nombre}" /></title>
 </head>
 <body>
-	<a href="directorios"><spring:message code="directorio.salir" /></a>
+	<a href="${pageContext.request.contextPath }/directorios"><spring:message
+			code="directorio.salir" /></a>
 	<c:if test="${not empty user}">
 		<c:if test="${user.tipo.id == 1 }">
 			<br>
-			<a href="editarDir?id=${directorio.id}"><spring:message
+			<a
+				href="${pageContext.request.contextPath }/directorio/${directorio.id}/editar"><spring:message
 					code="directorio.editar" /></a>
 			<br>
-			<a href="eliminarDir?id=${directorio.id}"
+			<a
+				href="${pageContext.request.contextPath }/directorio/${directorio.id}/eliminar"
 				onclick="return window.confirm(
 				'<spring:message code="directorio.eliminar.confirmar"/>'
 				)">
-				<spring:message	code="directorio.eliminar" /></a>
+				<spring:message code="directorio.eliminar" />
+			</a>
 		</c:if>
 	</c:if>
 	${error }
@@ -44,11 +48,13 @@
 	<br>
 	<div style="white-space: pre-wrap;"><c:out value="${directorio.descripcion}" /></div>
 	<br>
-	<form action="buscarPersonajes" method="GET">
-		<input type="hidden" name="dir" value="${directorio.id }" /> <input
-			type="text" name="s" value="${busqueda}" /> <input type="submit"
+	<form
+		action="${pageContext.request.contextPath }/directorio/${directorio.id}/buscar"
+		method="GET">
+		<input type="text" name="s" value="${busqueda}" /> <input
+			type="submit"
 			value=<spring:message code="directorio.personajes.buscar" /> /> <a
-			href="verDir?id=${directorio.id }"><spring:message
+			href="${pageContext.request.contextPath }/directorio/${directorio.id }"><spring:message
 				code="directorio.personajes.limpiar" /></a>
 	</form>
 	<c:choose>
@@ -58,7 +64,8 @@
 			</h3>
 			<c:if test="${not empty user}">
 				<c:if test="${user.tipo.id == 1}">
-					<a href="editarPersonaje?dir=${directorio.id}"><spring:message
+					<a
+						href="${pageContext.request.contextPath }/personaje/crear?dir=${directorio.id}"><spring:message
 							code="directorio.personajes.nuevo" /></a>
 				</c:if>
 			</c:if>
@@ -69,7 +76,8 @@
 			</h3>
 			<c:if test="${not empty user}">
 				<c:if test="${user.tipo.id == 1}">
-					<a href="editarPersonaje?dir=${directorio.id}"><spring:message
+					<a
+						href="${pageContext.request.contextPath }/personaje/crear?dir=${directorio.id}"><spring:message
 							code="directorio.personajes.nuevo" /></a>
 					<br>
 					<br>
@@ -83,7 +91,8 @@
 				</tr>
 				<c:forEach items="${personajes}" var="personaje">
 					<tr>
-						<td><a href="verPersonaje?id=${personaje.id}">${personaje.nombre}</a></td>
+						<td><a
+							href="${pageContext.request.contextPath }/personaje/${personaje.id}">${personaje.nombre}</a></td>
 						<td>${personaje.annoNacimiento}</td>
 						<td>${personaje.annoMuerte}</td>
 					</tr>

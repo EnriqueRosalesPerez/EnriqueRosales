@@ -36,12 +36,10 @@ public class UsuarioController {
 	private static final String ATT_ERROR = "error";
 	private static final String ATT_USER = "user";
 
-	private static final String SUCCESS_GET = "formlogin";
-	private static final String ERROR = "error";
-	private static final String SUCCESS_POST = "redirect:/directorios";
-	private static final String ERROR_LOGIN = "formlogin";
-	private static final String SUCCESS_GET_REGISTRO = "formregistro";
-	private static final String ERROR_REGISTRO = "formregistro";
+	private static final String LOGIN_FORM = "/login/form";
+	private static final String ERROR = "/error";
+	private static final String SUCCESS = "redirect:/directorios";
+	private static final String REGISTRO_FORM = "/registro/form";
 
 	/**
 	 * Muestra el formulario de login.
@@ -54,7 +52,7 @@ public class UsuarioController {
 	public String mostrarLoginForm(Model model) {
 		try {
 			// TODO Usar formulario de Spring con clase Usuario.
-			return SUCCESS_GET;
+			return LOGIN_FORM;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -85,10 +83,10 @@ public class UsuarioController {
 			if (usuario == null) {
 				model.addAttribute(ATT_ERROR,
 						messages.getMessage("login.error", null, locale));
-				return ERROR_LOGIN;
+				return LOGIN_FORM;
 			}
 			session.setAttribute(ATT_USER, usuario);
-			return SUCCESS_POST;
+			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -106,7 +104,7 @@ public class UsuarioController {
 	@GetMapping(value = "/registro")
 	public String mostrarRegistroForm(Model model) {
 		try {
-			return SUCCESS_GET_REGISTRO;
+			return REGISTRO_FORM;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -139,18 +137,19 @@ public class UsuarioController {
 			usuarioService.registrar(usuario);
 			// Una vez realizado el registro, se hace login con el usuario.
 			session.setAttribute(ATT_USER, usuario);
-			return SUCCESS_POST;
+			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (e instanceof AssertionFailure) {
 				// Nombre de usuario introducido ya existente
+				// TODO Usar result.reject();
 				model.addAttribute(ATT_ERROR, messages
 						.getMessage("registro.error.usuarioexistente", null, locale));
-				return ERROR_REGISTRO;
+				return REGISTRO_FORM;
 			} else {
 				model.addAttribute(ATT_ERROR,
 						messages.getMessage("registro.error", null, locale));
-				return ERROR;
+				return REGISTRO_FORM;
 			}
 		}
 	}
@@ -168,7 +167,7 @@ public class UsuarioController {
 	public String desconectar(Model model, HttpSession session) {
 		try {
 			session.removeAttribute(ATT_USER);
-			return SUCCESS_POST;
+			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);

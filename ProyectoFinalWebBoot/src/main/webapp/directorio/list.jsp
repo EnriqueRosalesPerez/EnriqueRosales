@@ -12,15 +12,18 @@
 <body>
 	<c:choose>
 		<c:when test="${empty user}">
-			<a href="login"><spring:message code="login.acceder" /></a>
+			<a href="${pageContext.request.contextPath }/login"><spring:message
+					code="login.acceder" /></a>
 			<br>
-			<a href="registro"><spring:message code="registro.registrar" /></a>
+			<a href="${pageContext.request.contextPath }/registro"><spring:message
+					code="registro.registrar" /></a>
 		</c:when>
 		<c:otherwise>
 			<spring:message code="login.conectado"
 				arguments="${user.nombreUsuario }" />
 			<br>
-			<a href="logout"><spring:message code="login.desconectar" /></a>
+			<a href="${pageContext.request.contextPath }/logout"><spring:message
+					code="login.desconectar" /></a>
 		</c:otherwise>
 	</c:choose>
 	<br>
@@ -28,10 +31,11 @@
 		<spring:message code="directorios.lista.titulo" />
 	</h3>
 	<br>
-	<form action="buscarDir" method="GET">
+	<form action="${pageContext.request.contextPath }/directorios/buscar"
+		method="GET">
 		<input type="text" name="s" value="${busqueda}" /> <input
 			type="submit" value=<spring:message code="directorios.lista.buscar"/> />
-		<a href="directorios"><spring:message
+		<a href="${pageContext.request.contextPath }/directorios"><spring:message
 				code="directorios.lista.limpiar" /></a>
 	</form>
 	<br>
@@ -39,7 +43,8 @@
 		<c:if test="${not empty user}">
 			<c:if test="${user.tipo.id == 1 }">
 				<tr>
-					<td><a href="editarDir"><spring:message
+					<td><a
+						href="${pageContext.request.contextPath }/directorio/crear"><spring:message
 								code="directorios.lista.crear" /></a></td>
 				</tr>
 			</c:if>
@@ -53,8 +58,9 @@
 			<c:otherwise>
 				<c:forEach items="${directorios}" var="directorio">
 					<tr>
-						<td><a href="verDir?id=${directorio.id}"> <c:out
-									value="${directorio.nombre}" />
+						<td><a
+							href="${pageContext.request.contextPath }/directorio/${directorio.id}">
+								<c:out value="${directorio.nombre}" />
 						</a></td>
 					</tr>
 				</c:forEach>

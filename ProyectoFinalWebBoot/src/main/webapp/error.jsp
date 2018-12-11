@@ -8,7 +8,8 @@
 <title><spring:message code="error.titulo" /></title>
 </head>
 <body>
-	<spring:message code="error.generico" />
-	<br> ${error}
+	${error}
+	<br>
+	<a href="${pageContext.request.contextPath }/directorios">Inicio</a>
 </body>
 </html>

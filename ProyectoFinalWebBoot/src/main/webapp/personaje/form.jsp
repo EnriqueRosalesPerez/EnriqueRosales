@@ -20,8 +20,8 @@
 </head>
 <body>
 	<form:form modelAttribute="personaje" method="POST"
-		action="guardarPersonaje">
-		<form:hidden path="directorio.id"/>
+		action="${pageContext.request.contextPath }/personaje/guardar">
+		<form:hidden path="directorio.id" />
 		<form:hidden path="id" />
 		<table>
 			<tr>
@@ -46,8 +46,19 @@
 		<input type="submit" value="Guardar" />
 		<br>
 		<br>
-		<a href="verDir?id=${personaje.directorio.id }"><spring:message
-				code="personaje.form.salir" /></a>
+		<c:choose>
+			<c:when test="${empty personaje.id }">
+				<a
+					href="${pageContext.request.contextPath }/directorio/${personaje.directorio.id}"><spring:message
+						code="personaje.form.salir" /></a>
+			</c:when>
+			<c:otherwise>
+				<a
+					href="${pageContext.request.contextPath }/personaje/${personaje.id}"><spring:message
+						code="personaje.form.salir" /></a>
+			</c:otherwise>
+		</c:choose>
+
 	</form:form>
 </body>
 </html>

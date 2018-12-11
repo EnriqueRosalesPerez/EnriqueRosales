@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ page errorPage="error.jsp"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><spring:message code="registro.titulo" /></title>
+<title><spring:message code="login.titulo" /></title>
 </head>
 <body>
-	<form action="registro" method="POST">
+	<form action="${pageContext.request.contextPath }/login" method="POST">
 		<p>
 			<spring:message code="registro.nombre" />
 		</p>
@@ -22,11 +23,12 @@
 			<input type="password" name="pass" />
 		</p>
 		<p>
-			<input type="submit" value=<spring:message code="registro.guardar" /> />
+			<input type="submit" value="Acceder" />
 		</p>
 	</form>
 	${error }
 	<br>
-	<a href="."><spring:message code="login.salir" /></a>
+	<a href="${pageContext.request.contextPath }/directorios"><spring:message
+			code="login.salir" /></a>
 </body>
 </html>

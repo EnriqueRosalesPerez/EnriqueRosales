@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,12 +46,10 @@ public class DirectorioController {
 	private static final String ATT_BUSQUEDA = "busqueda";
 	private static final String ATT_ERROR = "error";
 
-	private static final String SUCCESS_DIR = "directorio";
-	private static final String SUCCESS_INDEX = "redirect:directorios";
-	private static final String SUCCESS_LIST = "listadodirectorios";
-	private static final String SUCCESS_FORM = "formdirectorio";
-	private static final String SUCCESS_EDIT = "redirect:/verDir?id=";
-	private static final String ERROR = "error";
+	private static final String VIEW = "/directorio/view";
+	private static final String LIST = "/directorio/list";
+	private static final String FORM = "/directorio/form";
+	private static final String ERROR = "/error";
 
 	/**
 	 * Muestra la p�gina con el listado de todos los directorios.
@@ -63,7 +62,7 @@ public class DirectorioController {
 	public String mostrarListado(Model model) {
 		try {
 			model.addAttribute(ATT_DIRS, dirService.listar());
-			return SUCCESS_LIST;
+			return LIST;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -80,12 +79,12 @@ public class DirectorioController {
 	 *            Interfaz donde se almacenan atributos.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping("/buscarDir")
+	@GetMapping("/directorios/buscar")
 	public String buscarDirectorios(@RequestParam String s, Model model) {
 		try {
 			model.addAttribute(ATT_DIRS, dirService.listar(s));
 			model.addAttribute(ATT_BUSQUEDA, s);
-			return SUCCESS_LIST;
+			return LIST;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -104,8 +103,8 @@ public class DirectorioController {
 	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/verDir")
-	public String mostrarDirectorio(@RequestParam int id, Model model, Locale locale) {
+	@GetMapping(value = "/directorio/{id}")
+	public String mostrarDirectorio(@PathVariable int id, Model model, Locale locale) {
 		try {
 			Directorio dir = dirService.buscar(id);
 			if (dir == null) {
@@ -116,7 +115,7 @@ public class DirectorioController {
 			}
 			model.addAttribute(ATT_DIR, dir);
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(dir));
-			return SUCCESS_DIR;
+			return VIEW;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -138,8 +137,8 @@ public class DirectorioController {
 	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/buscarPersonajes")
-	public String buscarPersonajes(@RequestParam int dir, @RequestParam String s,
+	@GetMapping(value = "/directorio/{dir}/buscar")
+	public String buscarPersonajes(@PathVariable int dir, @RequestParam String s,
 			Model model, Locale locale) {
 		try {
 			Directorio directorio = dirService.buscar(dir);
@@ -152,7 +151,7 @@ public class DirectorioController {
 			model.addAttribute(ATT_DIR, directorio);
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(directorio, s));
 			model.addAttribute(ATT_BUSQUEDA, s);
-			return SUCCESS_DIR;
+			return VIEW;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -161,26 +160,50 @@ public class DirectorioController {
 	}
 
 	/**
-	 * Muestra el formulario para crear o editar un Directorio.
+	 * Muestra el formulario para editar un Directorio.
 	 * 
 	 * @param directorio
-	 *            El Directorio que se esté editando, puede ser nuevo o existente.
+	 *            El Directorio que se esté editando.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
+	 */
+	@GetMapping(value = "/directorio/{id}/editar")
+	public String mostrarFormularioEdicion(@ModelAttribute Directorio directorio,
+			Model model, Locale locale) {
+		try {
+			directorio = dirService.buscar(directorio.getId());
+			if (directorio == null) {
+				// Directorio no encontrado
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.directorio.noencontrado", null, locale));
+				return ERROR;
+			}
+			model.addAttribute("directorio", directorio);
+			return FORM;
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ATT_ERROR, e);
+			return ERROR;
+		}
+	}
+
+	/**
+	 * Muestra el formulario para crear un Directorio.
+	 * 
+	 * @param directorio
+	 *            El Directorio que se esté creando.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/editarDir")
-	public String mostrarFormulario(@ModelAttribute Directorio directorio, Model model) {
+	@GetMapping(value = "/directorio/crear")
+	public String mostrarFormularioCreacion(@ModelAttribute Directorio directorio,
+			Model model) {
 		try {
-			if (directorio.getId() != null) {
-				directorio = dirService.buscar(directorio.getId());
-				if (directorio == null) {
-					// Directorio no encontrado
-					return ERROR;
-				}
-				model.addAttribute(ATT_DIR, directorio);
-			}
-			return SUCCESS_FORM;
+			return FORM;
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -200,20 +223,21 @@ public class DirectorioController {
 	 *            Interfaz donde se almacenan atributos.
 	 * @param session
 	 *            La sesión HTTP en ejecución.
+	 * @param Locale
+	 *            locale La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@PostMapping(value = "/guardarDir")
+	@PostMapping(value = "/directorio/guardar")
 	public String guardarDirectorio(@Valid Directorio directorio, BindingResult result,
-			Model model, HttpSession session) {
+			Model model, HttpSession session, Locale locale) {
 		try {
 			if (result.hasErrors()) {
-				return SUCCESS_FORM;
+				return FORM;
 			}
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			if (directorio.getId() == null) {
 				// Creando nuevo directorio
 				dirService.crear(usuario, directorio);
-				return SUCCESS_INDEX;
 			} else {
 				// Editando directorio existente, asignando creador y fecha de creaci�n
 				// original.
@@ -221,9 +245,8 @@ public class DirectorioController {
 				directorio.setCreador(antiguo.getCreador());
 				directorio.setFechaCreacion(antiguo.getFechaCreacion());
 				dirService.editar(usuario, directorio);
-				return SUCCESS_EDIT + directorio.getId();
 			}
-
+			return mostrarDirectorio(directorio.getId(), model, locale);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute(ATT_ERROR, e);
@@ -238,21 +261,30 @@ public class DirectorioController {
 	 *            El Directorio que se esté eliminando.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
+	 * @param Locale
+	 *            locale La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping(value = "/eliminarDir")
+	@GetMapping(value = "/directorio/{id}/eliminar")
 	public String eliminarDirectorio(@ModelAttribute Directorio directorio, Model model,
 			Locale locale) {
 		try {
+			directorio = dirService.buscar(directorio.getId());
+			if (directorio == null) {
+				// Directorio no existe
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.directorio.noencontrado", null, locale));
+				return ERROR;
+			}
 			dirService.eliminar(directorio);
-			return SUCCESS_INDEX;
+			return mostrarListado(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (e instanceof DataIntegrityViolationException) {
 				// Se está intentando eliminar un Directorio que tiene personajes dentro.
 				model.addAttribute(ATT_ERROR, messages
 						.getMessage("error.directorio.eliminar.novacio", null, locale));
-				return "forward:/verDir?id=" + directorio.getId();
+				return mostrarDirectorio(directorio.getId(), model, locale);
 			}
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;

@@ -11,16 +11,18 @@
 <title>${personaje.nombre}</title>
 </head>
 <body>
-	<a href="verDir?id=${personaje.directorio.id }"><spring:message
+	<a
+		href="${pageContext.request.contextPath }/directorio/${personaje.directorio.id }"><spring:message
 			code="personaje.salir" /></a>
 	<c:if test="${not empty user}">
 		<c:if test="${user.tipo.id == 1 }">
 			<br>
 			<a
-				href="editarPersonaje?id=${personaje.id}&dir=${personaje.directorio.id}"><spring:message
+				href="${pageContext.request.contextPath }/personaje/${personaje.id }/editar"><spring:message
 					code="personaje.editar" /></a>
 			<br>
-			<a href="eliminarPersonaje?id=${personaje.id}"
+			<a
+				href="${pageContext.request.contextPath }/personaje/${personaje.id}/eliminar"
 				onclick="return window.confirm(
 				'<spring:message code="personaje.eliminar.confirmar"/>'
 				)"><spring:message
@@ -54,7 +56,9 @@
 		<spring:message code="personaje.comentarios.titulo" />
 	</h3>
 	<c:if test="${not empty user }">
-		<form action="publicar" method="POST">
+		<form
+			action="${pageContext.request.contextPath }/comentario/publicar?personajeid=${personaje.id}"
+			method="POST">
 			<spring:message code="personaje.comentarios.publicar" />
 			<br> <input type="hidden" name="personajeid" id="personajeid"
 				value="${personaje.id }" />
@@ -74,7 +78,7 @@
 				<c:if test="${not empty user }">
 					<c:if test="${user.tipo.id == 1 }">
 						<a
-							href="eliminarComentario?id=${comentario.id}&personajeid=${personaje.id}"><spring:message
+							href="${pageContext.request.contextPath }/comentario/${comentario.id}/eliminar?personajeid=${personaje.id}"><spring:message
 								code="personaje.comentarios.eliminar" /></a>
 					</c:if>
 				</c:if>

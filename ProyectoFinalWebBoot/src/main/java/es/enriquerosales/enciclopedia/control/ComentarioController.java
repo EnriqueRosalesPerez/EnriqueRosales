@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.enriquerosales.enciclopedia.modelo.Comentario;
@@ -21,6 +22,7 @@ import es.enriquerosales.enciclopedia.servicio.ComentarioService;
  *
  */
 @Controller
+@RequestMapping("/comentario")
 public class ComentarioController {
 
 	@Autowired
@@ -41,12 +43,13 @@ public class ComentarioController {
 	public String publicar(@RequestParam Integer personajeid,
 			@RequestParam String comentario, HttpSession session) {
 		try {
+			// TODO usar formulario de Spring con ModelAttribute
 			Personaje personaje = new Personaje();
 			personaje.setId(personajeid);
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			comentarioService.publicar(usuario, personaje, comentario);
 			// Volver a la página donde se estaba
-			return "redirect:/verPersonaje?id=" + personajeid;
+			return "redirect:/personaje/" + personajeid;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -62,13 +65,13 @@ public class ComentarioController {
 	 *            El ID del {@link Personaje} en el que se está.
 	 * @return Una cadena que representa la página de destino.
 	 */
-	@GetMapping("/eliminarComentario")
+	@GetMapping("/{id}/eliminar")
 	public String eliminar(@ModelAttribute Comentario comentario,
 			@RequestParam Integer personajeid) {
 		try {
 			comentarioService.eliminar(comentario);
 			// Volver a la página donde se estaba
-			return "redirect:/verPersonaje?id=" + personajeid;
+			return "redirect:/personaje/" + personajeid;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
