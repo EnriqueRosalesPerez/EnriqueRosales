@@ -3,7 +3,7 @@ package es.enriquerosales.enciclopedia.servicio;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 
 /**
- * Intefaz de la capa de servicio para la clase {@link Usuario}.
+ * Interfaz de la capa de servicio para la clase {@link Usuario}.
  * 
  * @author Enrique Rosales
  *

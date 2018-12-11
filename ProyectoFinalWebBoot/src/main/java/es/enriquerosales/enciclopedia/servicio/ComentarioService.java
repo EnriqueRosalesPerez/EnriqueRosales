@@ -5,7 +5,7 @@ import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 
 /**
- * Intefaz de la capa de servicio para la clase {@link Comentario}.
+ * Interfaz de la capa de servicio para la clase {@link Comentario}.
  * 
  * @author Enrique Rosales
  *

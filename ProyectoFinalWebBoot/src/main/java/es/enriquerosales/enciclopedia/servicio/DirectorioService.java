@@ -6,7 +6,7 @@ import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 
 /**
- * Intefaz de la capa de servicio para la clase {@link Directorio}.
+ * Interfaz de la capa de servicio para la clase {@link Directorio}.
  * 
  * @author Enrique Rosales
  *
@@ -25,7 +25,7 @@ public interface DirectorioService {
 
 	/**
 	 * Crea una lista las instancias de {@link Directorio} que contengan en su
-	 * nombre el filtro obtenido como parámetro.
+	 * nombre el filtro obtenido como parï¿½metro.
 	 * 
 	 * @param filtroNombre
 	 *            El texto a utilizar como filtro para buscar el {@link Directorio}.
@@ -37,7 +37,7 @@ public interface DirectorioService {
 	List<Directorio> listar(String filtroNombre) throws ServiceException;
 
 	/**
-	 * Devuelve el {@link Directorio} que tenga el ID obtenido como parámetro.
+	 * Devuelve el {@link Directorio} que tenga el ID obtenido como parï¿½metro.
 	 * 
 	 * @param id
 	 *            El ID del {@link Directorio} a buscar.
@@ -52,7 +52,7 @@ public interface DirectorioService {
 	 * Crea un nuevo {@link Directorio} en el sistema.
 	 * 
 	 * @param creador
-	 *            El {@link Usuario} que está creando el {@link Directorio}.
+	 *            El {@link Usuario} que estï¿½ creando el {@link Directorio}.
 	 * @param personaje
 	 *            El {@link Directorio} a crear en el sistema.
 	 * @throws ServiceException
@@ -61,10 +61,10 @@ public interface DirectorioService {
 	void crear(Usuario creador, Directorio directorio) throws ServiceException;
 
 	/**
-	 * Actualiza la información de un {@link Directorio} existente.
+	 * Actualiza la informaciï¿½n de un {@link Directorio} existente.
 	 * 
 	 * @param editor
-	 *            El {@link Usuario} que está realizando la edición.
+	 *            El {@link Usuario} que estï¿½ realizando la ediciï¿½n.
 	 * @param directorio
 	 *            El {@link Directorio} cuyos datos se van a actualizar.
 	 * @throws ServiceException
