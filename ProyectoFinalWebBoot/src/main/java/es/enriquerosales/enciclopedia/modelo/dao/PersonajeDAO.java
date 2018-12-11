@@ -26,7 +26,7 @@ public interface PersonajeDAO {
 
 	/**
 	 * Busca todos los objetos {@link Personaje} del sistema cuyo nombre contenga el
-	 * filtro obtenido como parámetro.
+	 * filtro obtenido como parï¿½metro.
 	 * 
 	 * @param filtroNombre
 	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
@@ -39,7 +39,7 @@ public interface PersonajeDAO {
 
 	/**
 	 * Busca todos los objetos {@link Personaje} del sistema que pertenezcan al
-	 * {@link Directorio} indicado como parámetro.
+	 * {@link Directorio} indicado como parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} del que obtener los Personajes.
@@ -52,8 +52,8 @@ public interface PersonajeDAO {
 
 	/**
 	 * Busca todos los objetos {@link Personaje} del sistema que pertenezcan al
-	 * {@link Directorio} indicado como parámetro y cuyo nombre contenga el filtro
-	 * obtenido como parámetro.
+	 * {@link Directorio} indicado como parï¿½metro y cuyo nombre contenga el filtro
+	 * obtenido como parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} del que obtener los Personajes.
@@ -69,8 +69,8 @@ public interface PersonajeDAO {
 			throws DAOException;
 
 	/**
-	 * Busca el objeto {@link Personaje} del sistema que tenga el ID obtenida como
-	 * parámetro.
+	 * Busca el objeto {@link Personaje} del sistema que tenga el ID obtenido como
+	 * parï¿½metro.
 	 * 
 	 * @param id
 	 *            El ID del {@link Personaje} a buscar.
@@ -83,7 +83,7 @@ public interface PersonajeDAO {
 
 	/**
 	 * Inserta en la base de datos el objeto {@link Personaje} obtenido como
-	 * parámetro.
+	 * parï¿½metro.
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a insertar.
@@ -94,7 +94,7 @@ public interface PersonajeDAO {
 
 	/**
 	 * Actualiza en la base de datos el objeto {@link Personaje} obtenido como
-	 * parámetro.
+	 * parï¿½metro.
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a actualizar.
@@ -105,7 +105,7 @@ public interface PersonajeDAO {
 
 	/**
 	 * Elimina de la base de datos el objeto {@link Personaje} obtenido como
-	 * parámetro.
+	 * parï¿½metro.
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} a eliminar.

@@ -25,7 +25,7 @@ public interface DirectorioDAO {
 
 	/**
 	 * Busca todos los objetos {@link Directorio} del sistema cuyo nombre contenga
-	 * el filtro obtenido como parámetro.
+	 * el filtro obtenido como parï¿½metro.
 	 * 
 	 * @param filtroNombre
 	 *            El texto a utilizar como filtro para buscar el {@link Directorio}.
@@ -37,8 +37,8 @@ public interface DirectorioDAO {
 	List<Directorio> findByNombre(String filtroNombre) throws DAOException;
 
 	/**
-	 * Busca el objeto {@link Directorio} del sistema que tenga el ID obtenida como
-	 * parámetro.
+	 * Busca el objeto {@link Directorio} del sistema que tenga el ID obtenido como
+	 * parï¿½metro.
 	 * 
 	 * @param id
 	 *            El ID del {@link Directorio} a buscar.
@@ -51,7 +51,7 @@ public interface DirectorioDAO {
 
 	/**
 	 * Inserta en la base de datos el objeto {@link Directorio} obtenido como
-	 * parámetro.
+	 * parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} a insertar.
@@ -62,7 +62,7 @@ public interface DirectorioDAO {
 
 	/**
 	 * Actualiza en la base de datos el objeto {@link Directorio} obtenido como
-	 * parámetro.
+	 * parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} a actualizar.
@@ -73,7 +73,7 @@ public interface DirectorioDAO {
 
 	/**
 	 * Elimina de la base de datos el objeto {@link Directorio} obtenido como
-	 * parámetro.
+	 * parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} a eliminar.
