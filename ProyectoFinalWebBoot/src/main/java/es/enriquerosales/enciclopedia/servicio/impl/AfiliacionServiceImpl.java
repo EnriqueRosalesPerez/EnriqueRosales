@@ -2,6 +2,7 @@ package es.enriquerosales.enciclopedia.servicio.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.enriquerosales.enciclopedia.modelo.Afiliacion;
@@ -23,6 +24,7 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 	@Autowired
 	private AfiliacionDAO afiliacionDAO;
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void crear(Afiliacion afiliacion) throws ServiceException {
 		try {
@@ -32,6 +34,7 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void actualizar(Afiliacion afiliacion) throws ServiceException {
 		try {
@@ -41,6 +44,7 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void eliminar(Afiliacion afiliacion) throws ServiceException {
 		try {
