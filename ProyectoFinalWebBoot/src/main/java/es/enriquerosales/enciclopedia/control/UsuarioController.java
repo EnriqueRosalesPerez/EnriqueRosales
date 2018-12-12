@@ -36,10 +36,10 @@ public class UsuarioController {
 	private static final String ATT_ERROR = "error";
 	private static final String ATT_USER = "user";
 
-	private static final String LOGIN_FORM = "/login/form";
-	private static final String ERROR = "/error";
+	private static final String LOGIN_FORM = "login/form";
+	private static final String ERROR = "error";
 	private static final String SUCCESS = "redirect:/directorios";
-	private static final String REGISTRO_FORM = "/registro/form";
+	private static final String REGISTRO_FORM = "registro/form";
 
 	/**
 	 * Muestra el formulario de login.

@@ -46,10 +46,10 @@ public class AfiliacionController {
 	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
-	private static final String VIEW = "/afiliacion/view";
-	private static final String FORM = "/afiliacion/form";
+	private static final String VIEW = "afiliacion/view";
+	private static final String FORM = "afiliacion/form";
 	private static final String DIR = "forward:/directorio/";
-	private static final String ERROR = "/error";
+	private static final String ERROR = "error";
 
 	/**
 	 * Muestra la página de visualización de una Afiliacion.

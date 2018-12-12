@@ -28,6 +28,9 @@ public class ComentarioController {
 	@Autowired
 	private ComentarioService comentarioService;
 
+	private static final String SUCCESS = "redirect:/personaje/";
+	private static final String ERROR = "error";
+
 	/**
 	 * Publica un nuevo {@link Comentario}.
 	 * 
@@ -49,10 +52,10 @@ public class ComentarioController {
 			Usuario usuario = (Usuario) session.getAttribute("user");
 			comentarioService.publicar(usuario, personaje, comentario);
 			// Volver a la página donde se estaba
-			return "redirect:/personaje/" + personajeid;
+			return SUCCESS + personajeid;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return ERROR;
 		}
 	}
 
@@ -71,10 +74,10 @@ public class ComentarioController {
 		try {
 			comentarioService.eliminar(comentario);
 			// Volver a la página donde se estaba
-			return "redirect:/personaje/" + personajeid;
+			return SUCCESS + personajeid;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return ERROR;
 		}
 	}
 

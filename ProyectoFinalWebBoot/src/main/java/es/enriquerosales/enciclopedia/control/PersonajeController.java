@@ -46,10 +46,10 @@ public class PersonajeController {
 	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
-	private static final String VIEW = "/personaje/view";
-	private static final String FORM = "/personaje/form";
+	private static final String VIEW = "personaje/view";
+	private static final String FORM = "personaje/form";
 	private static final String DIR = "forward:/directorio/";
-	private static final String ERROR = "/error";
+	private static final String ERROR = "error";
 
 	/**
 	 * Muestra la p�gina de visualizaci�n de un Personaje.

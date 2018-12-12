@@ -46,10 +46,10 @@ public class DirectorioController {
 	private static final String ATT_BUSQUEDA = "busqueda";
 	private static final String ATT_ERROR = "error";
 
-	private static final String VIEW = "/directorio/view";
-	private static final String LIST = "/directorio/list";
-	private static final String FORM = "/directorio/form";
-	private static final String ERROR = "/error";
+	private static final String VIEW = "directorio/view";
+	private static final String LIST = "directorio/list";
+	private static final String FORM = "directorio/form";
+	private static final String ERROR = "error";
 
 	/**
 	 * Muestra la p�gina con el listado de todos los directorios.
