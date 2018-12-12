@@ -48,6 +48,43 @@
 	<br>
 	<div style="white-space: pre-wrap;"><c:out value="${directorio.descripcion}" /></div>
 	<br>
+	<h3>
+		<spring:message code="afiliacion.titulo" />
+	</h3>
+	<c:choose>
+		<c:when test="${empty directorio.afiliaciones }">
+			<h3>
+				<spring:message code="directorio.afiliaciones.vacio" />
+			</h3>
+			<c:if test="${not empty user}">
+				<c:if test="${user.tipo.id == 1}">
+					<a
+						href="${pageContext.request.contextPath }/afiliacion/crear?dir=${directorio.id}"><spring:message
+							code="directorio.afiliaciones.nuevo" /></a>
+					<br>
+					<br>
+				</c:if>
+			</c:if>
+		</c:when>
+		<c:otherwise>
+			<c:if test="${not empty user}">
+				<c:if test="${user.tipo.id == 1}">
+					<a
+						href="${pageContext.request.contextPath }/afiliacion/crear?dir=${directorio.id}"><spring:message
+							code="directorio.afiliaciones.nuevo" /></a>
+					<br>
+					<br>
+				</c:if>
+			</c:if>
+			<ul>
+				<c:forEach items="${directorio.afiliaciones }" var="afiliacion">
+					<li><a
+						href="${pageContext.request.contextPath }/afiliacion/${afiliacion.id}">${afiliacion.nombre }</a></li>
+				</c:forEach>
+			</ul>
+		</c:otherwise>
+	</c:choose>
+	<br>
 	<form
 		action="${pageContext.request.contextPath }/directorio/${directorio.id}/buscar"
 		method="GET">

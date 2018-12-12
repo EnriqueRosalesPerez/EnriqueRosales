@@ -41,10 +41,11 @@
 	<h1>${personaje.nombre}</h1>
 	<i>${personaje.annoNacimiento } - ${personaje.annoMuerte }</i>
 	<br>
-	<h3>Afiliaciones</h3>
+	<h3><spring:message code="afiliacion.titulo"/></h3>
 	<ul>
 		<c:forEach items="${personaje.afiliaciones }" var="afiliacion">
-			<li>${afiliacion.nombre }</li>
+			<li><a
+				href="${pageContext.request.contextPath }/afiliacion/${afiliacion.id}">${afiliacion.nombre }</a></li>
 		</c:forEach>
 	</ul>
 	<br>
