@@ -45,7 +45,7 @@ public interface AfiliacionService {
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
 	 */
-	void actualizar(Usuario editor, Afiliacion afiliacion) throws ServiceException;
+	void editar(Usuario editor, Afiliacion afiliacion) throws ServiceException;
 
 	/**
 	 * Elimina una {@link Afiliacion} del sistema.

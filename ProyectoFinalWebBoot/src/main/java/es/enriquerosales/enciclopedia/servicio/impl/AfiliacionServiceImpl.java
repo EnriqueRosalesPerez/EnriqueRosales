@@ -55,7 +55,7 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
-	public void actualizar(Usuario editor, Afiliacion afiliacion) throws ServiceException {
+	public void editar(Usuario editor, Afiliacion afiliacion) throws ServiceException {
 		try {
 			afiliacionDAO.update(afiliacion);
 			guardarEdicion(editor, afiliacion);
