@@ -32,6 +32,15 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 	@Autowired
 	private EdicionAfiliacionDAO edicionAfiliacionDAO;
 
+	@Override
+	public Afiliacion buscar(int id) throws ServiceException {
+		try {
+			return afiliacionDAO.findById(id);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	@Override
 	public void crear(Usuario creador, Afiliacion afiliacion) throws ServiceException {

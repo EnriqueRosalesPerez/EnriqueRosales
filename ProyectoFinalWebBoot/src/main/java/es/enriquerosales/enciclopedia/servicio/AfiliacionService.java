@@ -12,6 +12,18 @@ import es.enriquerosales.enciclopedia.modelo.Usuario;
 public interface AfiliacionService {
 
 	/**
+	 * Devuelve una {@link Afiliacion} dado su ID.
+	 * 
+	 * @param id
+	 *            El ID de la {@link Afiliacion} a buscar.
+	 * @return La {@link Afiliacion} con el ID proporcionado, o {@code null} si no
+	 *         se encuentra.
+	 * @throws ServiceException
+	 *             Si se produce un error al interactuar con la base de datos.
+	 */
+	Afiliacion buscar(int id) throws ServiceException;
+
+	/**
 	 * Crea una nueva {@link Afiliacion} en el sistema.
 	 * 
 	 * @param creador
