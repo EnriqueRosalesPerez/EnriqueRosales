@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.enriquerosales.enciclopedia.modelo.Afiliacion;
 import es.enriquerosales.enciclopedia.modelo.EdicionAfiliacion;
+import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.modelo.dao.AfiliacionDAO;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
@@ -69,6 +70,7 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 	public void eliminar(Afiliacion afiliacion) throws ServiceException {
 		try {
 			afiliacion = afiliacionDAO.findById(afiliacion.getId());
+			eliminarPersonajes(afiliacion);
 			afiliacionDAO.delete(afiliacion);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -86,12 +88,27 @@ public class AfiliacionServiceImpl implements AfiliacionService {
 	 * @throws DAOException
 	 *             Si se produce un error al insertar los datos.
 	 */
-	private void guardarEdicion(Usuario editor, Afiliacion afiliacion) throws DAOException {
+	private void guardarEdicion(Usuario editor, Afiliacion afiliacion)
+			throws DAOException {
 		EdicionAfiliacion edicion = new EdicionAfiliacion();
 		edicion.setAfiliacion(afiliacion);
 		edicion.setEditor(editor);
 		edicion.setFechaEdicion(new Date());
 		edicionAfiliacionDAO.insert(edicion);
+	}
+
+	/**
+	 * Elimina las referencias entre esta {@link Afiliacion} y las instancias de
+	 * {@link Personaje} que la contienen.
+	 * 
+	 * @param afiliacion
+	 *            La {@link Afiliacion} del que eliminar las referencias.
+	 */
+	private void eliminarPersonajes(Afiliacion afiliacion) {
+		for (Personaje personaje : afiliacion.getPersonajes()) {
+			personaje.getAfiliaciones().remove(afiliacion);
+		}
+		afiliacion.getPersonajes().clear();
 	}
 
 }

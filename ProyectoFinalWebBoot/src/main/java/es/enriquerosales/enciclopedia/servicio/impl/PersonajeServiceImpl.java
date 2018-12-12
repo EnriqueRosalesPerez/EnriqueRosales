@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.enriquerosales.enciclopedia.modelo.Afiliacion;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.EdicionPersonaje;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
@@ -104,6 +105,7 @@ public class PersonajeServiceImpl implements PersonajeService {
 	public void eliminar(Personaje personaje) throws ServiceException {
 		try {
 			personaje = personajeDAO.findById(personaje.getId());
+			eliminarAfiliaciones(personaje);
 			personajeDAO.delete(personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
@@ -127,6 +129,20 @@ public class PersonajeServiceImpl implements PersonajeService {
 		edicion.setEditor(editor);
 		edicion.setFechaEdicion(new Date());
 		edicionPersonajeDAO.insert(edicion);
+	}
+
+	/**
+	 * Elimina las referencias entre este {@link Personaje} y las instancias de
+	 * {@link Afiliacion} que lo contienen.
+	 * 
+	 * @param personaje
+	 *            El {@link Personaje} del que eliminar las referencias.
+	 */
+	private void eliminarAfiliaciones(Personaje personaje) {
+		for (Afiliacion afiliacion : personaje.getAfiliaciones()) {
+			afiliacion.getPersonajes().remove(personaje);
+		}
+		personaje.getAfiliaciones().clear();
 	}
 
 }

@@ -43,6 +43,11 @@
 		<form:textarea path="biografia" rows="4" cols="50"
 			value="${personaje.biografia}" />
 		<br>
+		<h4><spring:message code="personaje.form.afiliaciones" /></h4>
+		<form:checkboxes items="${personaje.directorio.afiliaciones }"
+			path="afiliaciones" itemLabel="nombre" itemValue="id" delimiter="<br>" />
+		<br>
+		<br>
 		<input type="submit" value="Guardar" />
 		<br>
 		<br>

@@ -41,7 +41,18 @@
 	<h1>${personaje.nombre}</h1>
 	<i>${personaje.annoNacimiento } - ${personaje.annoMuerte }</i>
 	<br>
-	<h3><spring:message code="afiliacion.titulo"/></h3>
+	<c:choose>
+		<c:when test="${empty personaje.afiliaciones }">
+			<h3>
+				<spring:message code="personaje.afiliaciones.vacio" />
+			</h3>
+		</c:when>
+		<c:otherwise>
+			<h3>
+				<spring:message code="afiliacion.titulo" />
+			</h3>
+		</c:otherwise>
+	</c:choose>
 	<ul>
 		<c:forEach items="${personaje.afiliaciones }" var="afiliacion">
 			<li><a

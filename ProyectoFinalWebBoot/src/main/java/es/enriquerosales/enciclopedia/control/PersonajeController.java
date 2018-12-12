@@ -1,16 +1,20 @@
 package es.enriquerosales.enciclopedia.control;
 
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
+import es.enriquerosales.enciclopedia.servicio.AfiliacionService;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 import es.enriquerosales.enciclopedia.servicio.PersonajeService;
+import es.enriquerosales.enciclopedia.servicio.ServiceException;
 
 /**
  * Clase controlador para realizar tareas relacionadas con directorios.
@@ -40,9 +46,13 @@ public class PersonajeController {
 	private DirectorioService dirService;
 
 	@Autowired
+	private AfiliacionService afiliacionService;
+
+	@Autowired
 	private MessageSource messages;
 
 	private static final String ATT_PERSONAJE = "personaje";
+	private static final String ATT_AFILIACIONES = "afiliaciones";
 	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
@@ -50,6 +60,35 @@ public class PersonajeController {
 	private static final String FORM = "personaje/form";
 	private static final String DIR = "forward:/directorio/";
 	private static final String ERROR = "error";
+
+	/**
+	 * Método {@link InitBinder} que trata los datos del formulario de Personaje y
+	 * los convierte a los tipos adecuados.
+	 * 
+	 * @param binder
+	 *            Permite acceder a los componentes dentro de la solicitud.
+	 * @throws Exception
+	 */
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) throws Exception {
+		binder.registerCustomEditor(Set.class, "afiliaciones",
+				new CustomCollectionEditor(Set.class) {
+					// Convierte los ID que llegan en la solicitud como un array de String
+					// a objetos Afiliacion
+					protected Object convertElement(Object idStr) {
+						if (idStr instanceof String) {
+							try {
+								int id = Integer.parseInt((String) idStr);
+								return afiliacionService.buscar(id);
+
+							} catch (ServiceException e) {
+								e.printStackTrace();
+							}
+						}
+						return null;
+					}
+				});
+	}
 
 	/**
 	 * Muestra la p�gina de visualizaci�n de un Personaje.
@@ -73,6 +112,8 @@ public class PersonajeController {
 				return ERROR;
 			}
 			model.addAttribute(ATT_PERSONAJE, personaje);
+			model.addAttribute(ATT_AFILIACIONES,
+					personaje.getDirectorio().getAfiliaciones());
 			return VIEW;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,7 +144,8 @@ public class PersonajeController {
 						.getMessage("error.personaje.noencontrado", null, locale));
 				return ERROR;
 			}
-
+			// model.addAttribute(ATT_AFILIACIONES,
+			// personaje.getDirectorio().getAfiliaciones());
 			model.addAttribute(ATT_PERSONAJE, personaje);
 			return FORM;
 		} catch (Exception e) {
@@ -134,8 +176,8 @@ public class PersonajeController {
 			Directorio directorio = dirService.buscar(dir);
 			if (directorio == null) {
 				// Directorio no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.noencontrado", null, locale));
+				// model.addAttribute(ATT_ERROR, messages
+				// .getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			personaje.setDirectorio(directorio);
