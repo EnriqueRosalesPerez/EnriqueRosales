@@ -67,7 +67,8 @@ public class AfiliacionController {
 		try {
 			Afiliacion afiliacion = afiliacionService.buscar(id);
 			if (afiliacion == null) {
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.afiliacion.noencontrado", null, locale));
 				// Afiliación no encontrada
 				return ERROR;
 			}
@@ -92,12 +93,14 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/editar")
-	public String mostrarFormularioEdicion(@ModelAttribute Afiliacion afiliacion, Model model, Locale locale) {
+	public String mostrarFormularioEdicion(@ModelAttribute Afiliacion afiliacion,
+			Model model, Locale locale) {
 		try {
 			afiliacion = afiliacionService.buscar(afiliacion.getId());
 			if (afiliacion == null) {
 				// Afiliacion no encontrada
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.afiliacion.noencontrado", null, locale));
 				return ERROR;
 			}
 
@@ -124,14 +127,15 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/crear")
-	public String mostrarFormularioCreacion(@ModelAttribute Afiliacion afiliacion, @RequestParam Integer dir,
-			Model model, Locale locale) {
+	public String mostrarFormularioCreacion(@ModelAttribute Afiliacion afiliacion,
+			@RequestParam Integer dir, Model model, Locale locale) {
 		try {
 			// Asignar directorio donde se crea la afiliación.
 			Directorio directorio = dirService.buscar(dir);
 			if (directorio == null) {
 				// Directorio no encontrado
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			afiliacion.setDirectorio(directorio);
@@ -162,10 +166,9 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/guardar")
-	public String guardarAfiliacion(@Valid Afiliacion afiliacion, BindingResult result, Model model,
-			HttpSession session, Locale locale) {
+	public String guardarAfiliacion(@Valid Afiliacion afiliacion, BindingResult result,
+			Model model, HttpSession session, Locale locale) {
 		try {
-			// TODO Gestionar los nuevos personajes incluidos en la afiliación
 			if (result.hasErrors()) {
 				return FORM;
 			}
@@ -203,12 +206,14 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/eliminar")
-	public String eliminarAfiliacion(@ModelAttribute Afiliacion afiliacion, Model model, Locale locale) {
+	public String eliminarAfiliacion(@ModelAttribute Afiliacion afiliacion, Model model,
+			Locale locale) {
 		try {
 			afiliacion = afiliacionService.buscar(afiliacion.getId());
 			if (afiliacion == null) {
 				// Afiliacion no encontrada
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.afiliacion.noencontrado", null, locale));
 				return ERROR;
 			}
 			int dir = afiliacion.getDirectorio().getId();
