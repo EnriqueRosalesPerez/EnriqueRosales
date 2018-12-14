@@ -9,9 +9,16 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 
+/**
+ * Interceptor para validar que el usuario está autorizado para acceder a una
+ * ruta o recurso determinado.
+ * 
+ * @author Enrique Rosales
+ *
+ */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-	public static final String ATT_USER = "sessionUser";
+	public static final String ATT_USER = "user";
 	private static final String LOGIN = "/login";
 	private static final String INICIO = "/directorios";
 
@@ -25,7 +32,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String uri = request.getRequestURI();
-		Usuario usuario = (Usuario) request.getSession().getAttribute("user");
+		Usuario usuario = (Usuario) request.getSession().getAttribute(ATT_USER);
 		boolean permitido = false;
 		if (usuario == null) {
 			// Usuario sin autenticar, comprobar si intenta acceder a una ruta solo para
