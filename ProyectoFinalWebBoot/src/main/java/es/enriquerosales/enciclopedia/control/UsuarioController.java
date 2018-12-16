@@ -2,8 +2,6 @@ package es.enriquerosales.enciclopedia.control;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpSession;
-
 import org.hibernate.AssertionFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -13,7 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
+import es.enriquerosales.enciclopedia.interceptor.LoginInterceptor;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.UsuarioService;
 
@@ -25,6 +26,7 @@ import es.enriquerosales.enciclopedia.servicio.UsuarioService;
  *
  */
 @Controller
+@SessionAttributes(LoginInterceptor.ATT_USER)
 public class UsuarioController {
 
 	@Autowired
@@ -34,7 +36,6 @@ public class UsuarioController {
 	private MessageSource messages;
 
 	private static final String ATT_ERROR = "error";
-	private static final String ATT_USER = "user";
 
 	private static final String LOGIN_FORM = "login/form";
 	private static final String ERROR = "error";
@@ -68,21 +69,19 @@ public class UsuarioController {
 	 *            La contraseña.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
-	 * @param session
-	 *            La sesión HTTP en ejecución.
 	 * @param locale
 	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/login")
-	public String realizarLogin(@ModelAttribute Usuario usuario, Model model, HttpSession session, Locale locale) {
+	public String realizarLogin(@ModelAttribute Usuario usuario, Model model, Locale locale) {
 		try {
 			usuario = usuarioService.acceder(usuario.getNombreUsuario(), usuario.getContrasenna());
 			if (usuario == null) {
 				model.addAttribute(ATT_ERROR, messages.getMessage("login.error", null, locale));
 				return LOGIN_FORM;
 			}
-			session.setAttribute(ATT_USER, usuario);
+			model.addAttribute(LoginInterceptor.ATT_USER, usuario);
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,17 +119,14 @@ public class UsuarioController {
 	 *            Interfaz donde se almacenan atributos.
 	 * @param locale
 	 *            La configuración de idioma activa.
-	 * @param session
-	 *            La sesión HTTP en ejecución.
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/registro")
-	public String registrarUsuario(@ModelAttribute Usuario usuario, Model model, Locale locale, HttpSession session) {
+	public String registrarUsuario(@ModelAttribute Usuario usuario, Model model, Locale locale) {
 		try {
 			usuarioService.registrar(usuario);
 			// Una vez realizado el registro, se hace login con el usuario.
-			session.setAttribute(ATT_USER, usuario);
-			return SUCCESS;
+			return realizarLogin(usuario, model, locale);
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (e instanceof AssertionFailure) {
@@ -150,14 +146,14 @@ public class UsuarioController {
 	 * 
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
-	 * @param session
+	 * @param sessionStatus
 	 *            La sesión HTTP en ejecución.
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@RequestMapping(value = "/logout")
-	public String desconectar(Model model, HttpSession session) {
+	public String desconectar(Model model, SessionStatus sessionStatus) {
 		try {
-			session.removeAttribute(ATT_USER);
+			sessionStatus.setComplete();
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
