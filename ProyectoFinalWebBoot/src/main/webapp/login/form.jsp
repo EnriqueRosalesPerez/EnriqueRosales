@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page errorPage="error.jsp"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,23 +10,24 @@
 <title><spring:message code="login.titulo" /></title>
 </head>
 <body>
-	<form action="${pageContext.request.contextPath }/login" method="POST">
+	<form:form modelAttribute="usuario"
+		action="${pageContext.request.contextPath }/login" method="POST">
 		<p>
-			<spring:message code="registro.nombre" />
+			<spring:message code="login.nombre" />
 		</p>
 		<p>
-			<input type="text" name="username" />
+			<form:input path="nombreUsuario" />
 		</p>
 		<p>
-			<spring:message code="registro.pass" />
+			<spring:message code="login.pass" />
 		</p>
 		<p>
-			<input type="password" name="pass" />
+			<form:input type="password" path="contrasenna" />
 		</p>
 		<p>
-			<input type="submit" value="Acceder" />
+			<input type="submit" value="<spring:message code="login.acceder" />" />
 		</p>
-	</form>
+	</form:form>
 	${error }
 	<br>
 	<a href="${pageContext.request.contextPath }/directorios"><spring:message

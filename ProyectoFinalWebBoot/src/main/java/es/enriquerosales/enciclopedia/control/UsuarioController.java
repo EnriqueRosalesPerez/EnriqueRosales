@@ -10,6 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,9 +50,8 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/login")
-	public String mostrarLoginForm(Model model) {
+	public String mostrarLoginForm(@ModelAttribute Usuario usuario, Model model) {
 		try {
-			// TODO Usar formulario de Spring con clase Usuario.
 			return LOGIN_FORM;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,13 +76,11 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/login")
-	public String realizarLogin(@RequestParam String username, @RequestParam String pass,
-			Model model, HttpSession session, Locale locale) {
+	public String realizarLogin(@ModelAttribute Usuario usuario, Model model, HttpSession session, Locale locale) {
 		try {
-			Usuario usuario = usuarioService.acceder(username, pass);
+			usuario = usuarioService.acceder(usuario.getNombreUsuario(), usuario.getContrasenna());
 			if (usuario == null) {
-				model.addAttribute(ATT_ERROR,
-						messages.getMessage("login.error", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("login.error", null, locale));
 				return LOGIN_FORM;
 			}
 			session.setAttribute(ATT_USER, usuario);
@@ -128,8 +126,8 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/registro")
-	public String registrarUsuario(@RequestParam String username,
-			@RequestParam String pass, Model model, Locale locale, HttpSession session) {
+	public String registrarUsuario(@RequestParam String username, @RequestParam String pass, Model model, Locale locale,
+			HttpSession session) {
 		try {
 			Usuario usuario = new Usuario();
 			usuario.setNombreUsuario(username);
@@ -143,12 +141,10 @@ public class UsuarioController {
 			if (e instanceof AssertionFailure) {
 				// Nombre de usuario introducido ya existente
 				// TODO Usar result.reject();
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("registro.error.usuarioexistente", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("registro.error.usuarioexistente", null, locale));
 				return REGISTRO_FORM;
 			} else {
-				model.addAttribute(ATT_ERROR,
-						messages.getMessage("registro.error", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("registro.error", null, locale));
 				return REGISTRO_FORM;
 			}
 		}
