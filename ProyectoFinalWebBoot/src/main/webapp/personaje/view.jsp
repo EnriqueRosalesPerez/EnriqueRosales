@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,17 +69,18 @@
 		<spring:message code="personaje.comentarios.titulo" />
 	</h3>
 	<c:if test="${not empty user }">
-		<form
+		<form:form modelAttribute="comentario"
 			action="${pageContext.request.contextPath }/comentario/publicar?personajeid=${personaje.id}"
 			method="POST">
 			<spring:message code="personaje.comentarios.publicar" />
-			<br> <input type="hidden" name="personajeid" id="personajeid"
-				value="${personaje.id }" />
-			<textarea required="required" name="comentario" id="comentario"
-				rows="4" cols="50"></textarea>
-			<br> <input type="submit"
+			<br>
+			<form:hidden path="personaje.id" value="${personaje.id }" />
+			<form:textarea required="required" path="comentario" rows="4"
+				cols="50" />
+			<br>
+			<input type="submit"
 				value=<spring:message code="personaje.comentarios.guardar" /> />
-		</form>
+		</form:form>
 		<br>
 	</c:if>
 	<c:choose>

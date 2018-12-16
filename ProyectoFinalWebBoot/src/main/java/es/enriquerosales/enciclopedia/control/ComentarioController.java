@@ -1,7 +1,5 @@
 package es.enriquerosales.enciclopedia.control;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +7,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import es.enriquerosales.enciclopedia.interceptor.LoginInterceptor;
 import es.enriquerosales.enciclopedia.modelo.Comentario;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
@@ -23,6 +23,7 @@ import es.enriquerosales.enciclopedia.servicio.ComentarioService;
  */
 @Controller
 @RequestMapping("/comentario")
+@SessionAttributes(LoginInterceptor.ATT_USER)
 public class ComentarioController {
 
 	@Autowired
@@ -43,16 +44,12 @@ public class ComentarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping("/publicar")
-	public String publicar(@RequestParam Integer personajeid,
-			@RequestParam String comentario, HttpSession session) {
+	public String publicar(@ModelAttribute Comentario comentario,
+			@ModelAttribute(LoginInterceptor.ATT_USER) Usuario usuario) {
 		try {
-			// TODO usar formulario de Spring con ModelAttribute
-			Personaje personaje = new Personaje();
-			personaje.setId(personajeid);
-			Usuario usuario = (Usuario) session.getAttribute("user");
-			comentarioService.publicar(usuario, personaje, comentario);
+			comentarioService.publicar(usuario, comentario.getPersonaje(), comentario.getComentario());
 			// Volver a la página donde se estaba
-			return SUCCESS + personajeid;
+			return SUCCESS + comentario.getPersonaje().getId();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
@@ -69,8 +66,7 @@ public class ComentarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping("/{id}/eliminar")
-	public String eliminar(@ModelAttribute Comentario comentario,
-			@RequestParam Integer personajeid) {
+	public String eliminar(@ModelAttribute Comentario comentario, @RequestParam Integer personajeid) {
 		try {
 			comentarioService.eliminar(comentario);
 			// Volver a la página donde se estaba
