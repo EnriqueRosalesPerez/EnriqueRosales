@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.UsuarioService;
@@ -100,7 +99,7 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/registro")
-	public String mostrarRegistroForm(Model model) {
+	public String mostrarRegistroForm(@ModelAttribute Usuario usuario, Model model) {
 		try {
 			return REGISTRO_FORM;
 		} catch (Exception e) {
@@ -126,12 +125,8 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/registro")
-	public String registrarUsuario(@RequestParam String username, @RequestParam String pass, Model model, Locale locale,
-			HttpSession session) {
+	public String registrarUsuario(@ModelAttribute Usuario usuario, Model model, Locale locale, HttpSession session) {
 		try {
-			Usuario usuario = new Usuario();
-			usuario.setNombreUsuario(username);
-			usuario.setContrasenna(pass);
 			usuarioService.registrar(usuario);
 			// Una vez realizado el registro, se hace login con el usuario.
 			session.setAttribute(ATT_USER, usuario);
