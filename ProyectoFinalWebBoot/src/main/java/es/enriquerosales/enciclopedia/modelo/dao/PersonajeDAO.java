@@ -2,6 +2,7 @@ package es.enriquerosales.enciclopedia.modelo.dao;
 
 import java.util.List;
 
+import es.enriquerosales.enciclopedia.modelo.Afiliacion;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 
@@ -66,6 +67,24 @@ public interface PersonajeDAO {
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */
 	List<Personaje> findByDirectorioAndNombre(Directorio directorio, String filtroNombre)
+			throws DAOException;
+
+	/**
+	 * Busca todos los objetos {@link Personaje} del sistema que pertenezcan a la
+	 * {@link Afiliacion} indicada como parámetro y cuyo nombre contenga el filtro
+	 * obtenido como parámetro.
+	 * 
+	 * @param afiliacion
+	 *            La {@link Afiliacion} del que obtener los Personajes.
+	 * @param filtroNombre
+	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
+	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
+	 *         sistema que pertenecen al Directorio dado y que contengan el filtro
+	 *         en su nombre.
+	 * @throws DAOException
+	 *             Si se produce un error al interactuar con la base de datos.
+	 */
+	List<Personaje> findByAfiliacionAndNombre(Afiliacion afiliacion, String filtroNombre)
 			throws DAOException;
 
 	/**

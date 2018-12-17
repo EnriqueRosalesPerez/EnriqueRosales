@@ -43,6 +43,7 @@ public class DirectorioController {
 	private static final String ATT_DIR = "directorio";
 	private static final String ATT_DIRS = "directorios";
 	private static final String ATT_PERSONAJES = "personajes";
+	private static final String ATT_AFILIACIONES = "afiliaciones";
 	private static final String ATT_BUSQUEDA = "busqueda";
 	private static final String ATT_ERROR = "error";
 
@@ -115,6 +116,7 @@ public class DirectorioController {
 			}
 			model.addAttribute(ATT_DIR, dir);
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(dir));
+			model.addAttribute(ATT_AFILIACIONES, dir.getAfiliaciones());
 			return VIEW;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,6 +151,7 @@ public class DirectorioController {
 				return ERROR;
 			}
 			model.addAttribute(ATT_DIR, directorio);
+			model.addAttribute(ATT_AFILIACIONES, directorio.getAfiliaciones());
 			model.addAttribute(ATT_PERSONAJES, personajeService.listar(directorio, s));
 			model.addAttribute(ATT_BUSQUEDA, s);
 			return VIEW;

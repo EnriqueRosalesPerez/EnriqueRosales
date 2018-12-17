@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * Representa la afiliación de un {@link Personaje} dentro de un período o
@@ -45,6 +46,7 @@ public class Afiliacion {
 		this.id = id;
 	}
 
+	@NotEmpty
 	@Column(name = "nombre", nullable = false)
 	public String getNombre() {
 		return nombre;

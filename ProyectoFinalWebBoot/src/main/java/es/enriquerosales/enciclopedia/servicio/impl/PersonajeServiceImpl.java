@@ -69,6 +69,16 @@ public class PersonajeServiceImpl implements PersonajeService {
 	}
 
 	@Override
+	public List<Personaje> listar(Afiliacion afiliacion, String filtroNombre)
+			throws ServiceException {
+		try {
+			return personajeDAO.findByAfiliacionAndNombre(afiliacion, filtroNombre);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
 	public Personaje buscar(int id) throws ServiceException {
 		try {
 			return personajeDAO.findById(id);

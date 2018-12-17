@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import es.enriquerosales.enciclopedia.modelo.Afiliacion;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
@@ -66,6 +67,20 @@ public class PersonajeDAOHib implements PersonajeDAO {
 			String hql = "FROM Personaje WHERE directorio.id = :dir AND nombre LIKE :nombre";
 			return sessionFactory.getCurrentSession().createQuery(hql)
 					.setParameter("dir", directorio.getId())
+					.setParameter("nombre", "%" + filtroNombre + "%").list();
+		} catch (Exception e) {
+			throw new DAOException(e);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Personaje> findByAfiliacionAndNombre(Afiliacion afiliacion,
+			String filtroNombre) throws DAOException {
+		try {
+			String hql = "SELECT p FROM Afiliacion a JOIN a.personajes p WHERE a.id = :id AND p.nombre LIKE :nombre";
+			return sessionFactory.getCurrentSession().createQuery(hql)
+					.setParameter("id", afiliacion.getId())
 					.setParameter("nombre", "%" + filtroNombre + "%").list();
 		} catch (Exception e) {
 			throw new DAOException(e);

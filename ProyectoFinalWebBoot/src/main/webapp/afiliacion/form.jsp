@@ -4,54 +4,65 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<c:choose>
-	<c:when test="${empty afiliacion.nombre}">
-		<title><spring:message code="afiliacion.form.titulo.nuevo" /></title>
-	</c:when>
-	<c:otherwise>
-		<title><spring:message code="afiliacion.form.titulo.editar"
-				arguments="${afiliacion.nombre }" /></title>
-	</c:otherwise>
-</c:choose>
-</head>
-<body>
-	<form:form modelAttribute="afiliacion" method="POST"
-		action="${pageContext.request.contextPath }/afiliacion/guardar">
-		<form:hidden path="directorio.id" />
-		<form:hidden path="id" />
-		<table>
-			<tr>
-				<td><spring:message code="afiliacion.form.nombre" /></td>
-				<td><form:input path="nombre" /> <form:errors path="nombre"
-						cssClass="error" /></td>
-			</tr>
-		</table>
-		<spring:message code="afiliacion.form.descripcion" />
-		<br>
-		<form:textarea path="descripcion" rows="4" cols="50"
-			value="${afiliacion.descripcion}" />
-		<br>
-		<input type="submit"
-			value=<spring:message code="afiliacion.form.guardar" /> />
-		<br>
-		<br>
+<script>
+	$(document)
+			.ready(
+					function() {
+						var afiliacion = '${afiliacion.nombre}';
+						if (afiliacion == '') {
+							document.title = '<spring:message code="afiliacion.form.titulo.nuevo" />'
+						} else {
+							document.title = '<spring:message code="afiliacion.form.titulo.editar" arguments="${afiliacion.nombre}"/>'
+						}
+					})
+</script>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
+					code="directorios.titulo"></spring:message></a></li>
+		<li class="breadcrumb-item"><a
+			href="${raiz }/directorio/${afiliacion.directorio.id}">${afiliacion.directorio.nombre }</a></li>
 		<c:choose>
-			<c:when test="${empty afiliacion.id }">
-				<a
-					href="${pageContext.request.contextPath }/directorio/${directorio.id}"><spring:message
-						code="afiliacion.form.salir" /></a>
+			<c:when test="${not empty afiliacion.nombre }">
+				<li class="breadcrumb-item active" aria-current="page"><spring:message
+						code="afiliacion.form.titulo.editar"
+						arguments="${afiliacion.nombre}" /></li>
 			</c:when>
 			<c:otherwise>
-				<a
-					href="${pageContext.request.contextPath }/afiliacion/${afiliacion.id}"><spring:message
-						code="afiliacion.form.salir" /></a>
+				<li class="breadcrumb-item active" aria-current="page"><spring:message
+						code="afiliacion.form.titulo.nuevo" /></li>
 			</c:otherwise>
 		</c:choose>
-
-	</form:form>
-</body>
-</html>
+	</ol>
+</nav>
+<form:form modelAttribute="afiliacion" method="POST"
+	action="${raiz }/afiliacion/guardar">
+	<div class="form-group">
+		<form:errors path="nombre" cssClass="alert alert-danger" />
+	</div>
+	<form:hidden path="directorio.id" />
+	<form:hidden path="id" />
+	<div class="form-group">
+		<spring:message code="afiliacion.form.nombre" />
+		<form:input path="nombre" cssClass="form-control" />
+	</div>
+	<div class="form-group">
+		<spring:message code="afiliacion.form.descripcion" />
+		<form:textarea path="descripcion" value="${afiliacion.descripcion}"
+			cssClass="form-control" rows="20" />
+	</div>
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary"
+			value=<spring:message code="afiliacion.form.guardar" /> />
+	</div>
+	<c:choose>
+		<c:when test="${empty afiliacion.id }">
+			<a href="${raiz }/directorio/${afiliacion.directorio.id}"><spring:message
+					code="afiliacion.form.salir" /></a>
+		</c:when>
+		<c:otherwise>
+			<a href="${raiz }/afiliacion/${afiliacion.id}"><spring:message
+					code="afiliacion.form.salir" /></a>
+		</c:otherwise>
+	</c:choose>
+</form:form>

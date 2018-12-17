@@ -22,6 +22,7 @@ import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.AfiliacionService;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
+import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 
 /**
  * Clase controlador para realizar tareas relacionadas con directorios.
@@ -40,9 +41,14 @@ public class AfiliacionController {
 	private DirectorioService dirService;
 
 	@Autowired
+	private PersonajeService personajeService;
+
+	@Autowired
 	private MessageSource messages;
 
 	private static final String ATT_AFILIACION = "afiliacion";
+	private static final String ATT_PERSONAJES = "personajes";
+	private static final String ATT_BUSQUEDA = "busqueda";
 	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
@@ -73,6 +79,43 @@ public class AfiliacionController {
 				return ERROR;
 			}
 			model.addAttribute(ATT_AFILIACION, afiliacion);
+			model.addAttribute(ATT_PERSONAJES, afiliacion.getPersonajes());
+			return VIEW;
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute(ATT_ERROR, e);
+			return ERROR;
+		}
+	}
+
+	/**
+	 * Muestra el listado Personajes dentro de una afiliación filtrado según un
+	 * criterio de búsqueda.
+	 * 
+	 * @param id
+	 *            El ID de la Afiliacion donde se realiza la búsqueda.
+	 * @param s
+	 *            El parámetro de búsqueda.
+	 * @param model
+	 *            Interfaz donde se almacenan atributos.
+	 * @param locale
+	 *            La configuración de idioma activa.
+	 * @return Una cadena que representa la página de destino.
+	 */
+	@GetMapping(value = "{id}/buscar")
+	public String buscarPersonajes(@PathVariable int id, @RequestParam String s,
+			Model model, Locale locale) {
+		try {
+			Afiliacion afiliacion = afiliacionService.buscar(id);
+			if (afiliacion == null) {
+				// Afiliación no encontrada
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.afiliacion.noencontrado", null, locale));
+				return ERROR;
+			}
+			model.addAttribute(ATT_AFILIACION, afiliacion);
+			model.addAttribute(ATT_PERSONAJES, personajeService.listar(afiliacion, s));
+			model.addAttribute(ATT_BUSQUEDA, s);
 			return VIEW;
 		} catch (Exception e) {
 			e.printStackTrace();

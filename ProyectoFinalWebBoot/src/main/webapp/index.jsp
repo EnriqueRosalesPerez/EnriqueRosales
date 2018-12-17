@@ -9,6 +9,6 @@
 <title></title>
 </head>
 <body>
-	<c:redirect url="${pageContext.request.contextPath }/directorios" />
+	<c:redirect url="${raiz }/directorios" />
 </body>
 </html>

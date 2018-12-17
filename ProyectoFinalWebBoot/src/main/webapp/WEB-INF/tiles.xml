@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE tiles-definitions PUBLIC       
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"       
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/tiles/layout.jsp">
+		<put-attribute name="header" value="/tiles/header.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/tiles/footer.jsp" />
+	</definition>
+	<definition name="login/form" extends="baseLayout">
+		<put-attribute name="body" value="/login/form.jsp" />
+	</definition>
+	<definition name="registro/form" extends="baseLayout">
+		<put-attribute name="body" value="/registro/form.jsp" />
+	</definition>
+	<definition name="directorio/list" extends="baseLayout">
+		<put-attribute name="body" value="/directorio/list.jsp" />
+	</definition>
+	<definition name="directorio/view" extends="baseLayout">
+		<put-attribute name="body" value="/directorio/view.jsp" />
+	</definition>
+	<definition name="directorio/form" extends="baseLayout">
+		<put-attribute name="body" value="/directorio/form.jsp" />
+	</definition>
+	<definition name="personaje/view" extends="baseLayout">
+		<put-attribute name="body" value="/personaje/view.jsp" />
+	</definition>
+	<definition name="personaje/form" extends="baseLayout">
+		<put-attribute name="body" value="/personaje/form.jsp" />
+	</definition>
+	<definition name="afiliacion/view" extends="baseLayout">
+		<put-attribute name="body" value="/afiliacion/view.jsp" />
+	</definition>
+	<definition name="afiliacion/form" extends="baseLayout">
+		<put-attribute name="body" value="/afiliacion/form.jsp" />
+	</definition>
+	<definition name="error" template="/error.jsp">
+	</definition>
+</tiles-definitions>

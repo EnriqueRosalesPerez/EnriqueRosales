@@ -2,6 +2,7 @@ package es.enriquerosales.enciclopedia.servicio;
 
 import java.util.List;
 
+import es.enriquerosales.enciclopedia.modelo.Afiliacion;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
@@ -26,7 +27,7 @@ public interface PersonajeService {
 
 	/**
 	 * Crea una lista las instancias de {@link Personaje} que contengan en su nombre
-	 * el filtro obtenido como parámetro.
+	 * el filtro obtenido como parï¿½metro.
 	 * 
 	 * @param filtroNombre
 	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
@@ -39,7 +40,7 @@ public interface PersonajeService {
 
 	/**
 	 * Crea una lista las instancias de {@link Personaje} que pertenezcan al
-	 * {@link Directorio} indicado como parámetro.
+	 * {@link Directorio} indicado como parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} del que obtener los Personajes.
@@ -52,8 +53,8 @@ public interface PersonajeService {
 
 	/**
 	 * Crea una lista las instancias de {@link Personaje} que pertenezcan al
-	 * {@link Directorio} indicado como parámetro y contengan en su nombre el filtro
-	 * obtenido como parámetro.
+	 * {@link Directorio} indicado como parï¿½metro y contengan en su nombre el filtro
+	 * obtenido como parï¿½metro.
 	 * 
 	 * @param directorio
 	 *            El {@link Directorio} del que obtener los Personajes.
@@ -69,7 +70,25 @@ public interface PersonajeService {
 			throws ServiceException;
 
 	/**
-	 * Devuelve el {@link Personaje} que tenga el ID obtenido como parámetro.
+	 * Crea una lista las instancias de {@link Personaje} que pertenezcan a la
+	 * {@link Afiliacion} indicada como parÃ¡metro y contengan en su nombre el filtro
+	 * obtenido como parÃ¡metro.
+	 * 
+	 * @param afiliacion
+	 *            La {@link Afiliacion} del que obtener los Personajes.
+	 * @param filtroNombre
+	 *            El texto a utilizar como filtro para buscar el {@link Personaje}.
+	 * @return Una {@link List} que contiene todos los objetos {@link Personaje} del
+	 *         sistema que pertenecen al Directorio dado y cuyo nombre contenga el
+	 *         filtro.
+	 * @throws ServiceException
+	 *             Si se produce un error al procesar el servicio.
+	 */
+	List<Personaje> listar(Afiliacion afiliacion, String filtroNombre)
+			throws ServiceException;
+
+	/**
+	 * Devuelve el {@link Personaje} que tenga el ID obtenido como parï¿½metro.
 	 * 
 	 * @param id
 	 *            El ID del {@link Personaje} a buscar.
@@ -84,7 +103,7 @@ public interface PersonajeService {
 	 * Crea una nueva entrada de {@link Personaje} en el sistema.
 	 * 
 	 * @param creador
-	 *            El {@link Usuario} que está creando el {@link Personaje}.
+	 *            El {@link Usuario} que estï¿½ creando el {@link Personaje}.
 	 * @param personaje
 	 *            El {@link Personaje} a crear en el sistema.
 	 * @throws ServiceException
@@ -93,10 +112,10 @@ public interface PersonajeService {
 	void crear(Usuario creador, Personaje personaje) throws ServiceException;
 
 	/**
-	 * Actualiza la información de una entrada de {@link Personaje} existente.
+	 * Actualiza la informaciï¿½n de una entrada de {@link Personaje} existente.
 	 * 
 	 * @param editor
-	 *            El {@link Usuario} que está realizando la edición.
+	 *            El {@link Usuario} que estï¿½ realizando la ediciï¿½n.
 	 * 
 	 * @param personaje
 	 *            El {@link Personaje} cuyos datos se van a actualizar.
