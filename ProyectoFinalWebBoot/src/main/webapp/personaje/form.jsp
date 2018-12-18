@@ -25,8 +25,7 @@
 						<li class="breadcrumb-item"><a
 							href="${raiz }/personaje/${personaje.id}">${nombre }</a></li>
 						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="personaje.form.titulo.editar"
-								arguments="${nombre}" /></li>
+								code="personaje.form.titulo.editar" arguments="${nombre}" /></li>
 					</c:when>
 					<c:otherwise>
 						<li class="breadcrumb-item"><a
@@ -44,7 +43,7 @@
 	</ol>
 </nav>
 <form:form modelAttribute="personaje" method="POST"
-	action="${raiz }/personaje/guardar">
+	enctype="multipart/form-data" action="${raiz }/personaje/guardar">
 	<form:hidden path="directorio.id" />
 	<form:hidden path="id" />
 	<form:errors path="*" cssClass="form-group alert alert-danger"
@@ -53,6 +52,25 @@
 		<spring:message code="personaje.form.nombre" />
 		<form:input path="nombre" cssClass="form-control" />
 	</div>
+	<div class="form-group">
+		<spring:message code="personaje.form.imagen" />
+		<c:choose>
+			<c:when test="${empty personaje.imagen }">
+				<input type="file" name="retrato" accept="image/jpg, image/png"
+					class="form-control-file">
+			</c:when>
+			<c:otherwise>
+				<input type="text" class="form-control" value=${personaje.imagen }
+					readonly />
+				<spring:message code="personaje.form.imagen.modificar" />
+				<input type="file" name="retrato" accept="image/jpg, image/png"
+					class="form-control-file">
+				<input type="checkbox" name="borrarImagen">
+				<spring:message code="personaje.form.imagen.eliminar" />
+			</c:otherwise>
+		</c:choose>
+	</div>
+	<div class="form-group"></div>
 	<div class="form-group">
 		<spring:message code="personaje.form.nacimiento" />
 		<form:input path="annoNacimiento" cssClass="form-control" />

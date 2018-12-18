@@ -3,6 +3,7 @@ package es.enriquerosales.enciclopedia.control;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.enriquerosales.enciclopedia.interceptor.LoginInterceptor;
 import es.enriquerosales.enciclopedia.modelo.Comentario;
@@ -27,6 +29,7 @@ import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.AfiliacionService;
+import es.enriquerosales.enciclopedia.servicio.ArchivoService;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
 import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 import es.enriquerosales.enciclopedia.servicio.ServiceException;
@@ -52,11 +55,19 @@ public class PersonajeController {
 	private AfiliacionService afiliacionService;
 
 	@Autowired
+	private ArchivoService archivoService;
+
+	@Autowired
 	private MessageSource messages;
+
+	@Autowired
+	private ServletContext context;
 
 	private static final String ATT_PERSONAJE = "personaje";
 	private static final String ATT_AFILIACIONES = "afiliaciones";
 	private static final String ATT_ERROR = "error";
+	private static final String IMAGES_PATH = "images/";
+	private static final String IMAGES_NAME = "attachment_";
 
 	private static final String VIEW = "personaje/view";
 	private static final String FORM = "personaje/form";
@@ -73,22 +84,23 @@ public class PersonajeController {
 	 */
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) throws Exception {
-		binder.registerCustomEditor(Set.class, "afiliaciones", new CustomCollectionEditor(Set.class) {
-			// Convierte los ID que llegan en la solicitud como un array de String
-			// a objetos Afiliacion
-			protected Object convertElement(Object idStr) {
-				if (idStr instanceof String) {
-					try {
-						int id = Integer.parseInt((String) idStr);
-						return afiliacionService.buscar(id);
+		binder.registerCustomEditor(Set.class, "afiliaciones",
+				new CustomCollectionEditor(Set.class) {
+					// Convierte los ID que llegan en la solicitud como un array de String
+					// a objetos Afiliacion
+					protected Object convertElement(Object idStr) {
+						if (idStr instanceof String) {
+							try {
+								int id = Integer.parseInt((String) idStr);
+								return afiliacionService.buscar(id);
 
-					} catch (ServiceException e) {
-						e.printStackTrace();
+							} catch (ServiceException e) {
+								e.printStackTrace();
+							}
+						}
+						return null;
 					}
-				}
-				return null;
-			}
-		});
+				});
 	}
 
 	/**
@@ -105,12 +117,13 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}")
-	public String mostrarPersonaje(@PathVariable int id, @ModelAttribute Comentario comentario, Model model,
-			Locale locale) {
+	public String mostrarPersonaje(@PathVariable int id,
+			@ModelAttribute Comentario comentario, Model model, Locale locale) {
 		try {
 			Personaje personaje = personajeService.buscar(id);
 			if (personaje == null) {
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.personaje.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.personaje.noencontrado", null, locale));
 				// Personaje no encontrado
 				return ERROR;
 			}
@@ -136,12 +149,14 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/editar")
-	public String mostrarFormularioEdicion(@ModelAttribute Personaje personaje, Model model, Locale locale) {
+	public String mostrarFormularioEdicion(@ModelAttribute Personaje personaje,
+			Model model, Locale locale) {
 		try {
 			personaje = personajeService.buscar(personaje.getId());
 			if (personaje == null) {
 				// Personaje no encontrado
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.personaje.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.personaje.noencontrado", null, locale));
 				return ERROR;
 			}
 			// model.addAttribute(ATT_AFILIACIONES,
@@ -169,8 +184,8 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/crear")
-	public String mostrarFormularioCreacion(@ModelAttribute Personaje personaje, @RequestParam Integer dir, Model model,
-			Locale locale) {
+	public String mostrarFormularioCreacion(@ModelAttribute Personaje personaje,
+			@RequestParam Integer dir, Model model, Locale locale) {
 		try {
 			// Asignar directorio donde se crea el personaje.
 			Directorio directorio = dirService.buscar(dir);
@@ -210,27 +225,47 @@ public class PersonajeController {
 	 */
 	@PostMapping(value = "/guardar")
 	public String guardarPersonaje(@Valid Personaje personaje, BindingResult result,
-			@ModelAttribute Comentario comentario, @ModelAttribute(LoginInterceptor.ATT_USER) Usuario usuario,
-			Model model, Locale locale) {
+			@RequestParam MultipartFile retrato,
+			@RequestParam(required = false) boolean borrarImagen,
+			@ModelAttribute Comentario comentario,
+			@ModelAttribute(LoginInterceptor.ATT_USER) Usuario usuario, Model model,
+			Locale locale) {
 		try {
 			if (result.hasErrors()) {
 				// Recuperar datos del directorio
-				personaje.setDirectorio(dirService.buscar(personaje.getDirectorio().getId()));
+				personaje.setDirectorio(
+						dirService.buscar(personaje.getDirectorio().getId()));
 				return FORM;
 			}
 			if (personaje.getId() == null) {
 				// Creando nuevo personaje
+				if (!retrato.isEmpty()) {
+					personaje.setImagen(guardar(retrato));
+				}
 				personajeService.crear(usuario, personaje);
 			} else {
-				// Editando personaje existente, asignando creador y fecha de creaci�n
-				// original.
+				// Editando personaje existente, asignando creador, fecha de creaci�n e
+				// imagen original.
 				Personaje antiguo = personajeService.buscar(personaje.getId());
 				personaje.setCreador(antiguo.getCreador());
 				personaje.setFechaCreacion(antiguo.getFechaCreacion());
+				personaje.setImagen(antiguo.getImagen());
+				if (borrarImagen) {
+					borrar(personaje.getImagen());
+					personaje.setImagen(null);
+				} else if (!retrato.isEmpty()) {
+					// Eliminar imagen antigua
+					if (personaje.getImagen() != null) {
+						borrar(personaje.getImagen());
+					}
+				}
+				if (!retrato.isEmpty()) {
+					personaje.setImagen(guardar(retrato));
+				}
 				personajeService.editar(usuario, personaje);
-
 			}
-			return mostrarPersonaje(personaje.getId(), comentario, model, locale);
+
+			return "redirect:/personaje/" + personaje.getId();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -251,12 +286,14 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/eliminar")
-	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model, Locale locale) {
+	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model,
+			Locale locale) {
 		try {
 			personaje = personajeService.buscar(personaje.getId());
 			if (personaje == null) {
 				// Personaje no encontrado
-				model.addAttribute(ATT_ERROR, messages.getMessage("error.personaje.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages
+						.getMessage("error.personaje.noencontrado", null, locale));
 				return ERROR;
 			}
 			int dir = personaje.getDirectorio().getId();
@@ -267,5 +304,41 @@ public class PersonajeController {
 			model.addAttribute(ATT_ERROR, e);
 			return ERROR;
 		}
+	}
+
+	/**
+	 * Guarda la imagen en el sistema.
+	 * 
+	 * @param file
+	 *            El archivo a guardar.
+	 * @return La ruta donde se ha guardado el archivo.
+	 * @throws ServiceException
+	 *             Si se produce un error al guardar el fichero.
+	 */
+	private String guardar(MultipartFile file) throws ServiceException {
+		String ruta = null;
+		if (file != null && file.getOriginalFilename() != null
+				&& !file.getOriginalFilename().isEmpty()) {
+			ruta = IMAGES_PATH + IMAGES_NAME + System.currentTimeMillis() + "_"
+					+ file.getOriginalFilename();
+			String path = context.getRealPath(ruta);
+
+			// Almacenar en disco
+			archivoService.guardar(file, path);
+		}
+
+		return ruta;
+	}
+
+	/**
+	 * Elimina el archivo situado en la ruta obtenida.
+	 * 
+	 * @param filePath
+	 *            La ruta del archivo a eliminar.
+	 * @throws ServiceException
+	 *             Si se produce un error al eliminar.
+	 */
+	private void borrar(String filePath) throws ServiceException {
+		archivoService.eliminar(context.getRealPath(filePath));
 	}
 }

@@ -40,6 +40,7 @@ public class Personaje {
 	private Directorio directorio;
 	private Date fechaCreacion;
 	private Usuario creador;
+	private String imagen;
 	private Set<Comentario> comentarios;
 	private Set<Afiliacion> afiliaciones;
 
@@ -123,6 +124,15 @@ public class Personaje {
 		this.creador = creador;
 	}
 
+	@Column(name = "imagen", length = 45)
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "personaje")
 	@OrderBy("fechaPublicacion DESC")
 	public Set<Comentario> getComentarios() {
@@ -135,7 +145,8 @@ public class Personaje {
 
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "afiliaciones_personajes", joinColumns = {
-			@JoinColumn(name = "idPersonaje") }, inverseJoinColumns = { @JoinColumn(name = "idAfiliacion") })
+			@JoinColumn(name = "idPersonaje") }, inverseJoinColumns = {
+					@JoinColumn(name = "idAfiliacion") })
 	public Set<Afiliacion> getAfiliaciones() {
 		return afiliaciones;
 	}

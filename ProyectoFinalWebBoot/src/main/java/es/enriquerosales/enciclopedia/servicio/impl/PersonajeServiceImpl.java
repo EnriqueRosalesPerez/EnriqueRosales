@@ -3,6 +3,8 @@ package es.enriquerosales.enciclopedia.servicio.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,6 +18,7 @@ import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.modelo.dao.DAOException;
 import es.enriquerosales.enciclopedia.modelo.dao.EdicionPersonajeDAO;
 import es.enriquerosales.enciclopedia.modelo.dao.PersonajeDAO;
+import es.enriquerosales.enciclopedia.servicio.ArchivoService;
 import es.enriquerosales.enciclopedia.servicio.PersonajeService;
 import es.enriquerosales.enciclopedia.servicio.ServiceException;
 
@@ -34,6 +37,12 @@ public class PersonajeServiceImpl implements PersonajeService {
 
 	@Autowired
 	private EdicionPersonajeDAO edicionPersonajeDAO;
+
+	@Autowired
+	private ArchivoService archivoService;
+
+	@Autowired
+	private ServletContext context;
 
 	@Override
 	public List<Personaje> listar() throws ServiceException {
@@ -116,6 +125,9 @@ public class PersonajeServiceImpl implements PersonajeService {
 		try {
 			personaje = personajeDAO.findById(personaje.getId());
 			eliminarAfiliaciones(personaje);
+			if (personaje.getImagen() != null) {
+				archivoService.eliminar(context.getRealPath(personaje.getImagen()));
+			}
 			personajeDAO.delete(personaje);
 		} catch (DAOException e) {
 			throw new ServiceException(e);

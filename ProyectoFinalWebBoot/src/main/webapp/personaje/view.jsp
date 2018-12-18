@@ -94,15 +94,21 @@
 		</c:if>
 	</section>
 </div>
+<c:if test="${not empty personaje.imagen }">
+	<div class="float-right col-sm-2 border"
+		style="margin: 10px; padding: 10px;">
+		<img src="${raiz }/${personaje.imagen }" class="img-fluid" />
+	</div>
+</c:if>
 <div class="text-left">
 	<h1>${personaje.nombre}</h1>
 </div>
 <div class="text-left font-italic">
 	<c:out value="${personaje.annoNacimiento } - ${personaje.annoMuerte }"></c:out>
 </div>
-<hr>
-<jsp:include page="/afiliacion/list.jsp" />
-<hr>
+<div class="container">
+	<jsp:include page="/afiliacion/list.jsp" />
+</div>
 <div class="text-justify" style="white-space: pre-wrap;">${personaje.biografia}</div>
 <hr>
 <h3>
