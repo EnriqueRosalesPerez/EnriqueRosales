@@ -3,6 +3,7 @@
 <%@ page errorPage="error.jsp"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
@@ -13,6 +14,9 @@
 </nav>
 <form:form modelAttribute="usuario" action="${raiz }/login"
 	method="POST">
+	<c:if test="${not empty incorrecto }">
+		<div class="form-group alert alert-danger">${incorrecto }</div>
+	</c:if>
 	<form:errors path="nombreUsuario"
 		cssClass="form-group alert alert-danger" element="div"></form:errors>
 	<form:errors path="contrasenna"

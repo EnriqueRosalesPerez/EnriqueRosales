@@ -80,14 +80,18 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/login")
-	public String realizarLogin(@Valid Usuario usuario, BindingResult result, Model model, Locale locale) {
+	public String realizarLogin(@Valid Usuario usuario, BindingResult result, Model model,
+			Locale locale) {
 		try {
-			if (result.hasFieldErrors("nombreUsuario") || result.hasFieldErrors("contrasenna")) {
+			if (result.hasFieldErrors("nombreUsuario")
+					|| result.hasFieldErrors("contrasenna")) {
 				return LOGIN_FORM;
 			}
-			usuario = usuarioService.acceder(usuario.getNombreUsuario(), usuario.getContrasenna());
+			usuario = usuarioService.acceder(usuario.getNombreUsuario(),
+					usuario.getContrasenna());
 			if (usuario == null) {
-				result.reject("nombreUsuario", messages.getMessage("login.error", null, locale));
+				model.addAttribute("incorrecto",
+						messages.getMessage("login.error", null, locale));
 				return LOGIN_FORM;
 			}
 			model.addAttribute(LoginInterceptor.ATT_USER, usuario);
@@ -137,14 +141,17 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/registro")
-	public String registrarUsuario(@Valid Usuario usuario, BindingResult result, @RequestParam String emailrep,
-			@RequestParam String passrep, Model model, Locale locale) {
+	public String registrarUsuario(@Valid Usuario usuario, BindingResult result,
+			@RequestParam String emailrep, @RequestParam String passrep, Model model,
+			Locale locale) {
 		try {
 			if (!emailrep.equals(usuario.getEmail())) {
-				result.reject("email", messages.getMessage("registro.error.email.nocoincide", null, locale));
+				result.reject("email", messages
+						.getMessage("registro.error.email.nocoincide", null, locale));
 			}
 			if (!passrep.equals(usuario.getContrasenna())) {
-				result.reject("contrasenna", messages.getMessage("registro.error.pass.nocoincide", null, locale));
+				result.reject("contrasenna", messages
+						.getMessage("registro.error.pass.nocoincide", null, locale));
 			}
 			if (result.hasErrors()) {
 				return REGISTRO_FORM;
@@ -157,10 +164,12 @@ public class UsuarioController {
 			e.printStackTrace();
 			if (e instanceof AssertionFailure) {
 				// Nombre de usuario o email introducido ya existente
-				result.reject("nombreUsuario", messages.getMessage("registro.error.usuarioexistente", null, locale));
+				result.reject("nombreUsuario", messages
+						.getMessage("registro.error.usuarioexistente", null, locale));
 				return REGISTRO_FORM;
 			} else {
-				model.addAttribute(ATT_ERROR, messages.getMessage("registro.error", null, locale));
+				model.addAttribute(ATT_ERROR,
+						messages.getMessage("registro.error", null, locale));
 				return REGISTRO_FORM;
 			}
 		}
