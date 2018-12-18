@@ -36,7 +36,7 @@ CREATE TABLE `afiliaciones` (
   KEY `FK_afiliaciones_usuarios_idCreador_idx` (`idCreador`),
   CONSTRAINT `FK_afiliaciones_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`),
   CONSTRAINT `FK_afiliaciones_usuarios_idCreador` FOREIGN KEY (`idCreador`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,7 +55,7 @@ CREATE TABLE `afiliaciones_personajes` (
   KEY `FK_afiliaciones_personajes_personajes_idPersonaje_idx` (`idPersonaje`),
   CONSTRAINT `FK_afiliaciones_personajes_afiliaciones_idAfiliacion` FOREIGN KEY (`idAfiliacion`) REFERENCES `afiliaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_afiliaciones_personajes_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `comentarios` (
   KEY `FK_comentarios_personajes_idPersonaje_idx` (`idPersonaje`),
   CONSTRAINT `FK_comentarios_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_comentarios_usuarios_idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +97,7 @@ CREATE TABLE `directorios` (
   PRIMARY KEY (`id`),
   KEY `FK_directorios_usuarios_idCreador_idx` (`idCreador`),
   CONSTRAINT `FK_directorios_usuarios_idCreador` FOREIGN KEY (`idCreador`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +117,7 @@ CREATE TABLE `edicionesafiliaciones` (
   KEY `FK_edicionesafiliaciones_usuarios_idEditor_idx` (`idEditor`),
   CONSTRAINT `FK_edicionesafiliaciones_afiliaciones_idAfiliacion` FOREIGN KEY (`idAfiliacion`) REFERENCES `afiliaciones` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_edicionesafiliaciones_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,8 +136,8 @@ CREATE TABLE `edicionesdirectorios` (
   KEY `FK_edicionesdirectorios_directorios_idDirectorio_idx` (`idDirectorio`),
   KEY `FK_edicionesdirectorios_usuarios_idEditor_idx` (`idEditor`),
   CONSTRAINT `FK_edicionesdirectorios_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_edicionesdirectorios_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_edicionesdirectorios_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,7 @@ CREATE TABLE `edicionespersonajes` (
   KEY `FK_edicionespersonajes_usuarios_idEditor_idx` (`idEditor`),
   CONSTRAINT `FK_edicionespersonajes_personajes_idPersonaje` FOREIGN KEY (`idPersonaje`) REFERENCES `personajes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_edicionespersonajes_usuarios_idEditor` FOREIGN KEY (`idEditor`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +181,7 @@ CREATE TABLE `personajes` (
   KEY `FK_personajes_directorios_idDirectorio_idx` (`idDirectorio`),
   CONSTRAINT `FK_personajes_directorios_idDirectorio` FOREIGN KEY (`idDirectorio`) REFERENCES `directorios` (`id`),
   CONSTRAINT `FK_personajes_usuarios_idCreador` FOREIGN KEY (`idCreador`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,11 +210,13 @@ CREATE TABLE `usuarios` (
   `nombreUsuario` varchar(45) NOT NULL,
   `contrasenna` varchar(45) NOT NULL,
   `tipoUsuarioId` int(11) NOT NULL,
+  `email` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombreUsuario_UNIQUE` (`nombreUsuario`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `FK_usuarios_tiposusuario_tipoUsuarioId_idx` (`tipoUsuarioId`),
   CONSTRAINT `FK_usuarios_tiposusuario_tipoUsuarioId` FOREIGN KEY (`tipoUsuarioId`) REFERENCES `tiposusuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -226,4 +228,4 @@ CREATE TABLE `usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-12-10 19:54:43
+-- Dump completed on 2018-12-18 13:50:50
