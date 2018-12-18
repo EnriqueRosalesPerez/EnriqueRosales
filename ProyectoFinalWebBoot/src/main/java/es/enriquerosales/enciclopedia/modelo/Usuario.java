@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 @Table(name = "usuarios")
 public class Usuario {
 
-	private Integer id;
+	private Integer idUsuario;
 	private String nombreUsuario;
 	private String contrasenna;
 	private TipoUsuario tipo;
@@ -29,12 +29,13 @@ public class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return id;
+	@Column(name = "id")
+	public Integer getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setIdUsuario(Integer id) {
+		this.idUsuario = id;
 	}
 
 	@NotEmpty
