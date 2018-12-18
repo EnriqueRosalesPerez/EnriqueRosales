@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * Clase POJO que representa un personaje hist�rico del sistema.
@@ -53,7 +54,8 @@ public class Personaje {
 	}
 
 	@NotEmpty
-	@Column(name = "nombre", nullable = false)
+	@Size(max = 255)
+	@Column(name = "nombre", nullable = false, length = 255)
 	public String getNombre() {
 		return nombre;
 	}
@@ -62,7 +64,8 @@ public class Personaje {
 		this.nombre = nombre;
 	}
 
-	@Column(name = "annoNacimiento")
+	@Size(max = 255)
+	@Column(name = "annoNacimiento", length = 255)
 	public String getAnnoNacimiento() {
 		return annoNacimiento;
 	}
@@ -71,7 +74,8 @@ public class Personaje {
 		this.annoNacimiento = annoNacimiento;
 	}
 
-	@Column(name = "annoMuerte")
+	@Size(max = 255)
+	@Column(name = "annoMuerte", length = 255)
 	public String getAnnoMuerte() {
 		return annoMuerte;
 	}
@@ -130,11 +134,8 @@ public class Personaje {
 	}
 
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-	@JoinTable(
-	        name = "afiliaciones_personajes", 
-	        joinColumns = { @JoinColumn(name = "idPersonaje") }, 
-	        inverseJoinColumns = { @JoinColumn(name = "idAfiliacion") }
-	    )
+	@JoinTable(name = "afiliaciones_personajes", joinColumns = {
+			@JoinColumn(name = "idPersonaje") }, inverseJoinColumns = { @JoinColumn(name = "idAfiliacion") })
 	public Set<Afiliacion> getAfiliaciones() {
 		return afiliaciones;
 	}

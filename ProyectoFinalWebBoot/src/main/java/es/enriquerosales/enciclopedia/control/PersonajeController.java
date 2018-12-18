@@ -3,7 +3,6 @@ package es.enriquerosales.enciclopedia.control;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import es.enriquerosales.enciclopedia.interceptor.LoginInterceptor;
 import es.enriquerosales.enciclopedia.modelo.Comentario;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Personaje;
@@ -38,6 +39,7 @@ import es.enriquerosales.enciclopedia.servicio.ServiceException;
  */
 @Controller
 @RequestMapping("/personaje")
+@SessionAttributes(LoginInterceptor.ATT_USER)
 public class PersonajeController {
 
 	@Autowired
@@ -54,7 +56,6 @@ public class PersonajeController {
 
 	private static final String ATT_PERSONAJE = "personaje";
 	private static final String ATT_AFILIACIONES = "afiliaciones";
-	private static final String ATT_USER = "user";
 	private static final String ATT_ERROR = "error";
 
 	private static final String VIEW = "personaje/view";
@@ -72,23 +73,22 @@ public class PersonajeController {
 	 */
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) throws Exception {
-		binder.registerCustomEditor(Set.class, "afiliaciones",
-				new CustomCollectionEditor(Set.class) {
-					// Convierte los ID que llegan en la solicitud como un array de String
-					// a objetos Afiliacion
-					protected Object convertElement(Object idStr) {
-						if (idStr instanceof String) {
-							try {
-								int id = Integer.parseInt((String) idStr);
-								return afiliacionService.buscar(id);
+		binder.registerCustomEditor(Set.class, "afiliaciones", new CustomCollectionEditor(Set.class) {
+			// Convierte los ID que llegan en la solicitud como un array de String
+			// a objetos Afiliacion
+			protected Object convertElement(Object idStr) {
+				if (idStr instanceof String) {
+					try {
+						int id = Integer.parseInt((String) idStr);
+						return afiliacionService.buscar(id);
 
-							} catch (ServiceException e) {
-								e.printStackTrace();
-							}
-						}
-						return null;
+					} catch (ServiceException e) {
+						e.printStackTrace();
 					}
-				});
+				}
+				return null;
+			}
+		});
 	}
 
 	/**
@@ -96,6 +96,8 @@ public class PersonajeController {
 	 * 
 	 * @param id
 	 *            El ID del Personaje a visualizar.
+	 * @param comentario
+	 *            Atributo para el formulario de Comentarios.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @param locale
@@ -103,13 +105,12 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}")
-	public String mostrarPersonaje(@PathVariable int id,
-			@ModelAttribute Comentario comentario, Model model, Locale locale) {
+	public String mostrarPersonaje(@PathVariable int id, @ModelAttribute Comentario comentario, Model model,
+			Locale locale) {
 		try {
 			Personaje personaje = personajeService.buscar(id);
 			if (personaje == null) {
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.personaje.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.personaje.noencontrado", null, locale));
 				// Personaje no encontrado
 				return ERROR;
 			}
@@ -135,14 +136,12 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/editar")
-	public String mostrarFormularioEdicion(@ModelAttribute Personaje personaje,
-			Model model, Locale locale) {
+	public String mostrarFormularioEdicion(@ModelAttribute Personaje personaje, Model model, Locale locale) {
 		try {
 			personaje = personajeService.buscar(personaje.getId());
 			if (personaje == null) {
 				// Personaje no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.personaje.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.personaje.noencontrado", null, locale));
 				return ERROR;
 			}
 			// model.addAttribute(ATT_AFILIACIONES,
@@ -170,8 +169,8 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/crear")
-	public String mostrarFormularioCreacion(@ModelAttribute Personaje personaje,
-			@RequestParam Integer dir, Model model, Locale locale) {
+	public String mostrarFormularioCreacion(@ModelAttribute Personaje personaje, @RequestParam Integer dir, Model model,
+			Locale locale) {
 		try {
 			// Asignar directorio donde se crea el personaje.
 			Directorio directorio = dirService.buscar(dir);
@@ -198,24 +197,27 @@ public class PersonajeController {
 	 *            El Personaje que se va a guardar, puede ser nuevo o existente.
 	 * @param result
 	 *            Interfaz que representa el resultado del formulario.
-	 * @param dir
-	 *            El ID del Directorio al que pertenece el Personaje.
+	 * @param comentario
+	 *            Atributo del modelo para vincularse a la página del personaje
+	 *            después de guardarlo.
+	 * @param usuario
+	 *            El {@link Usuario} de la sesión actual.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
-	 * @param session
-	 *            La sesión HTTP en ejecución.
 	 * @param locale
 	 *            La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/guardar")
 	public String guardarPersonaje(@Valid Personaje personaje, BindingResult result,
-			Model model, HttpSession session, Locale locale) {
+			@ModelAttribute Comentario comentario, @ModelAttribute(LoginInterceptor.ATT_USER) Usuario usuario,
+			Model model, Locale locale) {
 		try {
 			if (result.hasErrors()) {
+				// Recuperar datos del directorio
+				personaje.setDirectorio(dirService.buscar(personaje.getDirectorio().getId()));
 				return FORM;
 			}
-			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);
 			if (personaje.getId() == null) {
 				// Creando nuevo personaje
 				personajeService.crear(usuario, personaje);
@@ -228,7 +230,7 @@ public class PersonajeController {
 				personajeService.editar(usuario, personaje);
 
 			}
-			return mostrarPersonaje(personaje.getId(), new Comentario(), model, locale);
+			return mostrarPersonaje(personaje.getId(), comentario, model, locale);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,14 +251,12 @@ public class PersonajeController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/eliminar")
-	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model,
-			Locale locale) {
+	public String eliminarPersonaje(@ModelAttribute Personaje personaje, Model model, Locale locale) {
 		try {
 			personaje = personajeService.buscar(personaje.getId());
 			if (personaje == null) {
 				// Personaje no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.personaje.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.personaje.noencontrado", null, locale));
 				return ERROR;
 			}
 			int dir = personaje.getDirectorio().getId();

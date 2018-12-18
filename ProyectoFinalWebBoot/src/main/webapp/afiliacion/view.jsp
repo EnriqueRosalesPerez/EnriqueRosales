@@ -4,30 +4,62 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script>
-	$(document).ready(function() {
-		document.title = '${afiliacion.nombre}';
-	})
-
 	function editar() {
 		window.location.replace("${raiz }/afiliacion/${afiliacion.id}/editar");
 	}
 
 	function eliminar() {
-		if (window
-				.confirm('<spring:message code="afiliacion.eliminar.confirmar"/>')) {
-			window.location
-					.replace("${raiz }/afiliacion/${afiliacion.id}/eliminar");
-		}
+		window.location
+				.replace("${raiz }/afiliacion/${afiliacion.id}/eliminar");
+
 	}
 </script>
+<div class="modal fade" id="dialogoEliminar" tabindex="-1" role="dialog"
+	aria-labelledby="dialogoEliminar" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					<spring:message code="afiliacion.eliminar.titulo"></spring:message>
+				</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<spring:message code="afiliacion.eliminar.confirmar"></spring:message>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<spring:message code="afiliacion.eliminar.confirmar.no"></spring:message>
+				</button>
+				<button type="button" class="btn btn-primary-red"
+					onclick="eliminar()">
+					<spring:message code="afiliacion.eliminar.confirmar.si"></spring:message>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
 					code="directorios.titulo"></spring:message></a></li>
 		<li class="breadcrumb-item"><a
-			href="${raiz }/directorio/${afiliacion.directorio.id}">${afiliacion.directorio.nombre }</a></li>
-		<li class="breadcrumb-item active" aria-current="page">${afiliacion.nombre }</li>
+			href="${raiz }/directorio/${afiliacion.directorio.id}"> <c:set
+					var="dirNombre" value="${afiliacion.directorio.nombre }"></c:set> <c:if
+					test="${fn:length(dirNombre) > 20 }">
+					<c:set var="dirNombre" value="${fn:substring(dirNombre, 0, 20)}..."></c:set>
+				</c:if> ${dirNombre }
+		</a></li>
+		<c:set var="nombre" value="${afiliacion.nombre}" />
+		<c:if test="${fn:length(nombre) > 20 }">
+			<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..." />
+		</c:if>
+		<li class="breadcrumb-item active" aria-current="page">${nombre }</li>
 	</ol>
 </nav>
 
@@ -48,10 +80,12 @@
 		<c:if test="${not empty user}">
 			<c:if test="${user.tipo.id == 1 }">
 				<div class="container btn-group float-right col-sm-4" role="group">
-					<button type="button" class="btn btn-primary" onclick="editar()">
+					<button type="button" class="btn btn-primary-red"
+						onclick="editar()">
 						<spring:message code="afiliacion.editar" />
 					</button>
-					<button type="button" class="btn btn-primary" onclick="eliminar()">
+					<button type="button" class="btn btn-primary-red"
+						data-toggle="modal" data-target="#dialogoEliminar">
 						<spring:message code="afiliacion.eliminar" />
 					</button>
 				</div>

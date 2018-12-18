@@ -49,7 +49,7 @@ public interface AfiliacionDAO {
 	 * parámetro.
 	 * 
 	 * @param afiliacion
-	 *            La {@link afiliacion} a eliminar.
+	 *            La {@link Afiliacion} a eliminar.
 	 * @throws DAOException
 	 *             Si se produce un error al interactuar con la base de datos.
 	 */

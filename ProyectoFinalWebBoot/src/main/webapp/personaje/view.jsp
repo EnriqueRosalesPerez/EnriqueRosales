@@ -5,21 +5,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script>
-	$(document).ready(function() {
-		document.title = '${personaje.nombre}';
-	})
-
 	function editar() {
 		window.location.replace("${raiz }/personaje/${personaje.id }/editar");
 	}
 
 	function eliminar() {
-		if (window
-				.confirm('<spring:message code="personaje.eliminar.confirmar"/>')) {
 			window.location
 					.replace("${raiz }/personaje/${personaje.id}/eliminar");
-		}
+			
 	}
 
 	function borrarComentario(id) {
@@ -27,13 +22,49 @@
 				+ "/eliminar?personajeid=${personaje.id}")
 	}
 </script>
+<div class="modal fade" id="dialogoEliminar" tabindex="-1" role="dialog"
+	aria-labelledby="dialogoEliminar" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					<spring:message code="personaje.eliminar.titulo"></spring:message>
+				</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<spring:message code="personaje.eliminar.confirmar"></spring:message>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<spring:message code="personaje.eliminar.confirmar.no"></spring:message>
+				</button>
+				<button type="button" class="btn btn-primary-red"
+					onclick="eliminar()">
+					<spring:message code="personaje.eliminar.confirmar.si"></spring:message>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
 					code="directorios.titulo"></spring:message></a></li>
+		<c:set var="dirNombre" value="${personaje.directorio.nombre }"></c:set>
+		<c:if test="${fn:length(dirNombre) > 20 }">
+			<c:set var="dirNombre" value="${fn:substring(dirNombre, 0, 20)}..."></c:set>
+		</c:if>
 		<li class="breadcrumb-item"><a
-			href="${raiz }/directorio/${personaje.directorio.id }">${personaje.directorio.nombre }</a></li>
-		<li class="breadcrumb-item active" aria-current="page">${personaje.nombre }</li>
+			href="${raiz }/directorio/${personaje.directorio.id }">${dirNombre }</a></li>
+		<c:set var="nombre" value="${personaje.nombre}" />
+		<c:if test="${fn:length(nombre) > 20 }">
+			<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..." />
+		</c:if>
+		<li class="breadcrumb-item active" aria-current="page">${nombre }</li>
 	</ol>
 </nav>
 <div class="container-fluid">
@@ -50,10 +81,12 @@
 		<c:if test="${not empty user}">
 			<c:if test="${user.tipo.id == 1 }">
 				<div class="container btn-group float-right col-sm-4" role="group">
-					<button type="button" class="btn btn-primary" onclick="editar()">
+					<button type="button" class="btn btn-primary-red"
+						onclick="editar()">
 						<spring:message code="personaje.editar" />
 					</button>
-					<button type="button" class="btn btn-primary" onclick="eliminar()">
+					<button type="button" class="btn btn-primary-red"
+						data-toggle="modal" data-target="#dialogoEliminar">
 						<spring:message code="personaje.eliminar" />
 					</button>
 				</div>
@@ -79,14 +112,19 @@
 	<form:form modelAttribute="comentario"
 		action="${raiz }/comentario/publicar?personajeid=${personaje.id}"
 		method="POST">
-		<spring:message code="personaje.comentarios.publicar" />
-		<br>
-		<form:hidden path="personaje.id" value="${personaje.id }" />
-		<form:textarea required="required" path="comentario" rows="4"
-			cols="50" />
-		<br>
-		<input type="submit"
-			value=<spring:message code="personaje.comentarios.guardar" /> />
+		<form:errors path="*" cssClass="form-group alert alert-danger"
+			element="div"></form:errors>
+		<div class="form-group">
+			<spring:message code="personaje.comentarios.publicar"
+				var="coment_placeholder" />
+			<form:hidden path="personaje.id" value="${personaje.id }" />
+			<form:textarea cssClass="form-control" required="required" rows="5"
+				path="comentario" placeholder="${coment_placeholder }" />
+		</div>
+		<div class="form-group">
+			<input type="submit" class="btn btn-primary-red"
+				value=<spring:message code="personaje.comentarios.guardar" /> />
+		</div>
 	</form:form>
 	<br>
 </c:if>
@@ -95,14 +133,13 @@
 		<i><spring:message code="personaje.comentarios.vacio" /></i>
 	</c:when>
 	<c:otherwise>
-		<div class="container float-left">
+		<div class="container float-left" style="margin-bottom: 65px;">
 			<c:forEach items="${personaje.comentarios }" var="comentario">
-
 				<div class="card">
 					<div class="card-body">
 						<c:if test="${not empty user }">
 							<c:if test="${user.tipo.id == 1 }">
-								<button type="button" class="btn btn-primary float-right"
+								<button type="button" class="btn btn-primary-red float-right"
 									onclick="borrarComentario(${comentario.id})">
 									<spring:message code="personaje.comentarios.eliminar" />
 								</button>

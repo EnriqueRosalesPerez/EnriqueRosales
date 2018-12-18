@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * Clase POJO que representa un directorio del sistema. Un directorio refiere a
@@ -49,7 +50,8 @@ public class Directorio {
 	}
 
 	@NotEmpty
-	@Column(name = "nombre", nullable = false)
+	@Size(max = 255)
+	@Column(name = "nombre", nullable = false, length = 255)
 	public String getNombre() {
 		return nombre;
 	}
@@ -58,7 +60,8 @@ public class Directorio {
 		this.nombre = nombre;
 	}
 
-	@Column(name = "annoInicio")
+	@Size(max = 255)
+	@Column(name = "annoInicio", length = 255)
 	public String getAnnoInicio() {
 		return annoInicio;
 	}
@@ -67,7 +70,8 @@ public class Directorio {
 		this.annoInicio = annoInicio;
 	}
 
-	@Column(name = "annoFin")
+	@Size(max = 255)
+	@Column(name = "annoFin", length = 255)
 	public String getAnnoFin() {
 		return annoFin;
 	}

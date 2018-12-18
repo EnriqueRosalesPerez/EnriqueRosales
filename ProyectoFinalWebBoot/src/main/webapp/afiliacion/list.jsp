@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script>
-	function nueva(id) {
+	function nuevaAfiliacion(id) {
 		window.location
-				.replace("${raiz }/afiliacion/crear?dir=" + id + ");
+				.replace("${raiz }/afiliacion/crear?dir=" + id);
 	}
 </script>
 <c:choose>
@@ -15,19 +15,25 @@
 		</h4>
 		<c:if test="${not empty user}">
 			<c:if test="${user.tipo.id == 1}">
-				<button type="button" class="btn btn-primary" onclick="nueva()">
-					<spring:message code="directorio.afiliaciones.nuevo" />
-				</button>
+				<c:if test="${not empty directorio.id }">
+					<button type="button" class="btn btn-primary-red btn-crear"
+						"
+						onclick="nuevaAfiliacion(${directorio.id})">
+						<spring:message code="directorio.afiliaciones.nuevo" />
+					</button>
+				</c:if>
 			</c:if>
 		</c:if>
 	</c:when>
 	<c:otherwise>
 		<c:if test="${not empty user}">
 			<c:if test="${user.tipo.id == 1}">
-				<!-- TODO Añadir ID Diretorio -->
-				<button type="button" class="btn btn-primary" onclick="nueva()">
-					<spring:message code="directorio.afiliaciones.nuevo" />
-				</button>
+				<c:if test="${not empty directorio.id }">
+					<button type="button" class="btn btn-primary-red btn-crear"
+						onclick="nuevaAfiliacion(${directorio.id})">
+						<spring:message code="directorio.afiliaciones.nuevo" />
+					</button>
+				</c:if>
 			</c:if>
 		</c:if>
 		<div class="panel-group">
@@ -35,7 +41,7 @@
 				<div class="panel-heading">
 					<h4 class="panel-title">
 						<a data-toggle="collapse" href="#afiliaciones">
-							<button class="btn btn-primary dropdown-toggle">
+							<button class="btn btn-primary-red dropdown-toggle">
 								<spring:message code="afiliacion.titulo" />
 							</button>
 						</a>

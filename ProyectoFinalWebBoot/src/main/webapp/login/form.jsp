@@ -3,24 +3,30 @@
 <%@ page errorPage="error.jsp"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
+					code="directorios.titulo"></spring:message></a></li>
+		<li class="breadcrumb-item active" aria-current="page"><spring:message
+				code="login.titulo" /></li>
+	</ol>
+</nav>
 <form:form modelAttribute="usuario" action="${raiz }/login"
 	method="POST">
-	<p>
+	<form:errors path="nombreUsuario"
+		cssClass="form-group alert alert-danger" element="div"></form:errors>
+	<form:errors path="contrasenna"
+		cssClass="form-group alert alert-danger" element="div"></form:errors>
+	<div class="form-group col-sm-5 mx-auto">
 		<spring:message code="login.nombre" />
-	</p>
-	<p>
-		<form:input path="nombreUsuario" />
-	</p>
-	<p>
+		<form:input path="nombreUsuario" cssClass="form-control" />
+	</div>
+	<div class="form-group col-sm-5 mx-auto">
 		<spring:message code="login.pass" />
-	</p>
-	<p>
-		<form:input type="password" path="contrasenna" />
-	</p>
-	<p>
-		<input type="submit" value="<spring:message code="login.acceder" />" />
-	</p>
+		<form:input type="password" path="contrasenna" cssClass="form-control" />
+	</div>
+	<div class="form-group">
+		<input type="submit" value="<spring:message code="login.acceder" />"
+			class="btn btn-primary-red" />
+	</div>
 </form:form>
-${error }
-<br>
-<a href="${raiz }/directorios"><spring:message code="login.salir" /></a>

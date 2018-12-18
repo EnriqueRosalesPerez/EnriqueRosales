@@ -4,30 +4,59 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script>
-	$(document).ready(function() {
-		document.title = '${directorio.nombre}';
-	})
-
 	function editar() {
 		window.location.replace("${raiz }/directorio/${directorio.id}/editar");
 	}
 
 	function eliminar() {
-		if (window
-				.confirm('<spring:message code="directorio.eliminar.confirmar"/>')) {
-			window.location
-					.replace("${raiz }/directorio/${directorio.id}/eliminar");
-		}
+		window.location
+				.replace("${raiz }/directorio/${directorio.id}/eliminar");
 	}
 </script>
+<div class="modal fade" id="dialogoEliminar" tabindex="-1" role="dialog"
+	aria-labelledby="dialogoEliminar" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">
+					<spring:message code="directorio.eliminar.titulo"></spring:message>
+				</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<spring:message code="directorio.eliminar.confirmar"></spring:message>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					<spring:message code="directorio.eliminar.confirmar.no"></spring:message>
+				</button>
+				<button type="button" class="btn btn-primary-red"
+					onclick="eliminar()">
+					<spring:message code="directorio.eliminar.confirmar.si"></spring:message>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <nav aria-label="breadcrumb">
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
 					code="directorios.titulo"></spring:message></a></li>
-		<li class="breadcrumb-item active" aria-current="page">${directorio.nombre }</li>
+		<c:set var="nombre" value="${directorio.nombre }"></c:set>
+		<c:if test="${fn:length(nombre) > 20 }">
+			<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
+		</c:if>
+		<li class="breadcrumb-item active" aria-current="page">${nombre }</li>
 	</ol>
 </nav>
+<c:if test="${not empty error }">
+	<div class="alert alert-danger">${error}</div>
+</c:if>
 <div class="container-fluid">
 	<section class="row">
 		<div class="text-left font-italic col-sm-8">
@@ -42,10 +71,12 @@
 		<c:if test="${not empty user}">
 			<c:if test="${user.tipo.id == 1 }">
 				<div class="container btn-group float-right col-sm-4" role="group">
-					<button type="button" class="btn btn-primary" onclick="editar()">
+					<button type="button" class="btn btn-primary-red"
+						onclick="editar()">
 						<spring:message code="directorio.editar" />
 					</button>
-					<button type="button" class="btn btn-primary" onclick="eliminar()">
+					<button type="button" class="btn btn-primary-red"
+						data-toggle="modal" data-target="#dialogoEliminar">
 						<spring:message code="directorio.eliminar" />
 					</button>
 				</div>

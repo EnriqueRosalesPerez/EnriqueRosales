@@ -13,11 +13,12 @@
 
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item"><a class="nav-link"
+			<li class="nav-item active"><a class="nav-link"
 				href="${raiz }/directorios"><spring:message
 						code="directorios.lista.titulo" /></a></li>
 
-
+		</ul>
+		<ul class="navbar-nav justify-content-end">
 			<c:choose>
 				<c:when test="${empty user }">
 					<li class="nav-item active"><a class="nav-link"
@@ -27,7 +28,7 @@
 								code="registro.titulo" /></a></li>
 				</c:when>
 				<c:otherwise>
-					<li class="nav-item active text-light"><spring:message
+					<li class="nav-item active text-light nav-link"><spring:message
 							code="login.conectado" arguments="${user.nombreUsuario }" /></li>
 					<li class="nav-item active"><a class="nav-link"
 						href="${raiz }/logout"><spring:message

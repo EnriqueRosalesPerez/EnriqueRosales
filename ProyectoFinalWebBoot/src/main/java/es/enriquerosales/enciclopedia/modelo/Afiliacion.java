@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * Representa la afiliación de un {@link Personaje} dentro de un período o
@@ -47,7 +48,8 @@ public class Afiliacion {
 	}
 
 	@NotEmpty
-	@Column(name = "nombre", nullable = false)
+	@Size(max = 255)
+	@Column(name = "nombre", nullable = false, length = 255)
 	public String getNombre() {
 		return nombre;
 	}

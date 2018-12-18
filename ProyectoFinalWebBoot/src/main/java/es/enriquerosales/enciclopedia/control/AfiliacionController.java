@@ -73,8 +73,7 @@ public class AfiliacionController {
 		try {
 			Afiliacion afiliacion = afiliacionService.buscar(id);
 			if (afiliacion == null) {
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
 				// Afiliación no encontrada
 				return ERROR;
 			}
@@ -103,14 +102,12 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "{id}/buscar")
-	public String buscarPersonajes(@PathVariable int id, @RequestParam String s,
-			Model model, Locale locale) {
+	public String buscarPersonajes(@PathVariable int id, @RequestParam String s, Model model, Locale locale) {
 		try {
 			Afiliacion afiliacion = afiliacionService.buscar(id);
 			if (afiliacion == null) {
 				// Afiliación no encontrada
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
 				return ERROR;
 			}
 			model.addAttribute(ATT_AFILIACION, afiliacion);
@@ -136,14 +133,12 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/editar")
-	public String mostrarFormularioEdicion(@ModelAttribute Afiliacion afiliacion,
-			Model model, Locale locale) {
+	public String mostrarFormularioEdicion(@ModelAttribute Afiliacion afiliacion, Model model, Locale locale) {
 		try {
 			afiliacion = afiliacionService.buscar(afiliacion.getId());
 			if (afiliacion == null) {
 				// Afiliacion no encontrada
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
 				return ERROR;
 			}
 
@@ -170,15 +165,14 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/crear")
-	public String mostrarFormularioCreacion(@ModelAttribute Afiliacion afiliacion,
-			@RequestParam Integer dir, Model model, Locale locale) {
+	public String mostrarFormularioCreacion(@ModelAttribute Afiliacion afiliacion, @RequestParam Integer dir,
+			Model model, Locale locale) {
 		try {
 			// Asignar directorio donde se crea la afiliación.
 			Directorio directorio = dirService.buscar(dir);
 			if (directorio == null) {
 				// Directorio no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			afiliacion.setDirectorio(directorio);
@@ -198,8 +192,6 @@ public class AfiliacionController {
 	 *            La Afiliacion que se va a guardar, puede ser nuevo o existente.
 	 * @param result
 	 *            Interfaz que representa el resultado del formulario.
-	 * @param dir
-	 *            El ID del Directorio al que pertenece la Afiliacion.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @param session
@@ -209,10 +201,12 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/guardar")
-	public String guardarAfiliacion(@Valid Afiliacion afiliacion, BindingResult result,
-			Model model, HttpSession session, Locale locale) {
+	public String guardarAfiliacion(@Valid Afiliacion afiliacion, BindingResult result, Model model,
+			HttpSession session, Locale locale) {
 		try {
 			if (result.hasErrors()) {
+				// Recuperar datos del directorio
+				afiliacion.setDirectorio(dirService.buscar(afiliacion.getDirectorio().getId()));
 				return FORM;
 			}
 			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);
@@ -249,14 +243,12 @@ public class AfiliacionController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/{id}/eliminar")
-	public String eliminarAfiliacion(@ModelAttribute Afiliacion afiliacion, Model model,
-			Locale locale) {
+	public String eliminarAfiliacion(@ModelAttribute Afiliacion afiliacion, Model model, Locale locale) {
 		try {
 			afiliacion = afiliacionService.buscar(afiliacion.getId());
 			if (afiliacion == null) {
 				// Afiliacion no encontrada
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.afiliacion.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.afiliacion.noencontrado", null, locale));
 				return ERROR;
 			}
 			int dir = afiliacion.getDirectorio().getId();

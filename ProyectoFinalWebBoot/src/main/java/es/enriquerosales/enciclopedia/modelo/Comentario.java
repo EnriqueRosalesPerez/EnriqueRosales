@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  * Clase POJO que representa un comentario que un {@link Usuario} pone sobre un
@@ -60,6 +61,7 @@ public class Comentario {
 		this.personaje = personaje;
 	}
 
+	@Size(max = 500)
 	@Column(name = "comentario", nullable = false)
 	public String getComentario() {
 		return comentario;

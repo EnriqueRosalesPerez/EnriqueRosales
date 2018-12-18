@@ -2,15 +2,19 @@ package es.enriquerosales.enciclopedia.control;
 
 import java.util.Locale;
 
+import javax.validation.Valid;
+
 import org.hibernate.AssertionFailure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -45,6 +49,8 @@ public class UsuarioController {
 	/**
 	 * Muestra el formulario de login.
 	 * 
+	 * @param usuario
+	 *            El {@link Usuario} de la sesión actual.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @return Una cadena que representa la página de destino.
@@ -63,10 +69,10 @@ public class UsuarioController {
 	/**
 	 * Intenta realizar el login del usuario.
 	 * 
-	 * @param username
-	 *            El nombre de usuario.
-	 * @param pass
-	 *            La contraseña.
+	 * @param usuario
+	 *            El {@link Usuario} que intenta hacer login.
+	 * @param result
+	 *            Interfaz que representa el resultado de procesar el formulario.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @param locale
@@ -74,11 +80,14 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/login")
-	public String realizarLogin(@ModelAttribute Usuario usuario, Model model, Locale locale) {
+	public String realizarLogin(@Valid Usuario usuario, BindingResult result, Model model, Locale locale) {
 		try {
+			if (result.hasFieldErrors("nombreUsuario") || result.hasFieldErrors("contrasenna")) {
+				return LOGIN_FORM;
+			}
 			usuario = usuarioService.acceder(usuario.getNombreUsuario(), usuario.getContrasenna());
 			if (usuario == null) {
-				model.addAttribute(ATT_ERROR, messages.getMessage("login.error", null, locale));
+				result.reject("nombreUsuario", messages.getMessage("login.error", null, locale));
 				return LOGIN_FORM;
 			}
 			model.addAttribute(LoginInterceptor.ATT_USER, usuario);
@@ -93,6 +102,8 @@ public class UsuarioController {
 	/**
 	 * Muestra el formulario de registro de usuario.
 	 * 
+	 * @param usuario
+	 *            El atributo del formulario.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @return Una cadena que representa la página de destino.
@@ -111,10 +122,14 @@ public class UsuarioController {
 	/**
 	 * Intenta realizar el registro de un nuevo usuario.
 	 * 
-	 * @param username
-	 *            El nombre de usuario.
-	 * @param pass
-	 *            La contraseña.
+	 * @param usuario
+	 *            El {@link Usuario} que intenta registrarse.
+	 * @param result
+	 *            Interfaz que representa el resultado de procesar el formulario.
+	 * @param emailrep
+	 *            El valor del campo del email repetido.
+	 * @param passrep
+	 *            El valor del campo de la contraseña repetida.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
 	 * @param locale
@@ -122,17 +137,27 @@ public class UsuarioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/registro")
-	public String registrarUsuario(@ModelAttribute Usuario usuario, Model model, Locale locale) {
+	public String registrarUsuario(@Valid Usuario usuario, BindingResult result, @RequestParam String emailrep,
+			@RequestParam String passrep, Model model, Locale locale) {
 		try {
+			if (!emailrep.equals(usuario.getEmail())) {
+				result.reject("email", messages.getMessage("registro.error.email.nocoincide", null, locale));
+			}
+			if (!passrep.equals(usuario.getContrasenna())) {
+				result.reject("contrasenna", messages.getMessage("registro.error.pass.nocoincide", null, locale));
+			}
+			if (result.hasErrors()) {
+				return REGISTRO_FORM;
+			}
 			usuarioService.registrar(usuario);
 			// Una vez realizado el registro, se hace login con el usuario.
-			return realizarLogin(usuario, model, locale);
+			model.addAttribute(LoginInterceptor.ATT_USER, usuario);
+			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (e instanceof AssertionFailure) {
-				// Nombre de usuario introducido ya existente
-				// TODO Usar result.reject();
-				model.addAttribute(ATT_ERROR, messages.getMessage("registro.error.usuarioexistente", null, locale));
+				// Nombre de usuario o email introducido ya existente
+				result.reject("nombreUsuario", messages.getMessage("registro.error.usuarioexistente", null, locale));
 				return REGISTRO_FORM;
 			} else {
 				model.addAttribute(ATT_ERROR, messages.getMessage("registro.error", null, locale));

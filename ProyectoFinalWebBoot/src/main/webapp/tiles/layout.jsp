@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>${titulo }</title>
+<title><spring:message code="app.name"></spring:message></title>
 <c:set var="raiz" value="${pageContext.request.contextPath }"></c:set>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">

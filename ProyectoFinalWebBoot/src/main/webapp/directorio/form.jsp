@@ -4,42 +4,64 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a href="${raiz }/directorios"><spring:message
+					code="directorios.titulo"></spring:message></a></li>
+		<c:choose>
+			<c:when test="${not empty directorio.id }">
+				<c:choose>
+					<c:when test="${not empty directorio.nombre }">
+						<c:set var="nombre" value="${directorio.nombre }"></c:set>
+						<c:if test="${fn:length(nombre) > 20 }">
+							<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
+						</c:if>
+						<li class="breadcrumb-item"><a
+							href="${raiz }/directorio/${directorio.id}">${nombre }</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><spring:message
+								code="directorio.form.titulo.editar" arguments="${nombre}" /></li>
+					</c:when>
+					<c:otherwise>
+						<li class="breadcrumb-item"><a
+							href="${raiz }/directorio/${directorio.id}">${directorio.id }</a></li>
+						<li class="breadcrumb-item active" aria-current="page"><spring:message
+								code="directorio.form.titulo.editar"
+								arguments="${directorio.id}" /></li>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<li class="breadcrumb-item active" aria-current="page"><spring:message
+						code="directorio.form.titulo.nuevo" /></li>
+			</c:otherwise>
+		</c:choose>
+	</ol>
+</nav>
 <form:form modelAttribute="directorio" method="POST"
 	action="${raiz }/directorio/guardar">
 	<form:hidden path="id" />
-	<table>
-		<tr>
-			<td><spring:message code="directorio.form.nombre" /></td>
-			<td><form:input path="nombre" /> <form:errors path="nombre"
-					cssClass="error" /></td>
-		</tr>
-		<tr>
-			<td><spring:message code="directorio.form.inicio" /></td>
-			<td><form:input path="annoInicio" /></td>
-		</tr>
-		<tr>
-			<td><spring:message code="directorio.form.fin" /></td>
-			<td><form:input path="annoFin" /></td>
-		</tr>
-	</table>
-	<spring:message code="directorio.form.descripcion" />
-	<br>
-	<form:textarea path="descripcion" rows="4" cols="50"
-		value="${directorio.descripcion}" />
-	<br>
-	<input type="submit"
-		value=<spring:message code="directorio.form.guardar" /> />
-	<br>
-	<br>
-	<c:choose>
-		<c:when test="${empty directorio.id }">
-			<a href="${raiz }/directorios"><spring:message
-					code="directorio.form.salir" /></a>
-		</c:when>
-		<c:otherwise>
-			<a href="${raiz }/directorio/${directorio.id}"><spring:message
-					code="directorio.form.salir" /></a>
-		</c:otherwise>
-	</c:choose>
-
+	<form:errors path="*" cssClass="form-group alert alert-danger"
+		element="div"></form:errors>
+	<div class="form-group">
+		<spring:message code="directorio.form.nombre" />
+		<form:input path="nombre" cssClass="form-control" />
+	</div>
+	<div class="form-group">
+		<spring:message code="directorio.form.inicio" />
+		<form:input path="annoInicio" cssClass="form-control" />
+	</div>
+	<div class="form-group">
+		<spring:message code="directorio.form.fin" />
+		<form:input path="annoFin" cssClass="form-control" />
+	</div>
+	<div class="form-group">
+		<spring:message code="directorio.form.descripcion" />
+		<form:textarea path="descripcion" value="${directorio.descripcion}"
+			cssClass="form-control" rows="20" />
+	</div>
+	<div class="form-group">
+		<input type="submit" class="btn btn-primary-red"
+			value=<spring:message code="directorio.form.guardar" /> />
+	</div>
 </form:form>

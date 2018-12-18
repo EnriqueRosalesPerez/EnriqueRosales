@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 /**
  * Representa un usuario del sistema.
@@ -23,6 +25,7 @@ public class Usuario {
 	private String nombreUsuario;
 	private String contrasenna;
 	private TipoUsuario tipo;
+	private String email;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +37,9 @@ public class Usuario {
 		this.id = id;
 	}
 
-	@Column(name = "nombreUsuario", nullable = false, unique = true)
+	@NotEmpty
+	@Size(max = 45)
+	@Column(name = "nombreUsuario", nullable = false, unique = true, length = 45)
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -43,7 +48,9 @@ public class Usuario {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	@Column(name = "contrasenna", nullable = false)
+	@NotEmpty
+	@Size(max = 45)
+	@Column(name = "contrasenna", nullable = false, length = 45)
 	public String getContrasenna() {
 		return contrasenna;
 	}
@@ -60,6 +67,17 @@ public class Usuario {
 
 	public void setTipo(TipoUsuario tipo) {
 		this.tipo = tipo;
+	}
+
+	@NotEmpty
+	@Size(max = 45)
+	@Column(name = "email", nullable = false, unique = true, length = 45)
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

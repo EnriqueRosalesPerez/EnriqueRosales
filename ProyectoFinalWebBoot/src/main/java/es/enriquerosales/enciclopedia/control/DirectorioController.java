@@ -2,7 +2,6 @@ package es.enriquerosales.enciclopedia.control;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import es.enriquerosales.enciclopedia.interceptor.LoginInterceptor;
 import es.enriquerosales.enciclopedia.modelo.Directorio;
 import es.enriquerosales.enciclopedia.modelo.Usuario;
 import es.enriquerosales.enciclopedia.servicio.DirectorioService;
@@ -29,6 +30,7 @@ import es.enriquerosales.enciclopedia.servicio.PersonajeService;
  *
  */
 @Controller
+@SessionAttributes(LoginInterceptor.ATT_USER)
 public class DirectorioController {
 
 	@Autowired
@@ -110,8 +112,7 @@ public class DirectorioController {
 			Directorio dir = dirService.buscar(id);
 			if (dir == null) {
 				// Directorio no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			model.addAttribute(ATT_DIR, dir);
@@ -140,14 +141,12 @@ public class DirectorioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/directorio/{dir}/buscar")
-	public String buscarPersonajes(@PathVariable int dir, @RequestParam String s,
-			Model model, Locale locale) {
+	public String buscarPersonajes(@PathVariable int dir, @RequestParam String s, Model model, Locale locale) {
 		try {
 			Directorio directorio = dirService.buscar(dir);
 			if (directorio == null) {
 				// Directorio no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			model.addAttribute(ATT_DIR, directorio);
@@ -174,14 +173,12 @@ public class DirectorioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/directorio/{id}/editar")
-	public String mostrarFormularioEdicion(@ModelAttribute Directorio directorio,
-			Model model, Locale locale) {
+	public String mostrarFormularioEdicion(@ModelAttribute Directorio directorio, Model model, Locale locale) {
 		try {
 			directorio = dirService.buscar(directorio.getId());
 			if (directorio == null) {
 				// Directorio no encontrado
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			model.addAttribute("directorio", directorio);
@@ -203,8 +200,7 @@ public class DirectorioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/directorio/crear")
-	public String mostrarFormularioCreacion(@ModelAttribute Directorio directorio,
-			Model model) {
+	public String mostrarFormularioCreacion(@ModelAttribute Directorio directorio, Model model) {
 		try {
 			return FORM;
 		} catch (Exception e) {
@@ -222,22 +218,25 @@ public class DirectorioController {
 	 *            El Directorio que se esté guardando, puede ser nuevo o existente.
 	 * @param result
 	 *            Interfaz que representa el resultado del formulario.
+	 * @param usuario
+	 *            El {@link Usuario} de la sesión actual.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
-	 * @param session
-	 *            La sesión HTTP en ejecución.
-	 * @param Locale
+	 * @param locale
 	 *            locale La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/directorio/guardar")
-	public String guardarDirectorio(@Valid Directorio directorio, BindingResult result,
-			Model model, HttpSession session, Locale locale) {
+	public String guardarDirectorio(@ModelAttribute @Valid Directorio directorio, BindingResult result,
+			@ModelAttribute(LoginInterceptor.ATT_USER) Usuario usuario, Model model, Locale locale) {
 		try {
 			if (result.hasErrors()) {
+				if (directorio.getId() != null) {
+					// Recuperar datos originales
+					directorio = dirService.buscar(directorio.getId());
+				}
 				return FORM;
 			}
-			Usuario usuario = (Usuario) session.getAttribute("user");
 			if (directorio.getId() == null) {
 				// Creando nuevo directorio
 				dirService.crear(usuario, directorio);
@@ -264,19 +263,17 @@ public class DirectorioController {
 	 *            El Directorio que se esté eliminando.
 	 * @param model
 	 *            Interfaz donde se almacenan atributos.
-	 * @param Locale
+	 * @param locale
 	 *            locale La configuración de idioma activa.
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@GetMapping(value = "/directorio/{id}/eliminar")
-	public String eliminarDirectorio(@ModelAttribute Directorio directorio, Model model,
-			Locale locale) {
+	public String eliminarDirectorio(@ModelAttribute Directorio directorio, Model model, Locale locale) {
 		try {
 			directorio = dirService.buscar(directorio.getId());
 			if (directorio == null) {
 				// Directorio no existe
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.noencontrado", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.noencontrado", null, locale));
 				return ERROR;
 			}
 			dirService.eliminar(directorio);
@@ -285,8 +282,7 @@ public class DirectorioController {
 			e.printStackTrace();
 			if (e instanceof DataIntegrityViolationException) {
 				// Se está intentando eliminar un Directorio que tiene personajes dentro.
-				model.addAttribute(ATT_ERROR, messages
-						.getMessage("error.directorio.eliminar.novacio", null, locale));
+				model.addAttribute(ATT_ERROR, messages.getMessage("error.directorio.eliminar.novacio", null, locale));
 				return mostrarDirectorio(directorio.getId(), model, locale);
 			}
 			model.addAttribute(ATT_ERROR, e);

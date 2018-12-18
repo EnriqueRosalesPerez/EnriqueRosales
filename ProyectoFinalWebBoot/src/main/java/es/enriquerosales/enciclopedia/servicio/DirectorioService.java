@@ -53,7 +53,7 @@ public interface DirectorioService {
 	 * 
 	 * @param creador
 	 *            El {@link Usuario} que est� creando el {@link Directorio}.
-	 * @param personaje
+	 * @param directorio
 	 *            El {@link Directorio} a crear en el sistema.
 	 * @throws ServiceException
 	 *             Si se produce un error al procesar el servicio.
