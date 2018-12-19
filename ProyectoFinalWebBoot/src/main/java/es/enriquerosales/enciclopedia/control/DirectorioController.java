@@ -227,13 +227,14 @@ public class DirectorioController {
 	 * @return Una cadena que representa la página de destino.
 	 */
 	@PostMapping(value = "/directorio/guardar")
-	public String guardarDirectorio(@ModelAttribute @Valid Directorio directorio, BindingResult result,
+	public String guardarDirectorio(@Valid Directorio directorio, BindingResult result,
 			@ModelAttribute(LoginInterceptor.ATT_USER) Usuario usuario, Model model, Locale locale) {
 		try {
 			if (result.hasErrors()) {
 				if (directorio.getId() != null) {
-					// Recuperar datos originales
-					directorio = dirService.buscar(directorio.getId());
+					// Recuperar nombre original para no romper el breadcrumb
+					directorio.setNombre(dirService.buscar(directorio.getId()).getNombre());
+					model.addAttribute(ATT_DIR, directorio);
 				}
 				return FORM;
 			}

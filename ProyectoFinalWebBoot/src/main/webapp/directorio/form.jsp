@@ -11,25 +11,14 @@
 					code="directorios.titulo"></spring:message></a></li>
 		<c:choose>
 			<c:when test="${not empty directorio.id }">
-				<c:choose>
-					<c:when test="${not empty directorio.nombre }">
-						<c:set var="nombre" value="${directorio.nombre }"></c:set>
-						<c:if test="${fn:length(nombre) > 20 }">
-							<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
-						</c:if>
-						<li class="breadcrumb-item"><a
-							href="${raiz }/directorio/${directorio.id}">${nombre }</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="directorio.form.titulo.editar" arguments="${nombre}" /></li>
-					</c:when>
-					<c:otherwise>
-						<li class="breadcrumb-item"><a
-							href="${raiz }/directorio/${directorio.id}">${directorio.id }</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="directorio.form.titulo.editar"
-								arguments="${directorio.id}" /></li>
-					</c:otherwise>
-				</c:choose>
+				<c:set var="nombre" value="${directorio.nombre }"></c:set>
+				<c:if test="${fn:length(nombre) > 20 }">
+					<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
+				</c:if>
+				<li class="breadcrumb-item"><a
+					href="${raiz }/directorio/${directorio.id}">${nombre }</a></li>
+				<li class="breadcrumb-item active" aria-current="page"><spring:message
+						code="directorio.form.titulo.editar" arguments="${nombre}" /></li>
 			</c:when>
 			<c:otherwise>
 				<li class="breadcrumb-item active" aria-current="page"><spring:message

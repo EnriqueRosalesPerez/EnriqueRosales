@@ -207,6 +207,10 @@ public class AfiliacionController {
 			if (result.hasErrors()) {
 				// Recuperar datos del directorio
 				afiliacion.setDirectorio(dirService.buscar(afiliacion.getDirectorio().getId()));
+				if (afiliacion.getId() != null) {
+					// Recuperar nombre original para no romper el breadcrumb
+					afiliacion.setNombre(afiliacionService.buscar(afiliacion.getId()).getNombre());
+				}
 				return FORM;
 			}
 			Usuario usuario = (Usuario) session.getAttribute(ATT_USER);

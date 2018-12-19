@@ -16,24 +16,14 @@
 			</c:if> <a href="${raiz }/directorio/${personaje.directorio.id}">${dirNombre }</a></li>
 		<c:choose>
 			<c:when test="${not empty personaje.id }">
-				<c:choose>
-					<c:when test="${not empty personaje.nombre }">
-						<c:set var="nombre" value="${personaje.nombre }"></c:set>
-						<c:if test="${fn:length(nombre) > 20 }">
-							<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
-						</c:if>
-						<li class="breadcrumb-item"><a
-							href="${raiz }/personaje/${personaje.id}">${nombre }</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="personaje.form.titulo.editar" arguments="${nombre}" /></li>
-					</c:when>
-					<c:otherwise>
-						<li class="breadcrumb-item"><a
-							href="${raiz }/personaje/${personaje.id}">${personaje.id }</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="personaje.form.titulo.editar" arguments="${personaje.id}" /></li>
-					</c:otherwise>
-				</c:choose>
+				<c:set var="nombre" value="${personaje.nombre }"></c:set>
+				<c:if test="${fn:length(nombre) > 20 }">
+					<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
+				</c:if>
+				<li class="breadcrumb-item"><a
+					href="${raiz }/personaje/${personaje.id}">${nombre }</a></li>
+				<li class="breadcrumb-item active" aria-current="page"><spring:message
+						code="personaje.form.titulo.editar" arguments="${nombre}" /></li>
 			</c:when>
 			<c:otherwise>
 				<li class="breadcrumb-item active" aria-current="page"><spring:message

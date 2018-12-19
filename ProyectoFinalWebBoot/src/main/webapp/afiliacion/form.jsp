@@ -17,25 +17,14 @@
 			href="${raiz }/directorio/${afiliacion.directorio.id}">${dirNombre }</a></li>
 		<c:choose>
 			<c:when test="${not empty afiliacion.id }">
-				<c:choose>
-					<c:when test="${not empty afiliacion.nombre }">
-						<c:set var="nombre" value="${afiliacion.nombre }"></c:set>
-						<c:if test="${fn:length(nombre) > 20 }">
-							<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
-						</c:if>
-						<li class="breadcrumb-item"><a
-							href="${raiz }/afiliacion/${afiliacion.id}">${nombre }</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="afiliacion.form.titulo.editar" arguments="${nombre}" /></li>
-					</c:when>
-					<c:otherwise>
-						<li class="breadcrumb-item"><a
-							href="${raiz }/afiliacion/${afiliacion.id}">${afiliacion.id }</a></li>
-						<li class="breadcrumb-item active" aria-current="page"><spring:message
-								code="afiliacion.form.titulo.editar"
-								arguments="${afiliacion.id}" /></li>
-					</c:otherwise>
-				</c:choose>
+				<c:set var="nombre" value="${afiliacion.nombre }"></c:set>
+				<c:if test="${fn:length(nombre) > 20 }">
+					<c:set var="nombre" value="${fn:substring(nombre, 0, 20)}..."></c:set>
+				</c:if>
+				<li class="breadcrumb-item"><a
+					href="${raiz }/afiliacion/${afiliacion.id}">${nombre }</a></li>
+				<li class="breadcrumb-item active" aria-current="page"><spring:message
+						code="afiliacion.form.titulo.editar" arguments="${nombre}" /></li>
 			</c:when>
 			<c:otherwise>
 				<li class="breadcrumb-item active" aria-current="page"><spring:message
