@@ -6,18 +6,56 @@
 	function nuevoPersonaje(id) {
 		window.location.replace("${raiz}/personaje/crear?dir=" + id);
 	}
-
+	
+	function buscar() {
+		var form = $('form[name="form-busqueda"]');
+		var formdata = false;
+		if (window.FormData){ //Objeto HTML5, si no existe serializa el form
+		     formdata = new FormData(form[0]);
+		}
+		
+		$.ajax({
+			url: "${raiz}/ajax/${rutaBusqueda}",
+			method: "POST",
+			contentType: false,
+			processData: false,
+			timeout: 20000,
+			data: formdata ? formdata : form.serialize(),
+			success: function(result){
+					$('#tablaPersonajes').replaceWith(result);
+			},
+			error: function(result){
+					alert(JSON.stringify(result));
+			}
+		});
+	}
+	
 	function limpiar() {
-		window.location.replace("${rutaLimpiar}");
+		$.ajax({
+			url: "${raiz}/ajax/${rutaLimpiar}",
+			method: "POST",
+			contentType: false,
+			processData: false,
+			timeout: 20000,
+			success: function(result){
+					$('#tablaPersonajes').replaceWith(result);
+					$('#s').val('');
+			},
+			error: function(result){
+					alert(JSON.stringify(result));
+			}
+		});
 	}
 </script>
-<form action="${rutaBusqueda}" method="GET">
+<form name="form-busqueda" action="javascript:buscar()">
 	<div class="form-group row">
 		<div class="col-8">
-			<input class="form-control" type="text" name="s" value="${busqueda}" />
+			<input class="form-control" type="text" name="s" id="s"
+				value="${busqueda}" />
 		</div>
 		<div class="col">
-			<input class="btn btn-primary-red col" type="submit"
+			<input class="btn btn-primary-red col" type="button"
+				onclick="buscar()"
 				value=<spring:message code="directorio.personajes.buscar" /> />
 		</div>
 		<div class="col">
@@ -28,53 +66,17 @@
 		</div>
 	</div>
 </form>
-<c:choose>
-	<c:when test="${empty personajes }">
-		<h3>
-			<spring:message code="directorio.personajes.vacio" />
-		</h3>
-		<c:if test="${not empty user}">
-			<c:if test="${user.tipo.id == 1}">
-				<c:if test="${not empty directorio.id }">
-					<button type="button" class="btn btn-primary-red btn-crear"
-						onclick="nuevoPersonaje(${directorio.id})">
-						<spring:message code="directorio.personajes.nuevo" />
-					</button>
-				</c:if>
-			</c:if>
+<h3>
+	<spring:message code="directorio.personajes.titulo" />
+</h3>
+<c:if test="${not empty user}">
+	<c:if test="${user.tipo.id == 1}">
+		<c:if test="${not empty directorio.id }">
+			<button type="button" class="btn btn-primary-red btn-crear"
+				onclick="nuevoPersonaje(${directorio.id})">
+				<spring:message code="directorio.personajes.nuevo" />
+			</button>
 		</c:if>
-	</c:when>
-	<c:otherwise>
-		<h3>
-			<spring:message code="directorio.personajes.titulo" />
-		</h3>
-		<c:if test="${not empty user}">
-			<c:if test="${user.tipo.id == 1}">
-				<c:if test="${not empty directorio.id }">
-					<button type="button" class="btn btn-primary-red btn-crear"
-						onclick="nuevoPersonaje(${directorio.id})">
-						<spring:message code="directorio.personajes.nuevo" />
-					</button>
-				</c:if>
-			</c:if>
-		</c:if>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th><spring:message code="directorio.personajes.nombre" /></th>
-					<th><spring:message code="directorio.personajes.nacimiento" /></th>
-					<th><spring:message code="directorio.personajes.muerte" /></th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${personajes}" var="personaje">
-					<tr>
-						<td><a href="${raiz }/personaje/${personaje.id}">${personaje.nombre}</a></td>
-						<td>${personaje.annoNacimiento}</td>
-						<td>${personaje.annoMuerte}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:otherwise>
-</c:choose>
+	</c:if>
+</c:if>
+<jsp:include page="/personaje/table.jsp" />

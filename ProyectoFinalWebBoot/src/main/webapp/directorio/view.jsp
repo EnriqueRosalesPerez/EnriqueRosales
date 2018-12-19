@@ -96,9 +96,9 @@
 	<hr>
 	<jsp:include page="/afiliacion/list.jsp" />
 	<hr>
-	<c:set var="rutaBusqueda"
-		value="${raiz }/directorio/${directorio.id}/buscar" scope="request"></c:set>
-	<c:set var="rutaLimpiar" value="${raiz }/directorio/${directorio.id}"
+	<c:set var="rutaBusqueda" value="directorio/${directorio.id}/buscar"
+		scope="request"></c:set>
+	<c:set var="rutaLimpiar" value="directorio/${directorio.id}/limpiar"
 		scope="request"></c:set>
 	<jsp:include page="/personaje/list.jsp" />
 </div>

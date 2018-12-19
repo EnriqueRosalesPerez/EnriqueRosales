@@ -99,9 +99,9 @@
 <div class="text-justify" style="white-space: pre-wrap;">${afiliacion.descripcion}</div>
 <div>
 	<hr>
-	<c:set var="rutaBusqueda"
-		value="${raiz }/afiliacion/${afiliacion.id }/buscar" scope="request"></c:set>
-	<c:set var="rutaLimpiar" value="${raiz }/afiliacion/${afiliacion.id }"
+	<c:set var="rutaBusqueda" value="afiliacion/${afiliacion.id }/buscar"
+		scope="request"></c:set>
+	<c:set var="rutaLimpiar" value="afiliacion/${afiliacion.id }/limpiar"
 		scope="request"></c:set>
 	<jsp:include page="/personaje/list.jsp" />
 </div>
