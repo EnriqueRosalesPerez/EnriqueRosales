@@ -4,12 +4,52 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script>
-	function limpiar() {
-		window.location.replace("${raiz}/directorios");
-	}
-
 	function crear() {
 		window.location.replace("${raiz}/directorio/crear");
+	}
+
+	function buscar() {
+		if ($('#busqueda').val() == '') {
+			return;
+		}
+
+		var form = $('form[name="form-busqueda"]');
+		var formdata = false;
+		if (window.FormData) { //Objeto HTML5, si no existe serializa el form
+			formdata = new FormData(form[0]);
+		}
+
+		$.ajax({
+			url : "${raiz}/ajax/directorio/buscar",
+			method : "POST",
+			contentType : false,
+			processData : false,
+			timeout : 20000,
+			data : formdata ? formdata : form.serialize(),
+			success : function(result) {
+				$('#tablaDirectorios').replaceWith(result);
+			},
+			error : function(result) {
+				alert(JSON.stringify(result));
+			}
+		});
+	}
+
+	function limpiar() {
+		$.ajax({
+			url : "${raiz}/ajax/directorio/limpiar",
+			method : "POST",
+			contentType : false,
+			processData : false,
+			timeout : 20000,
+			success : function(result) {
+				$('#tablaDirectorios').replaceWith(result);
+				$('#busqueda').val('');
+			},
+			error : function(result) {
+				alert(JSON.stringify(result));
+			}
+		});
 	}
 </script>
 <nav aria-label="breadcrumb">
@@ -22,10 +62,11 @@
 	<spring:message code="directorios.lista.titulo" />
 </h3>
 <br>
-<form action="${raiz }/directorios/buscar" method="GET">
+<form name="form-busqueda" action="javascript:buscar()">
 	<div class="form-group row">
 		<div class="col-8">
-			<input class="form-control" type="text" name="s" value="${busqueda}" />
+			<input id="busqueda" class="form-control" type="text" name="busqueda"
+				value="${busqueda}" />
 		</div>
 		<div class="col">
 			<input class="btn btn-primary-red col" type="submit"
@@ -41,38 +82,10 @@
 </form>
 <c:if test="${not empty user}">
 	<c:if test="${user.tipo.id == 1 }">
-		<button type="button" class="btn btn-primary-red btn-crear" class="col"
-			onclick="crear()">
+		<button type="button" class="btn btn-primary-red btn-crear"
+			class="col" onclick="crear()">
 			<spring:message code="directorios.lista.crear" />
 		</button>
 	</c:if>
 </c:if>
-<c:choose>
-	<c:when test="${empty directorios}">
-		<h3>
-			<spring:message code="directorios.lista.vacio" />
-		</h3>
-	</c:when>
-	<c:otherwise>
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>Nombre</th>
-					<th>Año de inicio</th>
-					<th>Año de fin</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${directorios}" var="directorio">
-					<tr>
-						<td><a href="${raiz }/directorio/${directorio.id}"> <c:out
-									value="${directorio.nombre}" />
-						</a></td>
-						<td>${directorio.annoInicio }</td>
-						<td>${directorio.annoFin }</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:otherwise>
-</c:choose>
+<jsp:include page="/directorio/table.jsp" />

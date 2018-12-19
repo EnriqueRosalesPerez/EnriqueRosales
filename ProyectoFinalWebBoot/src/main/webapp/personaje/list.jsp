@@ -8,6 +8,10 @@
 	}
 	
 	function buscar() {
+		if ($('#busqueda').val() == '') {
+			return;
+		}
+		
 		var form = $('form[name="form-busqueda"]');
 		var formdata = false;
 		if (window.FormData){ //Objeto HTML5, si no existe serializa el form
@@ -39,7 +43,7 @@
 			timeout: 20000,
 			success: function(result){
 					$('#tablaPersonajes').replaceWith(result);
-					$('#s').val('');
+					$('#busqueda').val('');
 			},
 			error: function(result){
 					alert(JSON.stringify(result));
@@ -50,12 +54,11 @@
 <form name="form-busqueda" action="javascript:buscar()">
 	<div class="form-group row">
 		<div class="col-8">
-			<input class="form-control" type="text" name="s" id="s"
+			<input class="form-control" type="text" name="busqueda" id="busqueda"
 				value="${busqueda}" />
 		</div>
 		<div class="col">
-			<input class="btn btn-primary-red col" type="button"
-				onclick="buscar()"
+			<input class="btn btn-primary-red col" type="submit"
 				value=<spring:message code="directorio.personajes.buscar" /> />
 		</div>
 		<div class="col">
