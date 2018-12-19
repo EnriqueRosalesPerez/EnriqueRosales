@@ -3,6 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script>
+	$(document).ready(function() {
+		$("#busqueda").keyup(function() {
+			buscar();
+			if ($("#busqueda").val().length < 1) {
+				limpiar();
+			}
+		});
+	});
+
 	function nuevoPersonaje(id) {
 		window.location.replace("${raiz}/personaje/crear?dir=" + id);
 	}

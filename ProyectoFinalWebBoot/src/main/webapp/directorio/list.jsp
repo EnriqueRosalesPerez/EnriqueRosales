@@ -4,6 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script>
+	$(document).ready(function() {
+		$("#busqueda").keyup(function() {
+			buscar();
+			if ($("#busqueda").val().length < 1) {
+				limpiar();
+			}
+		});
+	});
+
 	function crear() {
 		window.location.replace("${raiz}/directorio/crear");
 	}
@@ -44,7 +53,6 @@
 			timeout : 20000,
 			success : function(result) {
 				$('#tablaDirectorios').replaceWith(result);
-				$('#busqueda').val('');
 			},
 			error : function(result) {
 				alert(JSON.stringify(result));
